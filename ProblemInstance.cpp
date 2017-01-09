@@ -31,10 +31,15 @@ void ProblemInstance::load_instance(){
 
 	Schedule schedule;
 	int lixo;
-	for(int i=0 ; i<this->num_machines ; i++){
+	for(int i=0 ; i<this->num_jobs ; i++){
 		for(int j=0 ; j<this->num_tasks ; j++){
+
 			file >> schedule.machine;
 			file >> schedule.time_execution;
+
+			schedule.job = i;
+			schedule.task = j;
+			
 			this->vec_schedules[i].push_back(schedule);
 		}
 
@@ -103,4 +108,8 @@ std::vector<int> ProblemInstance::get_vec_conclusion_times(){
 
 ScheduleMatrix ProblemInstance::get_vec_schedules(){
 	return this->vec_schedules;
+}
+
+Schedule ProblemInstance::get_vec_schedules(int job, int task){
+	return vec_schedules[job][task];
 }

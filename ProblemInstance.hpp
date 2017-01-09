@@ -27,6 +27,7 @@ public:
 	std::vector<int> get_vec_priorities();
 	std::vector<int> get_vec_conclusion_times();
 	ScheduleMatrix get_vec_schedules();
+	Schedule get_vec_schedules(int job, int task);
 
 
 private:
