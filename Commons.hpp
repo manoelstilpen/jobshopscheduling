@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//Total Weighted Tardiness Job-Shop Scheduling
 namespace twtjssp{
 
 	struct Schedule{
@@ -40,12 +41,24 @@ namespace twtjssp{
 		}
 	};
 
+	typedef vector<vector<Schedule>> ScheduleMatrix;
+	typedef vector< vector< JobTask >>  Solution;
+
 	static bool compara_tempo(Schedule p1, Schedule p2) {
 		return p1.time_execution < p2.time_execution;
 	}
 
-	typedef vector<vector<Schedule>> ScheduleMatrix;
-	typedef vector< vector< JobTask >>  Solution;
+	inline void printSolution(int nJobs, int nTasks, Solution sol){
+		for(int i=0 ; i<nJobs ; i++){
+			cout << "MACHINE " << i << ": ";
+			for(int j=0 ; j<nTasks ; j++){
+				cout << "(" << sol[i][j].job << "," << sol[i][j].task << ") - ";
+			}
+			cout << endl;
+		}
+		cout << "==========================================================================================" << endl;
+	}
+
 }
 
 #endif
