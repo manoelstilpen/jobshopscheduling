@@ -18,7 +18,7 @@ DeltaMoveOpt1::DeltaMoveOpt1(int machine, int task, int pos){
 }
 
 Solution DeltaMoveOpt1::apply_opt1_move(){
-	JobTask job = this->solution[machineNumber][taskNumber];
+	Schedule job = this->solution[machineNumber][taskNumber];
 
 	if(taskNumber < posNumber){
 		for(int i=taskNumber ; i<posNumber ; i++){

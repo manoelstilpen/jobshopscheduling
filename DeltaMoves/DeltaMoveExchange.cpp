@@ -18,7 +18,7 @@ DeltaMoveExchange::DeltaMoveExchange(int machine, int pos1, int pos2){
 }
 
 Solution DeltaMoveExchange::apply_exchange_move(){
-	JobTask aux = this->solution[machineNumber][pos1Number];
+	Schedule aux = this->solution[machineNumber][pos1Number];
 	this->solution[machineNumber][pos1Number] = this->solution[machineNumber][pos2Number];
 	this->solution[machineNumber][pos2Number] = aux;
 

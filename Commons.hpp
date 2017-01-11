@@ -55,7 +55,7 @@ namespace twtjssp{
 	};
 
 	typedef vector<vector<Schedule>> ScheduleMatrix;
-	typedef vector< vector< JobTask >>  Solution;
+	typedef vector< vector<Schedule>>  Solution;
 
 	static bool compara_tempo(Schedule p1, Schedule p2) {
 		return p1.time_execution < p2.time_execution;

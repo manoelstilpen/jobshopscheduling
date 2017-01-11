@@ -3,6 +3,7 @@
 
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
+#include "Evaluator.hpp"
 
 using namespace twtjssp;
 
@@ -13,6 +14,7 @@ public:
 	Grasp(ProblemInstance instance, double alpha);
 
 	Solution apply_grasp();
+	Solution alocaTarefa(Solution* solution, Schedule tarefa);
 
 	void set_alpha(double);
 	void set_instance(ProblemInstance);
@@ -20,6 +22,7 @@ public:
 
 private:
 	ProblemInstance instance;
+	ScheduleMatrix jobs;
 	double alpha;
 	int repeat;
 };

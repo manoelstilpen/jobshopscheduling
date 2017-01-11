@@ -21,7 +21,8 @@ int main(){
 	int nTasks = instance.get_num_tasks();
 	int nMachines = instance.get_num_machines();
 
-	Grasp grasp(instance, 0.3);
+	Grasp grasp(instance, 1);
+	grasp.set_repeat(1);
 	solution = grasp.apply_grasp();
 
 /*
@@ -31,9 +32,9 @@ int main(){
 */
 //	printSolution(10, 10, solution);
 
-/*
-	Evaluator evaluator(solution, instance);
-	evaluator.evaluateSolution();
-*/
+
+	//Evaluator evaluator(solution, instance);
+	//evaluator.evaluateSolution();
+
 	return 0;
 }

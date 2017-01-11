@@ -16,31 +16,27 @@ void Evaluator::evaluateSolution(){
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
 
-	vector<int> expectedTimes = this->instance.get_vec_conclusion_times();
-	vector<int> realTimes(nJobs);
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
+	vector<int> expectedTimes = this->instance.get_vec_conclusion_times();
+	vector<int> priorities = this->instance.get_vec_priorities();
+	vector<int> realTimes(nJobs);
 
 	for(int i=0 ; i<nJobs ; i++){
-		int delay = 0;
-		for(int j=0 ; j<nMachines ; j++){
-			for(int k=0 ; k<nJobs ; k++){
-				int job = solution[j][k].job;
-				int task = solution[j][k].task;
-				delay += jobs[job][task].time_execution;
-				if(this->solution[j][k].job == i){
-					realTimes[i] = delay;
-					break;
-				}
+		int lastMachine = jobs[i][nTasks-1].machine;
+		for(int j=0 ; j<nTasks ; j++){
+			if(solution[lastMachine][j].job == i){
+				realTimes[i] = solution[lastMachine][j].time_execution - expectedTimes[i];
+				break;
 			}
 		}
 	}
-
+	
 	int aux=0;
 	for(int i=0 ; i<nJobs ; i++){
-		cout << "(" << realTimes[i] << "," << expectedTimes[i] << ") - ";
-		aux += realTimes[i];
+	//	cout << "(" << realTimes[i]-expectedTimes[i] << "," << expectedTimes[i] << ") - ";
+		aux += (realTimes[i]-expectedTimes[i]);
 	}
-	cout << endl << "TOTAL: " << aux << endl;
+	cout << "TOTAL: " << aux << endl;
 }
 
 void Evaluator::set_instance(ProblemInstance p){
