@@ -22,12 +22,10 @@ Solution Grasp::apply_grasp(){
 
 	Solution solution;
 	solution.resize(nMachines);
-/*	for(int i=0 ; i<nMachines ; i++){
-		for(int j=0 ; j<nJobs ; j++){
-			solution[i].resize(nTasks);
-		}
-	}
-*/
+
+	vector<int> teste(10);
+	fill(teste.begin(), teste.end(),0);
+
 	for(int i=0 ; i<nJobs*nTasks ; i++){
 
 		int max = -INF;
@@ -36,7 +34,8 @@ Solution Grasp::apply_grasp(){
 		for(int j=0 ; j<jobs.size() ; j++){
 			if(jobs[j][0].time_execution > max){
 				max = jobs[j][0].time_execution;
-			} else if(jobs[j][0].time_execution < min){
+			}
+			if(jobs[j][0].time_execution < min){
 				min = jobs[j][0].time_execution;
 			}
 		}
@@ -51,20 +50,47 @@ Solution Grasp::apply_grasp(){
 				tarefas_restritas.push_back(j);
 			}
 		}
+/*
+		cout << "LISTA: ";
+		for(int j=0 ; j<tarefas_restritas.size() ; j++){
+			cout << "(" << jobs[tarefas_restritas[j]][0].machine << " " << jobs[tarefas_restritas[j]][0].time_execution << ") - ";
+		}
+		cout << limite_grasp << endl;
+*/
 
 		if(tarefas_restritas.size() > 0){
 			int random_index = rand() % tarefas_restritas.size();
-			Schedule tarefa_escolhida = jobs[random_index][0];
+			Schedule tarefa_escolhida = jobs[tarefas_restritas[random_index]][0];
 			// aloca a tarefa na solucao
 			JobTask aux(tarefa_escolhida.job,tarefa_escolhida.task);
+			//cout << "escolhido: " << jobs[tarefas_restritas[random_index]][0].machine << " " << jobs[tarefas_restritas[random_index]][0].time_execution << endl;
 			solution[tarefa_escolhida.machine].push_back(aux);
+
 			//remove a solucao ja alocada - remove a primeira posicao
-			jobs[random_index].erase(jobs[random_index].begin());
+			jobs[tarefas_restritas[random_index]].erase(jobs[tarefas_restritas[random_index]].begin());
+			if(jobs[tarefas_restritas[random_index]].size() == 0){
+				// caso tenha alocado todas as tarefas do job, elimina-o da matriz
+				jobs.erase(jobs.begin()+tarefas_restritas[random_index]);
+			}
+			teste[tarefa_escolhida.machine]++;
 		}
 
 	}
 
-	printSolution(10,10,solution);
+	for(int i=0 ; i<10 ; i++){
+		cout << teste[i] << " ";
+	}
+	cout << endl;
+
+	//printSolution(10,10,solution);
+
+	for(int i=0 ; i<nMachines ; i++){
+		cout << "MACHINE " << i << ": ";
+		for(int j=0 ; j<nTasks ; j++){
+			cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << instance.get_vec_schedules()[solution[i][j].job][solution[i][j].task].time_execution << ") - ";
+		}
+		cout << endl;
+	}
 
 	return solution;
 }

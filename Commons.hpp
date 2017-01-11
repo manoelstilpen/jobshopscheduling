@@ -47,6 +47,11 @@ namespace twtjssp{
 		JobTask(){
 			job = task = -1;
 		}
+
+		void print(){
+			cout << "JobTask: Job: " << job;
+			cout << " Task: " << task << endl;
+		}
 	};
 
 	typedef vector<vector<Schedule>> ScheduleMatrix;
