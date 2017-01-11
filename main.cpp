@@ -4,8 +4,7 @@
 #include "DeltaMoves/DeltaMoveExchange.hpp"
 #include "DeltaMoves/DeltaMoveOpt1.hpp"
 #include "Evaluator.hpp"
-
-#include <ctime>
+#include "Grasp.hpp"
 
 int main(){
 
@@ -22,27 +21,19 @@ int main(){
 	int nTasks = instance.get_num_tasks();
 	int nMachines = instance.get_num_machines();
 
+	Grasp grasp(instance, 0.3);
+	solution = grasp.apply_grasp();
+
+/*
 	ConstructiveGreedy constructive;
 	constructive.set_instance(instance);
 	solution = constructive.generate_solution();
-
-	// exchange move
-	for(int i=0 ; i<10 ; i++){
-		cout << rand() % nMachines << endl;
-		DeltaMoveExchange exchange(solution, rand() % nMachines, rand() % nTasks, rand() % nTasks);
-		solution = exchange.apply_exchange_move();
-	}
-
-	// opt1 move
-	for(int i=0 ; i<10 ; i++){
-		DeltaMoveOpt1 opt1(solution, rand() % nMachines, rand() % nTasks, rand() % nTasks);
-		solution = opt1.apply_opt1_move();
-	}
-
+*/
 //	printSolution(10, 10, solution);
 
+/*
 	Evaluator evaluator(solution, instance);
 	evaluator.evaluateSolution();
-
+*/
 	return 0;
 }

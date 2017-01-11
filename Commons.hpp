@@ -1,8 +1,11 @@
 #ifndef COMMONS_HPP
 #define COMMONS_HPP
 
+#define INF 99999999;
+
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -35,6 +38,11 @@ namespace twtjssp{
 	struct JobTask{
 		int job;	// as first
 		int task;	// as second
+
+		JobTask(int j, int t){
+			this->job = j;
+			this->task = t;
+		}
 
 		JobTask(){
 			job = task = -1;
