@@ -9,7 +9,7 @@ Evaluator::Evaluator(Solution s, ProblemInstance p){
 	this->instance = p;
 }
 
-void Evaluator::evaluateSolution(){
+int Evaluator::evaluateSolution(){
 	// data de conclusão é quando terminou
 	// data de entrega é fornecido pela instancia
 	int nMachines = this->instance.get_num_machines();
@@ -25,7 +25,7 @@ void Evaluator::evaluateSolution(){
 		int lastMachine = jobs[i][nTasks-1].machine;
 		for(int j=0 ; j<nTasks ; j++){
 			if(solution[lastMachine][j].job == i){
-				realTimes[i] = solution[lastMachine][j].time_execution - expectedTimes[i];
+				realTimes[i] = (solution[lastMachine][j].time_execution - expectedTimes[i])*priorities[i];
 				break;
 			}
 		}
@@ -36,7 +36,9 @@ void Evaluator::evaluateSolution(){
 	//	cout << "(" << realTimes[i]-expectedTimes[i] << "," << expectedTimes[i] << ") - ";
 		aux += (realTimes[i]-expectedTimes[i]);
 	}
-	cout << "TOTAL: " << aux << endl;
+	//cout << "TOTAL: " << aux << endl;
+
+	return aux;
 }
 
 void Evaluator::set_instance(ProblemInstance p){

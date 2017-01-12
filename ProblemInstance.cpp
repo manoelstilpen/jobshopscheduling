@@ -7,17 +7,17 @@ ProblemInstance::ProblemInstance(){
 	num_machines = -1;
 }
 
-ProblemInstance::ProblemInstance(std::string name){
+ProblemInstance::ProblemInstance(string name){
 	set_name_file(name);
 }
 
-void ProblemInstance::load_instance(){
+bool ProblemInstance::load_instance(){
 
 	std::fstream file(this->instance_file_name);
 
 	if(!file.is_open()){
 		std::cout << "FILE NOT FOUND" << std::endl;
-		return;
+		return false;
 	}
 
 	file >> this->instance_name;
@@ -49,6 +49,8 @@ void ProblemInstance::load_instance(){
 	}
 
 	file.close();
+
+	return true;
 }
 
 void ProblemInstance::print(){
@@ -68,7 +70,7 @@ void ProblemInstance::print(){
 	}
 }
 
-void ProblemInstance::set_name_file(std::string name){
+void ProblemInstance::set_name_file(string name){
 	if(name.find("Instances/") == 0){
 		this->instance_file_name = name;	
 	} else {
@@ -90,7 +92,7 @@ int ProblemInstance::get_num_tasks(){
 	return this->num_tasks;
 }
 
-std::string ProblemInstance::get_name_file(){
+string ProblemInstance::get_name_file(){
 	return this->instance_file_name;
 }
 

@@ -14,16 +14,16 @@ public:
 	ProblemInstance();
 	ProblemInstance(std::string);
 
-	void load_instance();
+	bool load_instance();
 	void print();
 
-	void set_name_file(std::string);
+	void set_name_file(string);
 
 	int get_num_machines();
 	int get_num_jobs();
 	int get_num_tasks();
 	std::string get_name_file();
-	std::string get_instance_name();
+	string get_instance_name();
 	std::vector<int> get_vec_priorities();
 	std::vector<int> get_vec_conclusion_times();
 	ScheduleMatrix get_vec_schedules();
@@ -31,7 +31,7 @@ public:
 
 
 private:
-	std::string instance_file_name;
+	string instance_file_name;
 	std::string instance_name;
 	std::vector<int> vec_priorities;
 	std::vector<int> vec_conclusion_times;

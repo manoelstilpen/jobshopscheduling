@@ -9,7 +9,7 @@ public:
 	Evaluator();
 	Evaluator(Solution s, ProblemInstance p);
 
-	void evaluateSolution();
+	int evaluateSolution();
 
 	void set_instance(ProblemInstance);
 	void set_solution(Solution);

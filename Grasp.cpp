@@ -17,6 +17,7 @@ Solution Grasp::apply_grasp(){
 	// depois selecionar lista de tarefas restritas
 	Solution solution;
 	srand(time(NULL));
+	int media_atraso = 0;
 
 	for(int l = 0 ; l<this->repeat ; l++){
 
@@ -69,7 +70,6 @@ Solution Grasp::apply_grasp(){
 				Schedule tarefa_escolhida = jobs[tarefas_restritas[random_index]][0];
 				// aloca a tarefa na solucao
 				//cout << "escolhido: " << jobs[tarefas_restritas[random_index]][0].job << " " << jobs[tarefas_restritas[random_index]][0].task << endl;
-				//solution[tarefa_escolhida.machine].push_back(tarefa_escolhida);
 				solution = alocaTarefa(&solution, tarefa_escolhida);
 
 				//remove a solucao ja alocada - remove a primeira posicao
@@ -84,7 +84,7 @@ Solution Grasp::apply_grasp(){
 		}
 
 		Evaluator evaluator(solution, instance);
-		evaluator.evaluateSolution();
+		media_atraso += evaluator.evaluateSolution();
 
 	/*
 		for(int i=0 ; i<10 ; i++){
@@ -104,6 +104,9 @@ Solution Grasp::apply_grasp(){
 	*/
 	}
 
+	media_atraso = media_atraso / this->repeat;
+	cout << this->alpha << "\t" << media_atraso << endl;
+
 	return solution;
 }
 
@@ -111,8 +114,6 @@ Solution Grasp::alocaTarefa(Solution* solution, Schedule tarefa){
 	int machine = tarefa.machine;
 	int nTasks = instance.get_num_tasks();
 	int sizeMachine = (*solution)[machine].size(); // quantidade de tasks alocadas na maquina
-
-	cout << "Tarefa: " << tarefa.job << " " << tarefa.task << " " << tarefa.machine << " " << tarefa.time_execution << endl;
 
 	if(tarefa.task == 0){
 		// se for a primeira tarefa do job, nao e necessario analisar se viola alguma regra
