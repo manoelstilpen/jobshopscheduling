@@ -10,6 +10,7 @@ public:
 	Evaluator(Solution s, ProblemInstance p);
 
 	int evaluateSolution();
+	bool testa_solucao(Solution);
 
 	void set_instance(ProblemInstance);
 	void set_solution(Solution);

@@ -1,13 +1,13 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
-#include "ConstructiveGreedy.hpp"
+#include "Constructives/ConstructiveGreedy.hpp"
+#include "Constructives/Grasp.hpp"
 #include "DeltaMoves/DeltaMoveExchange.hpp"
 #include "DeltaMoves/DeltaMoveOpt1.hpp"
 #include "Evaluator.hpp"
-#include "Grasp.hpp"
 
 #include <stdlib.h>     /* atof */
-#include <unistd.h>
+#include <unistd.h>		/* getopt */
 
 int main(int argc, char** argv){
 
@@ -29,7 +29,7 @@ int main(int argc, char** argv){
 		}
 	}
 
-	srand ( time(NULL) );
+	srand(time(NULL));
 
 	Solution solution;
 
@@ -38,14 +38,14 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	//instance.print();
+	instance.print();
 
 	int nJobs = instance.get_num_jobs();
 	int nTasks = instance.get_num_tasks();
 	int nMachines = instance.get_num_machines();
 
 	Grasp grasp(instance, alpha_grasp);
-	grasp.set_repeat(10);
+	grasp.set_repeat(1);
 	solution = grasp.apply_grasp();
 
 /*
@@ -56,8 +56,9 @@ int main(int argc, char** argv){
 //	printSolution(10, 10, solution);
 
 
-	//Evaluator evaluator(solution, instance);
-	//evaluator.evaluateSolution();
+	Evaluator evaluator(solution, instance);
+	int atraso = evaluator.evaluateSolution();
+	//cout << atraso << endl;
 
 	return 0;
 }

@@ -33,12 +33,40 @@ int Evaluator::evaluateSolution(){
 	
 	int aux=0;
 	for(int i=0 ; i<nJobs ; i++){
-	//	cout << "(" << realTimes[i]-expectedTimes[i] << "," << expectedTimes[i] << ") - ";
+		cout << "(" << realTimes[i]-expectedTimes[i] << "," << expectedTimes[i] << ") - ";
 		aux += (realTimes[i]-expectedTimes[i]);
 	}
-	//cout << "TOTAL: " << aux << endl;
+	cout << endl << "TOTAL: " << aux << endl;
+
+	testa_solucao(solution);
 
 	return aux;
+}
+
+bool Evaluator::testa_solucao(Solution solution){
+	int nJobs = instance.get_num_jobs();
+	int nTasks = instance.get_num_tasks();
+	int nMachines = instance.get_num_machines();
+	ScheduleMatrix jobs = instance.get_vec_schedules();
+
+	for(int i=0 ; i<nJobs ; i++){
+		int timeAtual = 0;
+		int timeLast = 0;
+		for(int j=0 ; j<nTasks ; j++){
+			int machine = jobs[i][j].machine;
+			timeAtual = 0;
+			for(int k=0 ; k<nTasks ; k++){
+				if(solution[machine][k].job == i){
+					if(timeAtual < timeLast){
+						cout << "ERRO NA SOLUCAO" << endl;
+						timeLast = timeAtual;
+						break;
+					}
+				}
+				timeAtual += solution[machine][k].time_execution;
+			}
+		}
+	}
 }
 
 void Evaluator::set_instance(ProblemInstance p){
