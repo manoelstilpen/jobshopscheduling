@@ -1,71 +1,67 @@
 #include "ConstructiveGreedy.hpp"
 
 ConstructiveGreedy::ConstructiveGreedy(){
-	alpha = 0.1;
+	this->alpha = 0.5;
+	this->repeat = 1;
 }
 
-ConstructiveGreedy::ConstructiveGreedy(double alpha){
+ConstructiveGreedy::ConstructiveGreedy(ProblemInstance p, double alpha){
 	this->alpha = alpha;
+	this->instance = p;
+	this->repeat = 1;
+	this->evaluator.set_instance(this->instance);
 }
 
 Solution ConstructiveGreedy::generate_solution(){
 	srand(time(NULL));
-
-	Solution machines;
 
 	this->jobs = instance.get_vec_schedules();
 	int nMachines = instance.get_num_machines();
 	int nJobs = instance.get_num_jobs();
 	int nTasks = instance.get_num_tasks();
 
-	// inicia a solucao
-	machines.resize(nJobs);
+	media_atraso = 0;
 
-	for (int m = 0; m < nMachines; m++){ // Allocation for each machine (one per one)
-		int sumTasks = 0;
-	
-		for (int t = 0; t < nTasks; t++){
-			vector<Schedule> tasks;
+	for(int i=0 ; i<this->repeat ; i++){
 
-			//jobs sao compostos de tarefas
-			//percorre o job e coloca as tarefas em suas devidas maquinas
-			for (int j = 0; j < nJobs; j++){
-				int machineID = jobs[j][t].machine; //retorna a maquina referente ao task t do job j
-				if(machineID == m){ // Check the Machine Compatibility
-					tasks.push_back(jobs[j][t]);
+		// inicia a solucao
+		machines.resize(nJobs);
+
+		for (int m = 0; m < nMachines; m++){ // Allocation for each machine (one per one)
+			int sumTasks = 0;
+		
+			for (int t = 0; t < nTasks; t++){
+				vector<Schedule> tasks;
+
+				// percorre os jobs e coloca no vetor todas as tarefas da maquina m
+				for (int j = 0; j < nJobs; j++){
+					int machineID = jobs[j][t].machine; // retorna a maquina referente a task t do job j
+					if(machineID == m){ // Check the Machine Compatibility
+						tasks.push_back(jobs[j][t]);
+					}
 				}
-			}
 
-			int nTasksToBeAllocated = tasks.size();
+				int nTasksToBeAllocated = tasks.size();
 
-			//insere numa linha l da matriz todas as tasks referentes a maquina l
-			if (nTasksToBeAllocated > 0) {
-				// ordena do menor para o maior tempo
-				sort(tasks.begin(), tasks.end(), compara_tempo);
+				if (nTasksToBeAllocated > 0) {
+					// ordena do menor para o maior tempo
+					sort(tasks.begin(), tasks.end(), compara_tempo);
 
-				int totalTasksAllocated = sumTasks;
-				sumTasks += nTasksToBeAllocated;
-
-				for (int x = 0; x < nTasksToBeAllocated; x++) {
-					int sizeLC = ceil(this->alpha * tasks.size()); // ceil -> rounds up
-					int randomized = rand() % sizeLC;
-					//machines[m][x + totalTasksAllocated] = tasks[randomized]; // Allocate the Task in its respectively Machine m
-					machines = aloca_tarefa(machines, tasks[randomized]);
-					tasks.erase(tasks.begin() + randomized);
+					for(int x = 0; x < nTasksToBeAllocated; x++){
+						int sizeLC = ceil(this->alpha * tasks.size()); // ceil -> rounds up
+						int randomized = rand() % sizeLC;			
+						//cout << sizeLC << " " << randomized << endl;
+						machines = aloca_tarefa(machines, tasks[randomized]);
+						tasks.erase(tasks.begin() + randomized);
+					}
 				}
 			}
 		}
+
+		media_atraso += evaluator.evaluateSolution(machines);
 	}
 
-//	printSolution(nJobs, nTasks, machines);
-
-	for(int i=0 ; i<nJobs ; i++){
-		cout << "MACHINE " << i << ": ";
-		for(int j=0 ; j<nTasks ; j++){
-			cout << "(" << machines[i][j].job << "," << machines[i][j].task << "," << machines[i][j].time_execution << ") - ";
-		}
-		cout << endl;
-	}
+	this->media_atraso /= this->repeat;
 
 	return machines;
 }
@@ -122,4 +118,28 @@ Solution ConstructiveGreedy::aloca_tarefa(Solution solution, Schedule tarefa){
 
 void ConstructiveGreedy::set_instance(ProblemInstance problem){
 	this->instance = problem;
+}
+
+void ConstructiveGreedy::set_repeat(int r){
+	this->repeat = r;
+}
+
+int ConstructiveGreedy::get_atraso(){
+	return this->media_atraso;
+}
+
+void ConstructiveGreedy::print(){
+	for(int i=0 ; i<instance.get_num_jobs() ; i++){
+		cout << "MACHINE " << i << ": ";
+		for(int j=0 ; j<instance.get_num_tasks(); j++){
+			cout << "(" << machines[i][j].job << "," << machines[i][j].task << "," << machines[i][j].time_execution << ") - ";
+		}
+		cout << endl;
+	}
+
+	evaluator.print();
+}
+
+void ConstructiveGreedy::print_graph(){
+	cout << this->alpha << "\t" << this->media_atraso << endl;
 }

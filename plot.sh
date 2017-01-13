@@ -2,24 +2,30 @@
 
 for file in Instances/*.txt;
     do
-        rm saida.txt
 
-        for alpha in 0 0.3 0.5 0.7 0.9 1
+        rm grasp.txt
+        rm greedy.txt
+
+        for mode in grasp greedy
             do
-                ./app -i ${file} -a ${alpha} >> saida.txt
+
+                for alpha in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
+                    do
+                        ./app -m ${mode} -i ${file} -a ${alpha} >> ${mode}.txt
+                    done
             done
 
-        gnuplot -persist <<-EOFMarker
+                gnuplot -persist <<-EOFMarker
 
-            set terminal png
-            set output '${file}.png'
-            set xlabel "Alpha"
-            set ylabel "Atraso"
-            set title '${file}'
-            set grid
+                    set terminal png
+                    set output '${file}.png'
+                    set xlabel "Alpha"
+                    set ylabel "Atraso"
+                    set title '${file}'
+                    set grid
 
-            plot "saida.txt" using 1:2 title 'Tempo de atraso' with linespoints
-
+                    plot "grasp.txt" using 1:2 title 'GRASP' with linespoints, \
+                        "greedy.txt" using 1:2 title 'GREEDY' with linespoints
 EOFMarker
 
     done

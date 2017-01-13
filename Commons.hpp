@@ -61,6 +61,10 @@ namespace twtjssp{
 		return p1.time_execution < p2.time_execution;
 	}
 
+	static bool compara_task(Schedule p1, Schedule p2){
+		return p1.task < p2.task;
+	}
+
 	inline void printSolution(int nJobs, int nTasks, Solution sol){
 		for(int i=0 ; i<nJobs ; i++){
 			cout << "MACHINE " << i << ": ";
@@ -70,6 +74,10 @@ namespace twtjssp{
 			cout << endl;
 		}
 		cout << "==========================================================================================" << endl;
+	}
+
+	inline void print_schedule(Schedule s){
+		cout << "(" << s.job << "," << s.task << "," << s.machine << "," << s.time_execution << ") - ";
 	}
 
 }

@@ -1,46 +1,46 @@
 #include "Evaluator.hpp"
 
 Evaluator::Evaluator(){
-
+	this->total_atraso = 0;
 }
 
 Evaluator::Evaluator(Solution s, ProblemInstance p){
 	this->solution = s;
 	this->instance = p;
+	this->total_atraso = 0;
 }
 
-int Evaluator::evaluateSolution(){
+int Evaluator::evaluateSolution(Solution solution){
 	// data de conclusão é quando terminou
 	// data de entrega é fornecido pela instancia
+
+	this->solution = solution;
 	int nMachines = this->instance.get_num_machines();
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
-
+	total_atraso = 0;
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
-	vector<int> expectedTimes = this->instance.get_vec_conclusion_times();
+	expectedTimes = this->instance.get_vec_conclusion_times();
 	vector<int> priorities = this->instance.get_vec_priorities();
-	vector<int> realTimes(nJobs);
+	realTimes.resize(nJobs);
 
 	for(int i=0 ; i<nJobs ; i++){
 		int lastMachine = jobs[i][nTasks-1].machine;
 		for(int j=0 ; j<nTasks ; j++){
 			if(solution[lastMachine][j].job == i){
-				realTimes[i] = (solution[lastMachine][j].time_execution - expectedTimes[i])*priorities[i];
+				realTimes[i] = (solution[lastMachine][j].time_execution);// - expectedTimes[i])*priorities[i];
+				if(realTimes[i] < 0){
+					realTimes[i] = 0;
+				}
+				total_atraso += realTimes[i];
 				break;
 			}
 		}
 	}
-	
-	int aux=0;
-	for(int i=0 ; i<nJobs ; i++){
-		cout << "(" << realTimes[i]-expectedTimes[i] << "," << expectedTimes[i] << ") - ";
-		aux += (realTimes[i]-expectedTimes[i]);
-	}
-	cout << endl << "TOTAL: " << aux << endl;
 
 	testa_solucao(solution);
 
-	return aux;
+	return total_atraso;
 }
 
 bool Evaluator::testa_solucao(Solution solution){
@@ -75,4 +75,15 @@ void Evaluator::set_instance(ProblemInstance p){
 
 void Evaluator::set_solution(Solution s){
 	this->solution = s;
+}
+
+void Evaluator::print(){
+	for(int i=0 ; i<instance.get_num_jobs() ; i++){
+		cout << "(" << realTimes[i] << "," << expectedTimes[i] << ") - ";
+	}
+	cout << endl << "TOTAL: " << total_atraso << endl;
+}
+
+void Evaluator::print_graph(){
+	
 }
