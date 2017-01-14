@@ -47,6 +47,10 @@ int Evaluator::evaluateSolution(Solution solution){
 }
 
 int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
+	/*
+	 * Retorna o instante em que, caso a tarefa fosse inserida, ela seria concluida
+	 */
+
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 	int machine = tarefa.machine;
 	int tempo = 0;
@@ -67,6 +71,7 @@ int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
 		int sizeAtualMachine = solution_temp[machine].size(); // quantidade de tarefas na maquina atual
 		int timeLastTask; // tempo da ultima tarefa executada do job
 
+		// procura pela ultima task executada do job e armazena o instante de conclusao
 		for(int i=0 ; i<solution_temp[lastMachine].size() ; i++){
 			if(solution_temp[lastMachine][i].job == tarefa.job){
 				timeLastTask = solution_temp[lastMachine][i].time_execution;
@@ -74,32 +79,43 @@ int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
 			}
 		}
 
+		// armazena o tempo acumulado da maquina atual
 		int timeAtualMachine = 0;
 		if(sizeAtualMachine > 0){
-			timeAtualMachine = solution_temp[machine][sizeAtualMachine-1].time_execution; // tempo acumulado da maquina atual
+			timeAtualMachine = solution_temp[machine][sizeAtualMachine-1].time_execution;
 		}
 
 		if(timeLastTask > timeAtualMachine){
-			// caso o tempo da maquina atual seja menor que o tempo que a ultima tarefa finalizou
-			// cria uma janela na producao
+			/* Caso o instante da maquina atual seja menor que o instante que a ultima tarefa finalizou
+			 * É necessário uma janela na producao da maquina, pois a proxima tarefa do job nao pode comecar 
+			 * antes da anterior terminar
+			 */
 			tempo = timeLastTask + tarefa.time_execution;
 		} else {
-			// caso o tempo que a ultima tarefa finalizou seja menor que o tempo acumulado da maquina atual
-			// insere a tarefa na sequencia, sem janelas
+			/* Caso o instante em que a ultima tarefa do job terminou seja menor que o instante que a maquina
+			 * atual se encontra, apenas é necessario inserir a tarefa na sequencia, sem janelas na producao.
+			 * Nesse caso, a tarefa anterior terminou antes do que o tempo atual da maquina
+			 */
 			tempo = timeAtualMachine + tarefa.time_execution;
 		}
 	}
 
+	// subtrai do tempo de conclusao
 	tempo -= instance.get_vec_conclusion_times()[tarefa.job];
+	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
 	if(tempo < 0) tempo = 0;
 
+	// multiplica pela prioridade de cada job fornecido pela instancia
 	tempo *= instance.get_vec_priorities()[tarefa.job];
 
 	return tempo;
 }
 
 int Evaluator::analisa_machine(Schedule tarefa, Solution solution_temp){
-	// retorna o tempo acumulado da maquina caso alocasse a tarefa
+	/*
+	 * Retorna o tempo acumulado da maquina caso a tarefa fosse alocada
+	 */
+
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 	int machine = tarefa.machine;
 	int tempo = 0;
@@ -164,13 +180,15 @@ bool Evaluator::testa_solucao(Solution solution){
 					if(timeAtual < timeLast){
 						cout << "ERRO NA SOLUCAO" << endl;
 						timeLast = timeAtual;
-						break;
+						return false;
 					}
 				}
 				timeAtual += solution[machine][k].time_execution;
 			}
 		}
 	}
+
+	return true;
 }
 
 void Evaluator::set_instance(ProblemInstance p){

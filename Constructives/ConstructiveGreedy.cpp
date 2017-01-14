@@ -51,7 +51,7 @@ Solution ConstructiveGreedy::generate_solution(){
 						int sizeLC = ceil(this->alpha * tasks.size()); // ceil -> rounds up
 						int randomized = rand() % sizeLC;			
 						//cout << sizeLC << " " << randomized << endl;
-						machines = aloca_tarefa(machines, tasks[randomized]);
+						machines = aloca_tarefa(&machines, &(this->jobs), tasks[randomized]);
 						tasks.erase(tasks.begin() + randomized);
 					}
 				}
@@ -65,56 +65,6 @@ Solution ConstructiveGreedy::generate_solution(){
 
 	return machines;
 }
-
-Solution ConstructiveGreedy::aloca_tarefa(Solution solution, Schedule tarefa){
-	int machine = tarefa.machine;
-	int nTasks = instance.get_num_tasks();
-	int sizeMachine = (solution)[machine].size(); // quantidade de tasks alocadas na maquina
-
-	if(tarefa.task == 0){
-		// se for a primeira tarefa do job, nao e necessario analisar as tasks anteriores
-		if((solution)[machine].size() == 0){
-			// como nao tem outra tarefa alocada nessa maquina, apenas insere
-			(solution)[machine].push_back(tarefa);
-		} else {
-			int tempo = (solution)[machine][sizeMachine-1].time_execution; // armazena o tempo acumulado
-			tarefa.time_execution += tempo; // adiciona o tempo acumulado
-			(solution)[machine].push_back(tarefa);
-		}
-
-	} else {
-
-		// maquina que foi executada a ultima task do job
-		int lastMachine = jobs[tarefa.job][tarefa.task-1].machine;
-		int timeLastTask = 0;
-		// procura pelo instante que a ultima task DO JOB foi finalizada
-		for(int i=0 ; i<(solution)[lastMachine].size() ; i++){
-			if((solution)[lastMachine][i].job == tarefa.job){
-				timeLastTask = (solution)[lastMachine][i].time_execution;
-				break;
-			}
-		}
-
-		// tempo acumulado da ultima tarefa DA MAQUINA executada
-		int timeMachine = 0;
-		if(sizeMachine != 0){
-			timeMachine = (solution)[machine][sizeMachine-1].time_execution;
-		}
-		
-		if(timeMachine > timeLastTask){
-			// se o instante atual da maquina for maior que o instante em que a ultima task
-			// do job terminou... esta ok
-			tarefa.time_execution += (solution)[machine][sizeMachine-1].time_execution;
-			(solution)[machine].push_back(tarefa);
-		} else {
-			tarefa.time_execution += timeLastTask;
-			(solution)[machine].push_back(tarefa);
-		}
-	}
-
-	return solution;
-}
-
 
 void ConstructiveGreedy::set_instance(ProblemInstance problem){
 	this->instance = problem;

@@ -18,8 +18,6 @@ public:
 	Solution apply_grasp1();
 	Solution apply_grasp2();
 
-	Solution alocaTarefa(Solution* solution, Schedule tarefa);
-
 	void set_alpha(double);
 	void set_instance(ProblemInstance);
 	void set_repeat(int);

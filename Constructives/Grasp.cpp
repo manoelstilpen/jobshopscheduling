@@ -74,8 +74,7 @@ Solution Grasp::apply_grasp1(){
 				print_schedule(tarefa_escolhida);
 				cout << endl;
 */
-				solution = alocaTarefa(&solution, tarefa_escolhida);
-
+				solution = aloca_tarefa(&solution, &(this->jobs), tarefa_escolhida);
 				//remove a solucao ja alocada - remove a primeira posicao
 				jobs[tarefas_restritas[random_index]].erase(jobs[tarefas_restritas[random_index]].begin());
 				if(jobs[tarefas_restritas[random_index]].size() == 0){
@@ -106,7 +105,7 @@ Solution Grasp::apply_grasp2(){
 
 	for(int l = 0 ; l<this->repeat ; l++){
 
-		ScheduleMatrix jobs = this->jobs;
+		ScheduleMatrix jobs_temp = this->jobs;
 
 		int nMachines = instance.get_num_machines();
 		int nTasks = instance.get_num_tasks();
@@ -118,9 +117,9 @@ Solution Grasp::apply_grasp2(){
 		for(int i=0 ; i<nJobs*nTasks ; i++){
 
 			vector<Custo> custos;
-			for(int j=0 ; j<jobs.size() ; j++){
+			for(int j=0 ; j<jobs_temp.size() ; j++){
 				 // retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
-				custos.push_back(Custo(jobs[j][0].job, jobs[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution)));
+				custos.push_back(Custo(jobs_temp[j][0].job, jobs_temp[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution)));
 			}
 
 			// analise de qual é o menor custo
@@ -131,7 +130,7 @@ Solution Grasp::apply_grasp2(){
 				}
 			}
 
-			// salva os indices com os menores custos
+			// salva os indices dos jobs que tem os menores custos
 			vector<int> tarefas_restritas;
 			for(int j=0 ; j<custos.size() ; j++){
 				if(custos[j].custo == menor){
@@ -141,10 +140,10 @@ Solution Grasp::apply_grasp2(){
 
 /*
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-			for(int j=0 ; j<jobs.size() ; j++){														
+			for(int j=0 ; j<jobs_temp.size() ; j++){														
 				cout << "JOB " << j << ": ";
-				for(int k=0 ; k<jobs[j].size() ; k++){
-					cout << "(" << jobs[j][k].job << "," << jobs[j][k].task << "," << jobs[j][k].machine << "," << jobs[j][k].time_execution << ") - ";
+				for(int k=0 ; k<jobs_temp[j].size() ; k++){
+					cout << "(" << jobs_temp[j][k].job << "," << jobs_temp[j][k].task << "," << jobs_temp[j][k].machine << "," << jobs_temp[j][k].time_execution << ") - ";
 				}
 				cout << endl;
 			}
@@ -157,7 +156,7 @@ Solution Grasp::apply_grasp2(){
 
 			cout << "LISTA: ";
 			for(int j=0 ; j<tarefas_restritas.size() ; j++){
-				print_schedule(jobs[tarefas_restritas[j]][0]);
+				print_schedule(jobs_temp[tarefas_restritas[j]][0]);
 			}
 			cout << endl;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,13 +166,13 @@ Solution Grasp::apply_grasp2(){
 				/* 
 				 * Se considerar o menor tempo de processamento como criterio de desempate,
 				 * o atraso da solucao fica muito alto.
-				 * A melhor opcao e considerar a tarefa que deixa o menor makespan na solucao
+				 * A melhor opcao é considerar a tarefa que deixa o menor makespan na solucao
 				 */
 
 				menor = 0;
 				vector<int> makespan;
 				for(int j=0 ; j<tarefas_restritas.size() ; j++){
-					makespan.push_back(evaluator.analisa_machine(jobs[tarefas_restritas[j]][0], solution));
+					makespan.push_back(evaluator.analisa_machine(jobs_temp[tarefas_restritas[j]][0], solution));
 				}
 
 				for(int j=0 ; j<makespan.size() ; j++){
@@ -187,17 +186,17 @@ Solution Grasp::apply_grasp2(){
 				menor = 0;
 			}
 /*
-			cout << "escolhida: " << jobs[tarefas_restritas[menor]][0].job << " " << jobs[tarefas_restritas[menor]][0].task <<" " << jobs[tarefas_restritas[menor]][0].machine <<" " << jobs[tarefas_restritas[menor]][0].time_execution<< endl;
+			cout << "escolhida: " << jobs_temp[tarefas_restritas[menor]][0].job << " " << jobs_temp[tarefas_restritas[menor]][0].task <<" " << jobs_temp[tarefas_restritas[menor]][0].machine <<" " << jobs_temp[tarefas_restritas[menor]][0].time_execution<< endl;
 			print_partial();
 			cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
 */
-			solution = alocaTarefa(&solution, jobs[tarefas_restritas[menor]][0]);
+			solution = aloca_tarefa(&solution, &(this->jobs), jobs_temp[tarefas_restritas[menor]][0]);
 
 			//remove a solucao ja alocada - remove a primeira posicao
-			jobs[tarefas_restritas[menor]].erase(jobs[tarefas_restritas[menor]].begin());
-			if(jobs[tarefas_restritas[menor]].size() == 0){
+			jobs_temp[tarefas_restritas[menor]].erase(jobs_temp[tarefas_restritas[menor]].begin());
+			if(jobs_temp[tarefas_restritas[menor]].size() == 0){
 				// caso ja tenha alocado todas as tarefas do job, elimina-o da matriz
-				jobs.erase(jobs.begin()+tarefas_restritas[menor]);
+				jobs_temp.erase(jobs_temp.begin()+tarefas_restritas[menor]);
 			}
 		}	
 
@@ -207,55 +206,6 @@ Solution Grasp::apply_grasp2(){
 
 	media_atraso = media_atraso / this->repeat;
 	return solution;
-}
-
-Solution Grasp::alocaTarefa(Solution* solution, Schedule tarefa){
-	int machine = tarefa.machine;
-	int nTasks = instance.get_num_tasks();
-	int sizeMachine = (*solution)[machine].size(); // quantidade de tasks alocadas na maquina
-
-	if(tarefa.task == 0){
-		// se for a primeira tarefa do job, nao e necessario analisar as tasks anteriores
-		if((*solution)[machine].size() == 0){
-			// como nao tem outra tarefa alocada nessa maquina, apenas insere
-			(*solution)[machine].push_back(tarefa);
-		} else {
-			int tempo = (*solution)[machine][sizeMachine-1].time_execution; // armazena o tempo acumulado
-			tarefa.time_execution += tempo; // adiciona o tempo acumulado
-			(*solution)[machine].push_back(tarefa);
-		}
-
-	} else {
-
-		// maquina que foi executada a ultima task do job
-		int lastMachine = jobs[tarefa.job][tarefa.task-1].machine;
-		int timeLastTask = 0;
-		// procura pelo instante que a ultima task DO JOB foi finalizada
-		for(int i=0 ; i<(*solution)[lastMachine].size() ; i++){
-			if((*solution)[lastMachine][i].job == tarefa.job){
-				timeLastTask = (*solution)[lastMachine][i].time_execution;
-				break;
-			}
-		}
-
-		// tempo acumulado da ultima tarefa DA MAQUINA executada
-		int timeMachine = 0;
-		if(sizeMachine != 0){
-			timeMachine = (*solution)[machine][sizeMachine-1].time_execution;
-		}
-		
-		if(timeMachine >= timeLastTask){
-			// se o instante atual da maquina for maior que o instante em que a ultima task
-			// do job terminou... esta ok
-			tarefa.time_execution += (*solution)[machine][sizeMachine-1].time_execution;
-			(*solution)[machine].push_back(tarefa);
-		} else {
-			tarefa.time_execution += timeLastTask;
-			(*solution)[machine].push_back(tarefa);
-		}
-	}
-	
-	return *solution;
 }
 
 void Grasp::set_instance(ProblemInstance p){

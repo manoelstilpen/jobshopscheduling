@@ -80,6 +80,8 @@ namespace twtjssp{
 		cout << "(" << s.job << "," << s.task << "," << s.machine << "," << s.time_execution << ") - ";
 	}
 
+	Solution aloca_tarefa(Solution* solution, ScheduleMatrix* jobs, Schedule tarefa);
+
 }
 
 #endif

@@ -62,33 +62,24 @@ int main(int argc, char** argv){
 		Grasp grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply_grasp1();
-		//solution = grasp.apply_grasp_machine();
+
 		grasp.print_graph();
-		//grasp.print();
-	} else if(modo.compare("greedy") == 0){
-		
+		grasp.print();
+	} else if(modo.compare("greedy") == 0){		
 		ConstructiveGreedy greedy(instance, alpha_grasp);
 		greedy.set_repeat(repeat);
 		solution = greedy.generate_solution();
+
 		greedy.print_graph();
-		//greedy.print();
-		
-		/*
-		Grasp grasp(instance, alpha_grasp);
-		grasp.set_repeat(repeat);
-		solution = grasp.apply_grasp3();
-		grasp.print_graph();
-		*/
+		greedy.print();
 	} else if(modo.compare("grasp2") == 0){
 		Grasp grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply_grasp2();
+
 		grasp.print_graph();
-		//grasp.print();
+		grasp.print();
 	}
-
-//	printSolution(10, 10, solution);
-
 
 	return 0;
 }

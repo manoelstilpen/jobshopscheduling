@@ -19,7 +19,6 @@ public:
 	ConstructiveGreedy(ProblemInstance p, double alpha);
 
 	Solution generate_solution();
-	Solution aloca_tarefa(Solution, Schedule);
 
 	void set_instance(ProblemInstance);
 	void set_repeat(int);
