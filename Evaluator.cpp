@@ -46,37 +46,37 @@ int Evaluator::evaluateSolution(Solution solution){
 	return total_atraso;
 }
 
-int Evaluator::analisa_job(Schedule tarefa, Solution solution_aux){
+int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 	int machine = tarefa.machine;
 	int tempo = 0;
 
 	if(tarefa.task == 0){
 		// se for a primeira tarefa, apenas e necessario analisar o tempo dela
-		if(solution_aux[machine].size() == 0){
+		if(solution_temp[machine].size() == 0){
 			// caso nao tenham tarefas alocadas na maquina
 			tempo = tarefa.time_execution;
 		} else {
 			// caso ja tenham tarefas alocadas na maquina, retorna o tempo acumulado dessa maquina
-			int size = solution_aux[machine].size();
-			tempo = solution_aux[machine][size-1].time_execution + tarefa.time_execution;
+			int size = solution_temp[machine].size();
+			tempo = solution_temp[machine][size-1].time_execution + tarefa.time_execution;
 		}
 
 	} else {
 		int lastMachine = jobs[tarefa.job][tarefa.task-1].machine; // maquina referente a ultima task executada
-		int sizeAtualMachine = solution_aux[machine].size(); // quantidade de tarefas na maquina atual
+		int sizeAtualMachine = solution_temp[machine].size(); // quantidade de tarefas na maquina atual
 		int timeLastTask; // tempo da ultima tarefa executada do job
 
-		for(int i=0 ; i<solution_aux[lastMachine].size() ; i++){
-			if(solution_aux[lastMachine][i].job == tarefa.job){
-				timeLastTask = solution_aux[lastMachine][i].time_execution;
+		for(int i=0 ; i<solution_temp[lastMachine].size() ; i++){
+			if(solution_temp[lastMachine][i].job == tarefa.job){
+				timeLastTask = solution_temp[lastMachine][i].time_execution;
 				break;
 			}
 		}
 
 		int timeAtualMachine = 0;
 		if(sizeAtualMachine > 0){
-			timeAtualMachine = solution_aux[machine][sizeAtualMachine-1].time_execution; // tempo acumulado da maquina atual
+			timeAtualMachine = solution_temp[machine][sizeAtualMachine-1].time_execution; // tempo acumulado da maquina atual
 		}
 
 		if(timeLastTask > timeAtualMachine){
@@ -94,6 +94,54 @@ int Evaluator::analisa_job(Schedule tarefa, Solution solution_aux){
 	if(tempo < 0) tempo = 0;
 
 	tempo *= instance.get_vec_priorities()[tarefa.job];
+
+	return tempo;
+}
+
+int Evaluator::analisa_machine(Schedule tarefa, Solution solution_temp){
+	ScheduleMatrix jobs = instance.get_vec_schedules();
+	int machine = tarefa.machine;
+	int tempo = 0;
+
+	if(tarefa.task == 0){
+		// se for a primeira tarefa, apenas e necessario analisar o tempo dela
+		if(solution_temp[machine].size() == 0){
+			// caso nao tenham tarefas alocadas na maquina
+			tempo = tarefa.time_execution;
+		} else {
+			// caso ja tenham tarefas alocadas na maquina, retorna o tempo acumulado dessa maquina
+			int size = solution_temp[machine].size();
+			tempo = solution_temp[machine][size-1].time_execution + tarefa.time_execution;
+		}
+
+	} else {
+		int lastMachine = jobs[tarefa.job][tarefa.task-1].machine; // maquina referente a ultima task executada
+		int sizeAtualMachine = solution_temp[machine].size(); // quantidade de tarefas na maquina atual
+		int timeLastTask; // tempo da ultima tarefa executada do job
+
+		// procura pelo tempo que terminou a ultima operacao do job candidato
+		for(int i=0 ; i<solution_temp[lastMachine].size() ; i++){
+			if(solution_temp[lastMachine][i].job == tarefa.job){
+				timeLastTask = solution_temp[lastMachine][i].time_execution;
+				break;
+			}
+		}
+
+		int timeAtualMachine = 0;
+		if(sizeAtualMachine > 0){
+			timeAtualMachine = solution_temp[machine][sizeAtualMachine-1].time_execution; // tempo acumulado da maquina atual
+		}
+
+		if(timeLastTask > timeAtualMachine){
+			// caso o tempo da maquina atual seja menor que o tempo que a ultima tarefa finalizou
+			// cria uma janela na producao
+			tempo = timeLastTask + tarefa.time_execution;
+		} else {
+			// caso o tempo que a ultima tarefa finalizou seja menor que o tempo acumulado da maquina atual
+			// insere a tarefa na sequencia, sem janelas
+			tempo = timeAtualMachine + tarefa.time_execution;
+		}
+	}
 
 	return tempo;
 }

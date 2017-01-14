@@ -11,6 +11,7 @@ public:
 
 	int evaluateSolution(Solution);
 	int analisa_job(Schedule, Solution);
+	int analisa_machine(Schedule, Solution);
 	bool testa_solucao(Solution);
 
 	void set_instance(ProblemInstance);
@@ -22,7 +23,7 @@ public:
 private:
 	ProblemInstance instance;
 	Solution solution;
-	
+
 	vector<int> realTimes;
 	vector<int> expectedTimes;
 

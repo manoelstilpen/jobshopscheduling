@@ -144,7 +144,7 @@ Solution Grasp::apply_grasp2(){
 				}
 			}
 
-/*
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 			for(int j=0 ; j<jobs.size() ; j++){														
 				cout << "JOB " << j << ": ";
@@ -156,7 +156,7 @@ Solution Grasp::apply_grasp2(){
 
 			cout << "CUSTOS:";
 			for(int j=0 ; j<custos.size() ; j++){
-				cout << "(" << custos[j].job << "," << custos[j].indice << "," << custos[j].custo << ") - ";
+				cout << "(" << custos[j].job << "," << custos[j].task << "," << custos[j].indice << "," << custos[j].custo << ") - ";
 			}
 			cout << endl;
 
@@ -166,24 +166,37 @@ Solution Grasp::apply_grasp2(){
 			}
 			cout << endl;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
+
 			if(tarefas_restritas.size() > 1){
 				// caso de empate de menores custos inserir a tarefa de menor tempo de processamento
 				menor = 0;
+				/*
 				for(int j=1 ; j<tarefas_restritas.size() ; j++){
 					if(jobs[tarefas_restritas[j]][0].time_execution < jobs[tarefas_restritas[menor]][0].time_execution){
 						menor = j;
 					}
+				}*/
+
+				vector<int> makespan;
+				for(int j=0 ; j<tarefas_restritas.size() ; j++){
+					makespan.push_back(evaluator.analisa_machine(jobs[tarefas_restritas[j]][0], solution));
 				}
+
+				for(int j=0 ; j<makespan.size() ; j++){
+					if(makespan[j] < makespan[menor]){
+						menor = j;
+					}
+				}
+
 			} else {
 				// caso tenha apenas um
 				menor = 0;
 			}
-/*
+
 			cout << "escolhida: " << jobs[tarefas_restritas[menor]][0].job << " " << jobs[tarefas_restritas[menor]][0].task <<" " << jobs[tarefas_restritas[menor]][0].machine <<" " << jobs[tarefas_restritas[menor]][0].time_execution<< endl;
 			print_partial();
 			cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-*/
+
 			solution = alocaTarefa(&solution, jobs[tarefas_restritas[menor]][0]);
 
 			//remove a solucao ja alocada - remove a primeira posicao

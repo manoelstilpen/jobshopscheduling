@@ -76,7 +76,7 @@ int main(int argc, char** argv){
 		grasp.set_repeat(repeat);
 		solution = grasp.apply_grasp2();
 		grasp.print_graph();
-		//grasp.print();
+		grasp.print();
 	}
 
 //	printSolution(10, 10, solution);
