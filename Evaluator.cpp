@@ -99,6 +99,7 @@ int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
 }
 
 int Evaluator::analisa_machine(Schedule tarefa, Solution solution_temp){
+	// retorna o tempo acumulado da maquina caso alocasse a tarefa
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 	int machine = tarefa.machine;
 	int tempo = 0;

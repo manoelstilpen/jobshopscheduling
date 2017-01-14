@@ -14,9 +14,10 @@ Grasp::Grasp(ProblemInstance instance, double alpha){
 }
 
 Solution Grasp::apply_grasp1(){
-	// GRASP COM FILTRO
-	// primeiro criar lista de tarefas elegiveis
-	// depois selecionar lista de tarefas restritas
+	/*
+	 * GRASP CONSTRUCTIVE
+	 * Cria solucao considerando o maior tempo de processamento das tarefas
+	 */
 
 	srand(time(NULL));
 	media_atraso = 0;
@@ -46,26 +47,15 @@ Solution Grasp::apply_grasp1(){
 				}
 			}
 
-			// calculo do limite do grasp
-			//int limite_grasp = max - this->alpha*(max-min);
+			// calculo do limite do grasp			
 			int limite_grasp = max - this->alpha*(max-min);
+
 			// armazena os INDICES dos jobs restritos
 			vector<int> tarefas_restritas;
 			for(int j=0 ; j<jobs.size() ; j++){
 				// se o tempo for maior que o criterio grasp, entao, salva seu indice
 				if(jobs[j][0].time_execution >= limite_grasp){
 					tarefas_restritas.push_back(j);
-				}
-			}
-	
-			// ordena as tarefas por task
-			for(int k=0 ; k<tarefas_restritas.size() ; k++){
-				for(int l=0 ; l<tarefas_restritas.size()-1 ; l++){
-					if(jobs[tarefas_restritas[l]][0].task > jobs[tarefas_restritas[l+1]][0].task){
-						int aux = tarefas_restritas[l];
-						tarefas_restritas[l] = tarefas_restritas[l+1];
-						tarefas_restritas[l+1] = aux;
-					}
 				}
 			}
 /*
@@ -79,9 +69,11 @@ Solution Grasp::apply_grasp1(){
 			if(size > 0){
 				int random_index = rand() % tarefas_restritas.size();
 				Schedule tarefa_escolhida = jobs[tarefas_restritas[random_index]][0];
+/*
 				// aloca a tarefa na solucao
-//				print_schedule(tarefa_escolhida);
-//				cout << endl;
+				print_schedule(tarefa_escolhida);
+				cout << endl;
+*/
 				solution = alocaTarefa(&solution, tarefa_escolhida);
 
 				//remove a solucao ja alocada - remove a primeira posicao
@@ -102,9 +94,12 @@ Solution Grasp::apply_grasp1(){
 }
 
 Solution Grasp::apply_grasp2(){
-	// GRASP COM FILTRO
-	// primeiro criar lista de tarefas elegiveis
-	// depois selecionar lista de tarefas restritas
+	/*
+	 * GRASP CONSTRUCTIVE
+	 * Cria solucao considerando o custo das tarefas.
+	 * Aloca aquela que possuir o menor custo na solucao apos ser inserida
+	 * Em caso de empate de tarefas, opta-se por aquela que se inserida, deixa o menor tempo acumulado em sua maquina
+	 */
 
 	srand(time(NULL));
 	media_atraso = 0;
@@ -124,7 +119,7 @@ Solution Grasp::apply_grasp2(){
 
 			vector<Custo> custos;
 			for(int j=0 ; j<jobs.size() ; j++){
-				 // retorna o tempo de execucao caso o job fosse inserido
+				 // retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
 				custos.push_back(Custo(jobs[j][0].job, jobs[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution)));
 			}
 
