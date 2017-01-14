@@ -18,21 +18,24 @@ int Evaluator::evaluateSolution(Solution solution){
 	int nMachines = this->instance.get_num_machines();
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
-	total_atraso = 0;
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
 	expectedTimes = this->instance.get_vec_conclusion_times();
 	vector<int> priorities = this->instance.get_vec_priorities();
 	realTimes.resize(nJobs);
+	vector<int> tardiness(nJobs);
+
+	total_atraso = 0;
 
 	for(int i=0 ; i<nJobs ; i++){
 		int lastMachine = jobs[i][nTasks-1].machine;
 		for(int j=0 ; j<nTasks ; j++){
 			if(solution[lastMachine][j].job == i){
-				realTimes[i] = (solution[lastMachine][j].time_execution);// - expectedTimes[i])*priorities[i];
-				if(realTimes[i] < 0){
-					realTimes[i] = 0;
+				realTimes[i] = (solution[lastMachine][j].time_execution);
+				tardiness[i] = realTimes[i] - expectedTimes[i];
+				if(tardiness[i] < 0){
+					tardiness[i] = 0;
 				}
-				total_atraso += realTimes[i];
+				total_atraso += (tardiness[i]);
 				break;
 			}
 		}
@@ -41,6 +44,58 @@ int Evaluator::evaluateSolution(Solution solution){
 	testa_solucao(solution);
 
 	return total_atraso;
+}
+
+int Evaluator::analisa_job(Schedule tarefa, Solution solution_aux){
+	ScheduleMatrix jobs = instance.get_vec_schedules();
+	int machine = tarefa.machine;
+	int tempo = 0;
+
+	if(tarefa.task == 0){
+		// se for a primeira tarefa, apenas e necessario analisar o tempo dela
+		if(solution_aux[machine].size() == 0){
+			// caso nao tenham tarefas alocadas na maquina
+			tempo = tarefa.time_execution;
+		} else {
+			// caso ja tenham tarefas alocadas na maquina, retorna o tempo acumulado dessa maquina
+			int size = solution_aux[machine].size();
+			tempo = solution_aux[machine][size-1].time_execution + tarefa.time_execution;
+		}
+
+	} else {
+		int lastMachine = jobs[tarefa.job][tarefa.task-1].machine; // maquina referente a ultima task executada
+		int sizeAtualMachine = solution_aux[machine].size(); // quantidade de tarefas na maquina atual
+		int timeLastTask; // tempo da ultima tarefa executada do job
+
+		for(int i=0 ; i<solution_aux[lastMachine].size() ; i++){
+			if(solution_aux[lastMachine][i].job == tarefa.job){
+				timeLastTask = solution_aux[lastMachine][i].time_execution;
+				break;
+			}
+		}
+
+		int timeAtualMachine = 0;
+		if(sizeAtualMachine > 0){
+			timeAtualMachine = solution_aux[machine][sizeAtualMachine-1].time_execution; // tempo acumulado da maquina atual
+		}
+
+		if(timeLastTask > timeAtualMachine){
+			// caso o tempo da maquina atual seja menor que o tempo que a ultima tarefa finalizou
+			// cria uma janela na producao
+			tempo = timeLastTask + tarefa.time_execution;
+		} else {
+			// caso o tempo que a ultima tarefa finalizou seja menor que o tempo acumulado da maquina atual
+			// insere a tarefa na sequencia, sem janelas
+			tempo = timeAtualMachine + tarefa.time_execution;
+		}
+	}
+
+	tempo -= instance.get_vec_conclusion_times()[tarefa.job];
+	if(tempo < 0) tempo = 0;
+
+	tempo *= instance.get_vec_priorities()[tarefa.job];
+
+	return tempo;
 }
 
 bool Evaluator::testa_solucao(Solution solution){

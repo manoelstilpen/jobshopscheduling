@@ -13,7 +13,7 @@ Grasp::Grasp(ProblemInstance instance, double alpha){
 	this->repeat = 1;
 }
 
-Solution Grasp::apply_grasp(){
+Solution Grasp::apply_grasp1(){
 	// GRASP COM FILTRO
 	// primeiro criar lista de tarefas elegiveis
 	// depois selecionar lista de tarefas restritas
@@ -47,8 +47,8 @@ Solution Grasp::apply_grasp(){
 			}
 
 			// calculo do limite do grasp
+			//int limite_grasp = max - this->alpha*(max-min);
 			int limite_grasp = max - this->alpha*(max-min);
-
 			// armazena os INDICES dos jobs restritos
 			vector<int> tarefas_restritas;
 			for(int j=0 ; j<jobs.size() ; j++){
@@ -80,8 +80,8 @@ Solution Grasp::apply_grasp(){
 				int random_index = rand() % tarefas_restritas.size();
 				Schedule tarefa_escolhida = jobs[tarefas_restritas[random_index]][0];
 				// aloca a tarefa na solucao
-				print_schedule(tarefa_escolhida);
-				cout << endl;
+//				print_schedule(tarefa_escolhida);
+//				cout << endl;
 				solution = alocaTarefa(&solution, tarefa_escolhida);
 
 				//remove a solucao ja alocada - remove a primeira posicao
@@ -91,11 +91,111 @@ Solution Grasp::apply_grasp(){
 					jobs.erase(jobs.begin()+tarefas_restritas[random_index]);
 				}
 			}
-
 		}
 
 		media_atraso += evaluator.evaluateSolution(solution);
 	
+	}
+
+	media_atraso = media_atraso / this->repeat;
+	return solution;
+}
+
+Solution Grasp::apply_grasp2(){
+	// GRASP COM FILTRO
+	// primeiro criar lista de tarefas elegiveis
+	// depois selecionar lista de tarefas restritas
+
+	srand(time(NULL));
+	media_atraso = 0;
+
+	for(int l = 0 ; l<this->repeat ; l++){
+
+		ScheduleMatrix jobs = this->jobs;
+
+		int nMachines = instance.get_num_machines();
+		int nTasks = instance.get_num_tasks();
+		int nJobs = instance.get_num_jobs();
+
+		solution.clear();
+		solution.resize(nMachines);
+
+		for(int i=0 ; i<nJobs*nTasks ; i++){
+
+			vector<Custo> custos;
+			for(int j=0 ; j<jobs.size() ; j++){
+				 // retorna o tempo de execucao caso o job fosse inserido
+				custos.push_back(Custo(jobs[j][0].job, jobs[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution)));
+			}
+
+			// analise de qual é o menor custo
+			int menor = INF;
+			for(int j=0 ; j<custos.size() ; j++){
+				if(custos[j].custo <= menor){
+					menor = custos[j].custo;
+				}
+			}
+
+			// salva os indices com os menores custos
+			vector<int> tarefas_restritas;
+			for(int j=0 ; j<custos.size() ; j++){
+				if(custos[j].custo == menor){
+					tarefas_restritas.push_back(custos[j].indice);
+				}
+			}
+
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+			for(int j=0 ; j<jobs.size() ; j++){														
+				cout << "JOB " << j << ": ";
+				for(int k=0 ; k<jobs[j].size() ; k++){
+					cout << "(" << jobs[j][k].job << "," << jobs[j][k].task << "," << jobs[j][k].machine << "," << jobs[j][k].time_execution << ") - ";
+				}
+				cout << endl;
+			}
+
+			cout << "CUSTOS:";
+			for(int j=0 ; j<custos.size() ; j++){
+				cout << "(" << custos[j].job << "," << custos[j].indice << "," << custos[j].custo << ") - ";
+			}
+			cout << endl;
+
+			cout << "LISTA: ";
+			for(int j=0 ; j<tarefas_restritas.size() ; j++){
+				print_schedule(jobs[tarefas_restritas[j]][0]);
+			}
+			cout << endl;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+			if(tarefas_restritas.size() > 1){
+				// caso de empate de menores custos inserir a tarefa de menor tempo de processamento
+				menor = 0;
+				for(int j=1 ; j<tarefas_restritas.size() ; j++){
+					if(jobs[tarefas_restritas[j]][0].time_execution < jobs[tarefas_restritas[menor]][0].time_execution){
+						menor = j;
+					}
+				}
+			} else {
+				// caso tenha apenas um
+				menor = 0;
+			}
+/*
+			cout << "escolhida: " << jobs[tarefas_restritas[menor]][0].job << " " << jobs[tarefas_restritas[menor]][0].task <<" " << jobs[tarefas_restritas[menor]][0].machine <<" " << jobs[tarefas_restritas[menor]][0].time_execution<< endl;
+			print_partial();
+			cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+*/
+			solution = alocaTarefa(&solution, jobs[tarefas_restritas[menor]][0]);
+
+			//remove a solucao ja alocada - remove a primeira posicao
+			jobs[tarefas_restritas[menor]].erase(jobs[tarefas_restritas[menor]].begin());
+			if(jobs[tarefas_restritas[menor]].size() == 0){
+				// caso ja tenha alocado todas as tarefas do job, elimina-o da matriz
+				jobs.erase(jobs.begin()+tarefas_restritas[menor]);
+			}
+		}	
+
+		media_atraso += evaluator.evaluateSolution(solution);
+
 	}
 
 	media_atraso = media_atraso / this->repeat;
@@ -169,15 +269,25 @@ int Grasp::get_atraso(){
 }
 
 void Grasp::print(){
-	for(int i=0 ; i<instance.get_num_machines() ; i++){
+	for(int i=0 ; i<solution.size() ; i++){
 		cout << "MACHINE " << i << ": ";
-		for(int j=0 ; j<instance.get_num_tasks() ; j++){
+		for(int j=0 ; j<solution[i].size() ; j++){
 			cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
 		}
 		cout << endl;
 	}
 
 	evaluator.print();
+}
+
+void Grasp::print_partial(){
+	for(int i=0 ; i<solution.size() ; i++){
+		cout << "MACHINE " << i << ": ";
+		for(int j=0 ; j<solution[i].size() ; j++){
+			cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
+		}
+		cout << endl;
+	}
 }
 
 void Grasp::print_graph(){

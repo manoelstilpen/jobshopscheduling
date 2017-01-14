@@ -15,7 +15,8 @@ public:
 	Grasp();
 	Grasp(ProblemInstance instance, double alpha);
 
-	Solution apply_grasp();
+	Solution apply_grasp1();
+	Solution apply_grasp2();
 	Solution alocaTarefa(Solution* solution, Schedule tarefa);
 
 	void set_alpha(double);
@@ -26,6 +27,7 @@ public:
 
 	void print();
 	void print_graph();
+	void print_partial();
 
 private:
 	ProblemInstance instance;
@@ -36,6 +38,24 @@ private:
 	double alpha;
 	int repeat;
 	int media_atraso;
+
+	struct Custo{
+		int job;
+		int task;
+		int indice;
+		int custo;
+
+		Custo(){
+			job = task = indice = custo = 0;
+		}
+
+		Custo(int j, int t, int i, int c){
+			this->job = j;
+			this->task = t;
+			this->indice = i;
+			this->custo = c;
+		}
+	};
 };
 
 #endif
