@@ -21,4 +21,4 @@ run:
 
 .PHONY : clean 
 clean:
-	rm -rf $(EXEC_PROG) $(OBJECTS)
+	rm -rf $(EXEC_PROG) $(OBJECTS) *.txt

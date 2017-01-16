@@ -2,6 +2,7 @@
 #define DELTA_MOVE_EXCHANGE
 
 #include "../Commons.hpp"
+#include "../ProblemInstance.hpp"
 
 using namespace twtjssp;
 
@@ -13,13 +14,16 @@ public:
 	DeltaMoveExchange(int machine, int pos1, int pos2);
 
 	Solution apply_exchange_move();
+	void fix_solution();
 
+	void set_instance(ProblemInstance);
 	void set_solution(Solution);
 	void set_machine_number(int);
 	void set_pos1(int);
 	void set_pos2(int);
 
 private:
+	ProblemInstance instance;
 	Solution solution;
 
 	int machineNumber;

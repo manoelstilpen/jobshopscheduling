@@ -24,7 +24,7 @@ Solution Grasp::apply_grasp1(){
 
 	for(int l = 0 ; l<this->repeat ; l++){
 
-		ScheduleMatrix jobs = this->jobs;
+		ScheduleMatrix jobs_temp = this->jobs;
 
 		int nMachines = instance.get_num_machines();
 		int nTasks = instance.get_num_tasks();
@@ -37,57 +37,61 @@ Solution Grasp::apply_grasp1(){
 
 			int max = -INF;
 			int min = INF;
-			//procura pelo maior e menor tempo
-			for(int j=0 ; j<jobs.size() ; j++){
-				if(jobs[j][0].time_execution > max){
-					max = jobs[j][0].time_execution;
+
+			// Procura pelo maior e menor tempo de execucao
+			for(int j=0 ; j<jobs_temp.size() ; j++){
+				if(jobs_temp[j][0].time_execution > max){
+					max = jobs_temp[j][0].time_execution;
 				}
-				if(jobs[j][0].time_execution < min){
-					min = jobs[j][0].time_execution;
+				if(jobs_temp[j][0].time_execution < min){
+					min = jobs_temp[j][0].time_execution;
 				}
 			}
 
-			// calculo do limite do grasp			
+			// Calculo da funcao grasp			
 			int limite_grasp = max - this->alpha*(max-min);
 
-			// armazena os INDICES dos jobs restritos
+			// Armazena os INDICES das tarefas restritas
 			vector<int> tarefas_restritas;
-			for(int j=0 ; j<jobs.size() ; j++){
-				// se o tempo for maior que o criterio grasp, entao, salva seu indice
-				if(jobs[j][0].time_execution >= limite_grasp){
+			for(int j=0 ; j<jobs_temp.size() ; j++){
+				// Se o tempo de execucao for maior que a funcao grasp, entao, seu indice é salvo
+				if(jobs_temp[j][0].time_execution >= limite_grasp){
 					tarefas_restritas.push_back(j);
 				}
 			}
 /*
 			cout << "LISTA: ";
 			for(int j=0 ; j<tarefas_restritas.size() ; j++){
-				print_schedule(jobs[tarefas_restritas[j]][0]);
+				print_schedule(jobs_temp[tarefas_restritas[j]][0]);
 			}
 			cout << limite_grasp << endl;
 */
 			int size = tarefas_restritas.size();
 			if(size > 0){
-				int random_index = rand() % tarefas_restritas.size();
-				Schedule tarefa_escolhida = jobs[tarefas_restritas[random_index]][0];
+				int random_index = rand() % tarefas_restritas.size(); // Gera indice aleatorio
+				Schedule tarefa_escolhida = jobs_temp[tarefas_restritas[random_index]][0]; // Armazena a tarefa escolhida
 /*
-				// aloca a tarefa na solucao
 				print_schedule(tarefa_escolhida);
 				cout << endl;
 */
-				solution = aloca_tarefa(&solution, &(this->jobs), tarefa_escolhida);
-				//remove a solucao ja alocada - remove a primeira posicao
-				jobs[tarefas_restritas[random_index]].erase(jobs[tarefas_restritas[random_index]].begin());
-				if(jobs[tarefas_restritas[random_index]].size() == 0){
-					// caso tenha alocado todas as tarefas do job, elimina-o da matriz
-					jobs.erase(jobs.begin()+tarefas_restritas[random_index]);
+
+				solution = aloca_tarefa(&solution, &(this->jobs), tarefa_escolhida); // Aloca a tarefa na solucao
+
+				// Remove a tarefa que foi alocada - remove a primeira posicao
+				jobs_temp[tarefas_restritas[random_index]].erase(jobs_temp[tarefas_restritas[random_index]].begin());
+				if(jobs_temp[tarefas_restritas[random_index]].size() == 0){
+					// Caso tenha alocado todas as tarefas do job, elimina o job da matriz
+					jobs_temp.erase(jobs_temp.begin()+tarefas_restritas[random_index]);
 				}
 			}
 		}
 
+		// Acumula o atraso (quando é executado mais de uma vez)
 		media_atraso += evaluator.evaluateSolution(solution);
 	
 	}
 
+	// Calcula a media de atraso
 	media_atraso = media_atraso / this->repeat;
 	return solution;
 }
@@ -118,11 +122,11 @@ Solution Grasp::apply_grasp2(){
 
 			vector<Custo> custos;
 			for(int j=0 ; j<jobs_temp.size() ; j++){
-				 // retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
+				 // Retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
 				custos.push_back(Custo(jobs_temp[j][0].job, jobs_temp[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution)));
 			}
 
-			// analise de qual é o menor custo
+			// Analise de qual é o menor custo
 			int menor = INF;
 			for(int j=0 ; j<custos.size() ; j++){
 				if(custos[j].custo <= menor){
@@ -130,7 +134,7 @@ Solution Grasp::apply_grasp2(){
 				}
 			}
 
-			// salva os indices dos jobs que tem os menores custos
+			// Salva os indices dos jobs que tem os menores custos
 			vector<int> tarefas_restritas;
 			for(int j=0 ; j<custos.size() ; j++){
 				if(custos[j].custo == menor){
@@ -160,30 +164,30 @@ Solution Grasp::apply_grasp2(){
 			}
 			cout << endl;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-			// caso tenha empate
+*/			
+			menor = 0;
+
+			// Caso tenha empate
 			if(tarefas_restritas.size() > 1){
 				/* 
 				 * Se considerar o menor tempo de processamento como criterio de desempate,
 				 * o atraso da solucao fica muito alto.
-				 * A melhor opcao é considerar a tarefa que deixa o menor makespan na solucao
+				 * A melhor opcao é considerar a tarefa que implica no menor tempo acumulado em sua maquina.
 				 */
 
-				menor = 0;
 				vector<int> makespan;
 				for(int j=0 ; j<tarefas_restritas.size() ; j++){
+					// Retorna o tempo acumulado da maquina caso a tarefa fosse inserida
 					makespan.push_back(evaluator.analisa_machine(jobs_temp[tarefas_restritas[j]][0], solution));
 				}
 
+				// Procura pelo menor
 				for(int j=0 ; j<makespan.size() ; j++){
 					if(makespan[j] < makespan[menor]){
 						menor = j;
 					}
 				}
 
-			} else {
-				// caso tenha apenas uma tarefa de menor tempo(caso nao tenha empate)
-				menor = 0;
 			}
 /*
 			cout << "escolhida: " << jobs_temp[tarefas_restritas[menor]][0].job << " " << jobs_temp[tarefas_restritas[menor]][0].task <<" " << jobs_temp[tarefas_restritas[menor]][0].machine <<" " << jobs_temp[tarefas_restritas[menor]][0].time_execution<< endl;
@@ -192,10 +196,10 @@ Solution Grasp::apply_grasp2(){
 */
 			solution = aloca_tarefa(&solution, &(this->jobs), jobs_temp[tarefas_restritas[menor]][0]);
 
-			//remove a solucao ja alocada - remove a primeira posicao
+			// Remove a solucao ja alocada - remove a primeira posicao
 			jobs_temp[tarefas_restritas[menor]].erase(jobs_temp[tarefas_restritas[menor]].begin());
 			if(jobs_temp[tarefas_restritas[menor]].size() == 0){
-				// caso ja tenha alocado todas as tarefas do job, elimina-o da matriz
+				// Caso ja tenha alocado todas as tarefas do job, elimina o job da matriz
 				jobs_temp.erase(jobs_temp.begin()+tarefas_restritas[menor]);
 			}
 		}	

@@ -22,9 +22,17 @@ Solution DeltaMoveExchange::apply_exchange_move(){
 	this->solution[machineNumber][pos1Number] = this->solution[machineNumber][pos2Number];
 	this->solution[machineNumber][pos2Number] = aux;
 
-	//printSolution(10, 10, this->solution);
+	fix_solution();
 
 	return this->solution;
+}
+
+void DeltaMoveExchange::fix_solution(){
+	
+}
+
+void DeltaMoveExchange::set_instance(ProblemInstance i){
+	this->instance = i;
 }
 
 void DeltaMoveExchange::set_solution(Solution sol){
