@@ -58,7 +58,7 @@ Solution ConstructiveGreedy::generate_solution(){
 			}
 		}
 
-		media_atraso += evaluator.evaluateSolution(machines);
+		media_atraso += evaluator.evaluate_solution(machines);
 	}
 
 	this->media_atraso /= this->repeat;

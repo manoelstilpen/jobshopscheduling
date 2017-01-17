@@ -87,7 +87,7 @@ Solution Grasp::apply_grasp1(){
 		}
 
 		// Acumula o atraso (quando é executado mais de uma vez)
-		media_atraso += evaluator.evaluateSolution(solution);
+		media_atraso += evaluator.evaluate_solution(solution);
 	
 	}
 
@@ -204,7 +204,7 @@ Solution Grasp::apply_grasp2(){
 			}
 		}	
 
-		media_atraso += evaluator.evaluateSolution(solution);
+		media_atraso += evaluator.evaluate_solution(solution);
 
 	}
 

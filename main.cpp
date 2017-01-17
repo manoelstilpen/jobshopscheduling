@@ -52,7 +52,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	//instance.print();
+	instance.print();
 
 	int nJobs = instance.get_num_jobs();
 	int nTasks = instance.get_num_tasks();
@@ -80,6 +80,18 @@ int main(int argc, char** argv){
 		grasp.print_graph();
 		grasp.print();
 	}
+
+	Evaluator evaluator(instance);
+	DeltaMoveExchange exchange_move(instance);
+	for(int i=0 ; i<nTasks ; i++){
+		exchange_move.set_solution(solution);
+		exchange_move.set_positions(0,1,i);
+		solution = exchange_move.apply_exchange_move();
+		print_solution(solution);
+		evaluator.evaluate_solution(solution);
+		evaluator.print();
+	}
+	
 
 	return 0;
 }

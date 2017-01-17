@@ -7,9 +7,10 @@
 class Evaluator{
 public:
 	Evaluator();
+	Evaluator(ProblemInstance p);
 	Evaluator(Solution s, ProblemInstance p);
 
-	int evaluateSolution(Solution);
+	int evaluate_solution(Solution);
 	int analisa_job(Schedule, Solution);
 	int analisa_machine(Schedule, Solution);
 	bool testa_solucao(Solution);

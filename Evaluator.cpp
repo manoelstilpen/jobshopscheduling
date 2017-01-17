@@ -4,13 +4,18 @@ Evaluator::Evaluator(){
 	this->total_atraso = 0;
 }
 
+Evaluator::Evaluator(ProblemInstance p){
+	this->instance = p;
+	this->total_atraso = 0;
+}
+
 Evaluator::Evaluator(Solution s, ProblemInstance p){
 	this->solution = s;
 	this->instance = p;
 	this->total_atraso = 0;
 }
 
-int Evaluator::evaluateSolution(Solution solution){
+int Evaluator::evaluate_solution(Solution solution){
 	// data de conclusão é quando terminou
 	// data de entrega é fornecido pela instancia
 

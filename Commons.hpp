@@ -65,11 +65,11 @@ namespace twtjssp{
 		return p1.task < p2.task;
 	}
 
-	inline void printSolution(int nJobs, int nTasks, Solution sol){
-		for(int i=0 ; i<nJobs ; i++){
+	inline void print_solution(Solution sol){
+		for(int i=0 ; i<sol.size() ; i++){
 			cout << "MACHINE " << i << ": ";
-			for(int j=0 ; j<nTasks ; j++){
-				cout << "(" << sol[i][j].job << "," << sol[i][j].task << ") - ";
+			for(int j=0 ; j<sol[i].size() ; j++){
+				cout << "(" << sol[i][j].job << "," << sol[i][j].task << "," << sol[i][j].time_execution << ") - ";
 			}
 			cout << endl;
 		}
