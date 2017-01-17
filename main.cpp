@@ -80,7 +80,7 @@ int main(int argc, char** argv){
 		grasp.print_graph();
 		grasp.print();
 	}
-
+/*
 	Evaluator evaluator(instance);
 	DeltaMoveExchange exchange_move(instance);
 	for(int i=0 ; i<nTasks ; i++){
@@ -91,7 +91,7 @@ int main(int argc, char** argv){
 		evaluator.evaluate_solution(solution);
 		evaluator.print();
 	}
-	
+*/	
 
 	return 0;
 }

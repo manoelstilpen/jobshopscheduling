@@ -3,6 +3,7 @@
 
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
+#include "../Evaluator.hpp"
 
 using namespace twtjssp;
 

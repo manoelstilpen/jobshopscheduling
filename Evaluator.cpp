@@ -169,26 +169,30 @@ int Evaluator::analisa_machine(Schedule tarefa, Solution solution_temp){
 }
 
 bool Evaluator::testa_solucao(Solution solution){
-	int nJobs = instance.get_num_jobs();
-	int nTasks = instance.get_num_tasks();
-	int nMachines = instance.get_num_machines();
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 
-	for(int i=0 ; i<nJobs ; i++){
+	for(int i=0 ; i<jobs.size() ; i++){
 		int timeAtual = 0;
 		int timeLast = 0;
-		for(int j=0 ; j<nTasks ; j++){
+
+		for(int j=0 ; j<jobs[i].size() ; j++){
 			int machine = jobs[i][j].machine;
 			timeAtual = 0;
-			for(int k=0 ; k<nTasks ; k++){
+
+			for(int k=0 ; k<solution[machine].size() ; k++){
+
 				if(solution[machine][k].job == i){
-					if(timeAtual < timeLast){
-						cout << "ERRO NA SOLUCAO" << endl;
-						timeLast = timeAtual;
+					int tempoInicio = solution[machine][k].time_execution - jobs[i][j].time_execution;
+
+					if(tempoInicio < timeLast || tempoInicio < timeAtual){
+						cout << "ERRO NA SOLUCAO!!!" << endl;
+						cout << i << " " << j << endl;
 						return false;
 					}
+					timeLast = solution[machine][k].time_execution;
+					break;
 				}
-				timeAtual += solution[machine][k].time_execution;
+				timeAtual = solution[machine][k].time_execution;
 			}
 		}
 	}

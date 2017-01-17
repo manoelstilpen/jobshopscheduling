@@ -83,44 +83,67 @@ void DeltaMoveExchange::fix_solution(){
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
 
-	for(int k=0 ; k<nJobs*nTasks ; k++){
+	Evaluator eval(this->instance);
+	//while(eval.testa_solucao(this->solution) == false){
+	for(int k=0 ; k<100 ; k++){
 
 		for(int i=0 ; i<nJobs ; i++){
 			for(int j=1 ; j<nTasks ; j++){
 
 				Schedule tarefa = jobs[i][j];
 				int ultimaMaquina = jobs[i][j-1].machine;
-				int tempoAcumulado;
+				int tempoAcumuladoMachine;
+				int tempoAcumuladoJob;
 
+				// Procura pelo instante de termino da ultima tarefa do JOB
 				for(int l=0 ; l<this->solution[ultimaMaquina].size() ; l++){
 					if(this->solution[ultimaMaquina][l].job == tarefa.job){
-						tempoAcumulado = this->solution[ultimaMaquina][l].time_execution;
+						tempoAcumuladoJob = this->solution[ultimaMaquina][l].time_execution;
 						break;
 					}
 				}
 
-				if(tempoAcumulado <= (tarefa.time_execution-jobs[i][j].time_execution)){
-					// OK ATE AQUI
+				// Procura pelo instante de termino da ultima tarefa antes da atual
+				tempoAcumuladoMachine = tarefa.time_execution;
+				for(int l=1 ; l<this->solution[tarefa.machine].size() ; l++){
+					if(this->solution[tarefa.machine][l].job == tarefa.job){
+						tempoAcumuladoMachine = this->solution[tarefa.machine][l-1].time_execution;
+						break;
+					}
+				}
+
+				if(tempoAcumuladoJob <= (tarefa.time_execution-jobs[i][j].time_execution) &&
+					tempoAcumuladoMachine <= (tarefa.time_execution-jobs[i][j].time_execution)){
+
+
 				} else {
-					tarefa.time_execution = tempoAcumulado + jobs[i][j].time_execution;
+					
+					tarefa.time_execution = tempoAcumuladoJob + jobs[i][j].time_execution;
 
-					bool achou = false;
+					if(tarefa.time_execution < tempoAcumuladoMachine){
+						tarefa.time_execution += (tempoAcumuladoMachine - tarefa.time_execution);
+					}
+
+					int index;
 					for(int l=0 ; l<this->solution[tarefa.machine].size() ; l++){
-
-						if(achou){
-							Schedule aux = solution[tarefa.machine][l];
-							this->solution[tarefa.machine][l].time_execution = jobs[aux.job][aux.task].time_execution + this->solution[tarefa.machine][l-1].time_execution;
-						}
-
 						if(this->solution[tarefa.machine][l].job == tarefa.job){
 							this->solution[tarefa.machine][l] = tarefa;
-							achou = true;
+							index = l;
+							break;
 						}
-
 					}
+
+					for(int l=index+1 ; l<this->solution[tarefa.machine].size() ;l++){
+						Schedule aux = this->solution[tarefa.machine][l];
+						aux.time_execution = (solution[aux.machine][l].time_execution + jobs[aux.job][aux.task].time_execution); 
+						solution[tarefa.machine][i] = aux;
+					}
+
+
 				}
 			}
 		}
+		//print_solution(this->solution);
 	}
 }
 
