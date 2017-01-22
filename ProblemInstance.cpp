@@ -27,7 +27,7 @@ bool ProblemInstance::load_instance(){
 
 	this->vec_schedules.resize(this->num_jobs);
 	this->vec_priorities.resize(this->num_jobs);
-	this->vec_conclusion_times.resize(this->num_jobs);
+	this->due_times.resize(this->num_jobs);
 
 	Schedule schedule;
 	int lixo;
@@ -45,7 +45,7 @@ bool ProblemInstance::load_instance(){
 
 		file >> this->vec_priorities[i];
 		file >> lixo;
-		file >> this->vec_conclusion_times[i];
+		file >> this->due_times[i];
 	}
 
 	file.close();
@@ -66,18 +66,22 @@ void ProblemInstance::print(){
 		}
 
 		std::cout << this->vec_priorities[i] << " ";
-		std::cout << this->vec_conclusion_times[i] << std::endl;
+		std::cout << this->due_times[i] << std::endl;
 	}
 }
 
 void ProblemInstance::set_name_file(string name){
-	if(name.find("Instances/") == 0){
-		this->instance_file_name = name;	
-	} else {
+	if(name.find("Instances/") != 0){
 		std::string aux("Instances/");
 		aux += name;
-		this->instance_file_name = aux;
+		name = aux;
+	} 
+	
+	if(name.find(".txt") != name.size()-4){
+		name += ".txt";
 	}
+
+	this->instance_file_name = name;
 }
 
 int ProblemInstance::get_num_machines(){
@@ -104,8 +108,8 @@ std::vector<int> ProblemInstance::get_vec_priorities(){
 	return this->vec_priorities;
 }
 
-std::vector<int> ProblemInstance::get_vec_conclusion_times(){
-	return this->vec_conclusion_times;
+std::vector<int> ProblemInstance::get_due_times(){
+	return this->due_times;
 }
 
 ScheduleMatrix ProblemInstance::get_vec_schedules(){

@@ -52,7 +52,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+	//instance.print();
 
 	int nJobs = instance.get_num_jobs();
 	int nTasks = instance.get_num_tasks();
@@ -65,13 +65,13 @@ int main(int argc, char** argv){
 
 		grasp.print_graph();
 		grasp.print();
-	} else if(modo.compare("greedy") == 0){		
-		ConstructiveGreedy greedy(instance, alpha_grasp);
-		greedy.set_repeat(repeat);
-		solution = greedy.generate_solution();
+	} else if(modo.compare("sprt") == 0){		
+		Grasp grasp(instance, alpha_grasp);
+		grasp.set_repeat(repeat);
+		solution = grasp.grasp_SPRT();
 
-		greedy.print_graph();
-		greedy.print();
+		grasp.print_graph();
+		//grasp.print();
 	} else if(modo.compare("grasp2") == 0){
 		Grasp grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);

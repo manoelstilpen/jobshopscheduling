@@ -24,7 +24,7 @@ int Evaluator::evaluate_solution(Solution solution){
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
-	expectedTimes = this->instance.get_vec_conclusion_times();
+	expectedTimes = this->instance.get_due_times();
 	vector<int> priorities = this->instance.get_vec_priorities();
 	realTimes.resize(nJobs);
 	vector<int> tardiness(nJobs);
@@ -51,7 +51,7 @@ int Evaluator::evaluate_solution(Solution solution){
 	return total_atraso;
 }
 
-int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
+int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp, float b){
 	/*
 	 * Retorna o instante em que, caso a tarefa fosse inserida, ela seria concluida
 	 */
@@ -105,13 +105,27 @@ int Evaluator::analisa_job(Schedule tarefa, Solution solution_temp){
 		}
 	}
 
+	if(tarefa.task < this->instance.get_num_tasks()){
+		int nextMachine = jobs[tarefa.job][tarefa.task+1].machine;
+		int sizeNextMachine = solution_temp[nextMachine].size();
+		int timeNextMachine;
+		if(sizeNextMachine > 0){
+			timeNextMachine = solution_temp[nextMachine][sizeNextMachine-1].time_execution;
+		}
+
+		if(timeNextMachine <= tempo){
+			tempo *= b;
+		}
+	}
+
 	// subtrai do tempo de conclusao
-	tempo -= instance.get_vec_conclusion_times()[tarefa.job];
+	tempo -= instance.get_due_times()[tarefa.job];
+	
 	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
 	if(tempo < 0) tempo = 0;
 
 	// multiplica pela prioridade de cada job fornecido pela instancia
-	tempo *= instance.get_vec_priorities()[tarefa.job];
+	//tempo *= instance.get_vec_priorities()[tarefa.job];
 
 	return tempo;
 }

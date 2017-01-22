@@ -25,7 +25,7 @@ public:
 	std::string get_name_file();
 	string get_instance_name();
 	std::vector<int> get_vec_priorities();
-	std::vector<int> get_vec_conclusion_times();
+	std::vector<int> get_due_times();
 	ScheduleMatrix get_vec_schedules();
 	Schedule get_vec_schedules(int job, int task);
 
@@ -34,7 +34,7 @@ private:
 	string instance_file_name;
 	std::string instance_name;
 	std::vector<int> vec_priorities;
-	std::vector<int> vec_conclusion_times;
+	std::vector<int> due_times;
 	ScheduleMatrix vec_schedules;
 
 	int num_machines;

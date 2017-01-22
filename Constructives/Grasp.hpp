@@ -17,6 +17,11 @@ public:
 
 	Solution apply_grasp1();
 	Solution apply_grasp2();
+	Solution grasp_SPRT();
+
+	float analisa_manoel(Schedule tarefa);
+	float analisa_prioridade(Schedule tarefa);
+	float analisa_mod(Schedule tarefa);
 
 	void set_alpha(double);
 	void set_instance(ProblemInstance);
@@ -42,19 +47,20 @@ private:
 		int job;
 		int task;
 		int indice;
-		int custo;
+		float custo;
 
 		Custo(){
 			job = task = indice = custo = 0;
 		}
 
-		Custo(int j, int t, int i, int c){
+		Custo(int j, int t, int i, float c){
 			this->job = j;
 			this->task = t;
 			this->indice = i;
 			this->custo = c;
 		}
 	};
+
 };
 
 #endif
