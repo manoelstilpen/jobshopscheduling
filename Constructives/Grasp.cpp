@@ -16,7 +16,7 @@ Grasp::Grasp(ProblemInstance instance, double alpha){
 Solution Grasp::apply_grasp1(){
 	/*
 	 * GRASP CONSTRUCTIVE
-	 * Cria solucao considerando o maior tempo de processamento das tarefas
+	 * GRASP MOD
 	 */
 
 	srand(time(NULL));
@@ -116,7 +116,7 @@ Solution Grasp::apply_grasp1(){
 Solution Grasp::apply_grasp2(){
 	/*
 	 * GRASP CONSTRUCTIVE
-	 * Cria solucao considerando o custo das tarefas.
+	 * Cria solucao considerando o custo das tarefas, dá-se prioridade as tarefas que podem ser inseridas imediatamente.
 	 * Aloca aquela que possuir o menor custo na solucao apos ser inserida
 	 * Em caso de empate de tarefas, opta-se por aquela que se inserida, deixa o menor tempo acumulado em sua maquina
 	 */
