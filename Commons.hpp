@@ -1,7 +1,7 @@
 #ifndef COMMONS_HPP
 #define COMMONS_HPP
 
-#define INF 99999999;
+#define INF 99999999
 
 #include <iostream>
 #include <vector>
@@ -11,6 +11,11 @@ using namespace std;
 
 //Total Weighted Tardiness Job-Shop Scheduling
 namespace twtjssp{
+
+	enum NodeType{GHOST, BEGIN, INTERNO};
+	
+	// CONJUNCAO => e
+	// DISJUNCAO => ou
 
 	struct Schedule{
 		int job;
@@ -33,6 +38,48 @@ namespace twtjssp{
 			task = t;
 			time_execution = tm;
 		}
+	};
+	
+	struct Node{
+		int job;
+		int operation;
+		int index;
+		NodeType type;
+
+		Node(){
+			job = operation = -1;
+		}
+
+		Node(int j, int o, int i, NodeType tp){
+			this->job = j;
+			this->index = i;
+			this->operation = o;
+			this->type = tp;
+		}
+
+	};
+
+	struct Edge{
+		Node source;
+		Node destination;
+		int weight;
+
+		Edge(){
+			weight = -1;
+		}
+
+		Edge(Node src, Node dest, int wght){
+			this->source = src;
+			this->destination = dest;
+			this->weight = wght;
+		}
+	};
+
+	struct Graph{
+		int nVertex;
+		int nEdges;
+
+		vector<Edge> edges;
 	};
 
 	struct JobTask{

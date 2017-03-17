@@ -112,6 +112,10 @@ std::vector<int> ProblemInstance::get_due_times(){
 	return this->due_times;
 }
 
+int ProblemInstance::get_due_times(int job){
+	return this->due_times[job];
+}
+
 ScheduleMatrix ProblemInstance::get_vec_schedules(){
 	return this->vec_schedules;
 }

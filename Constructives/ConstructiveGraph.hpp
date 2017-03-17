@@ -1,0 +1,30 @@
+#ifndef CONSTRUCTIVE_GRAPH_HPP
+#define CONSTRUCTIVE_GRAPH_HPP
+
+#include "../Commons.hpp"
+#include "../ProblemInstance.hpp"
+#include "Grasp.hpp"
+
+#define GHOSTNODES 2
+#define INITNODE 1
+
+class ConstructiveGraph{
+    
+    public:
+        ConstructiveGraph();
+        void construct();
+
+        void bellmanFord();
+
+        void print();
+        void setInstance(ProblemInstance);
+
+    private:
+        Graph graph;
+        ProblemInstance instance;
+
+        int vertexPerJob;
+
+};
+
+#endif

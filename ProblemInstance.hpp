@@ -26,6 +26,7 @@ public:
 	string get_instance_name();
 	std::vector<int> get_vec_priorities();
 	std::vector<int> get_due_times();
+	int get_due_times(int);
 	ScheduleMatrix get_vec_schedules();
 	Schedule get_vec_schedules(int job, int task);
 
