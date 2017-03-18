@@ -63,6 +63,7 @@ namespace twtjssp{
 		Node source;
 		Node destination;
 		int weight;
+		int index;
 
 		Edge(){
 			weight = -1;
@@ -73,6 +74,13 @@ namespace twtjssp{
 			this->destination = dest;
 			this->weight = wght;
 		}
+
+		void invertWay(){
+			Node aux = destination;
+			destination = source;
+			source = aux;
+		}
+
 	};
 
 	struct Graph{

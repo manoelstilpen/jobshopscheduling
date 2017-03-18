@@ -139,7 +139,7 @@ Solution Grasp::apply_grasp2(){
 
 			vector<Custo> custos;
 			for(int j=0 ; j<jobs_temp.size() ; j++){
-				 // Retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
+				// Retorna o tempo de execucao caso o job fosse inserido, considerando tambem as prioridades
 				custos.push_back(Custo(jobs_temp[j][0].job, jobs_temp[j][0].task, j, evaluator.analisa_job(jobs[j][0], solution, alpha)));
 			}
 

@@ -52,7 +52,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	//instance.print();
+	instance.print();
 
 	int nJobs = instance.get_num_jobs();
 	int nTasks = instance.get_num_tasks();
