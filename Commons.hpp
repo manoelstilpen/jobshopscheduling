@@ -13,6 +13,7 @@ using namespace std;
 namespace twtjssp{
 
 	enum NodeType{GHOST, BEGIN, INTERNO};
+	enum EdgeType{CONJUNTIVO, DISJUNTIVO};
 	
 	// CONJUNCAO => e
 	// DISJUNCAO => ou

@@ -8,6 +8,9 @@
 #define GHOSTNODES 2
 #define INITNODE 1
 
+// CONJUNCAO => e
+// DISJUNCAO => ou
+
 class ConstructiveGraph{
     
     public:

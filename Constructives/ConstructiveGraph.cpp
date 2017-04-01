@@ -34,7 +34,7 @@ void ConstructiveGraph::construct(){
             jobAtual++;
             vertexAtual = -1;
         } 
-        else 
+        else
         {
             if(vertexAtual == -1)
             { // inicio de um job, cria o node inicial
@@ -66,41 +66,43 @@ void ConstructiveGraph::construct(){
 
 //    this->print();
 
+    // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
+    // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
+    cout << endl;
     Grasp grasp(instance, 0.5);
     Solution initialSolution = grasp.apply_grasp2();
+    grasp.print();
 
-    for(int i=0 ; i<instance.get_num_machines() ; i++)
+    // criando grafo disjuntivo
+    for(int i=0 ; i<initialSolution.size() ; i++)
     {
         for(int j=0 ; j<initialSolution[i].size() ; j++)
         {
-            Edge edge;
-            edge.index = index;
-            index++;
 
-            Schedule source;
             Schedule dest;
+            Schedule source = initialSolution[i][j];
 
-            if(j == initialSolution[i].size()-1)
+            for(int k=j+1 ; k<initialSolution[i].size() ; k++)
             {
-                source = initialSolution[i][0];
-                dest = initialSolution[i][j];
-            }
-            else
-            {
-                source = initialSolution[i][j];
-                dest = initialSolution[i][j+1];
-            }
+                Edge edge;
+                edge.index = index;
+                index++; 
 
-            edge.source = Node(source.job, source.task, vertexPerJob*source.job+source.task+1, NodeType::INTERNO);
-            edge.destination = Node(dest.job, dest.task, vertexPerJob*dest.job+dest.task+1, NodeType::INTERNO);
-            edge.weight = instance.get_vec_schedules(source.job, source.task).time_execution;
+                dest = initialSolution[i][k];
 
-            graph.edges.push_back(edge);
+                edge.source = Node(source.job, source.task, vertexPerJob*source.job+source.task+1, NodeType::INTERNO);
+                edge.destination = Node(dest.job, dest.task, vertexPerJob*dest.job+dest.task+1, NodeType::INTERNO);
+                edge.weight = instance.get_vec_schedules(source.job, source.task).time_execution;
+
+                graph.edges.push_back(edge);
+            }
         }
     }
 
-    //cout << endl;
-    //this->print();
+    cout << endl;
+    this->print();
+
+    /*
 
     vector<vector<Edge>> couldMove(nJobs);
     for(int i=0 ; i<nJobs ; i++)
@@ -131,15 +133,16 @@ void ConstructiveGraph::construct(){
         cout << endl;
     }
 
-/*    graph.edges[couldMove[0].index].invertWay();
-    graph.edges[couldMove[0].index].weight = instance.get_vec_schedules(couldMove[0].destination.job, couldMove[0].destination.operation).time_execution;
+    graph.edges[couldMove[2][0].index].invertWay();
+    graph.edges[couldMove[2][0].index].weight = instance.get_vec_schedules(couldMove[2][0].destination.job, couldMove[2][0].destination.operation).time_execution;
 
     cout << "DEPOIS MOVIMENTO: " << endl << endl;
-//    this->print();
+    //this->print();
 
     for(int i=0 ; i<3 ; i++){
         bellmanFord(i);
-    }*/
+    }
+    */
 
 }   
 
@@ -179,7 +182,8 @@ vector<Edge> ConstructiveGraph::bellmanFord(int job){
 		}
 	}
 
- //   printDistances(dist, nVertices);
+    cout << "DISTANCES:" << endl;   
+    printDistances(dist, nVertices);
 
     vector<Edge> criticalPath;
     int i = (job+1)*vertexPerJob;
@@ -189,6 +193,7 @@ vector<Edge> ConstructiveGraph::bellmanFord(int job){
         i = caminhoEdge[i].source.index;
     }
 
+    cout << "CAMINHO CRITICO:" << endl;
 	for(int i=0 ; i<criticalPath.size() ; i++){
 		cout << i << ": (" << criticalPath[i].source.index << " " << criticalPath[i].destination.index << "), ";
 	}
