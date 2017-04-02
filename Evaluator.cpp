@@ -26,6 +26,7 @@ int Evaluator::evaluate_solution(Solution solution){
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
 	expectedTimes = this->instance.get_due_times();
 	vector<int> priorities = this->instance.get_vec_priorities();
+
 	realTimes.resize(nJobs);
 	vector<int> tardiness(nJobs);
 
@@ -33,7 +34,7 @@ int Evaluator::evaluate_solution(Solution solution){
 
 	for(int i=0 ; i<nJobs ; i++){
 		int lastMachine = jobs[i][nTasks-1].machine;
-		for(int j=0 ; j<nTasks ; j++){
+		for(int j=0 ; j<nJobs ; j++){
 			if(solution[lastMachine][j].job == i){
 				realTimes[i] = (solution[lastMachine][j].time_execution);
 				tardiness[i] = realTimes[i] - expectedTimes[i];

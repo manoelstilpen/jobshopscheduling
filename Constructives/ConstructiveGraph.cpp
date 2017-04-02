@@ -68,7 +68,6 @@ void ConstructiveGraph::construct(){
 
     // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
-    cout << endl;
     Grasp grasp(instance, 0.5);
     Solution initialSolution = grasp.apply_grasp2();
     grasp.print();
@@ -98,31 +97,29 @@ void ConstructiveGraph::construct(){
             }
         }
     }
-
+/*
     cout << endl;
     this->print();
-
-    /*
-
+*/
+    vector<vector<Edge>> criticalPath = this->bellmanFord();
     vector<vector<Edge>> couldMove(nJobs);
+
     for(int i=0 ; i<nJobs ; i++)
     {
-        vector<Edge> criticalPath = this->bellmanFord(i);
-
-        if(criticalPath.size() > 1)
+        if(criticalPath[i].size() > 1)
         {
-            for(int j=0 ; j<criticalPath.size() ; j++)
+            for(int j=0 ; j<criticalPath[i].size() ; j++)
             {
-                if(criticalPath[j].source.job != criticalPath[j].destination.job && 
-                    criticalPath[j].source.job != -1 && criticalPath[j].destination.job != -1)
+                if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
+                    criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
                 {
-                    couldMove[i].push_back(criticalPath[j]);
+                    couldMove[i].push_back(criticalPath[i][j]);
                 }
             }
         }
     }
 
- //   this->print();
+//   this->print();
 
     cout << "ARESTAS QUE PODEM MOVER: " << endl;
     for(int i=0 ; i<couldMove.size() ; i++){
@@ -133,20 +130,16 @@ void ConstructiveGraph::construct(){
         cout << endl;
     }
 
-    graph.edges[couldMove[2][0].index].invertWay();
-    graph.edges[couldMove[2][0].index].weight = instance.get_vec_schedules(couldMove[2][0].destination.job, couldMove[2][0].destination.operation).time_execution;
+    graph.edges[couldMove[0][0].index].invertWay();
+    graph.edges[couldMove[0][0].index].weight = instance.get_vec_schedules(couldMove[0][0].destination.job, couldMove[0][0].destination.operation).time_execution;
 
     cout << "DEPOIS MOVIMENTO: " << endl << endl;
     //this->print();
 
-    for(int i=0 ; i<3 ; i++){
-        bellmanFord(i);
-    }
-    */
-
+    bellmanFord();
 }   
 
-vector<Edge> ConstructiveGraph::bellmanFord(int job){
+vector<vector<Edge>> ConstructiveGraph::bellmanFord(){
     int nVertices = graph.nVertex;
     int nArestas = graph.edges.size();
 
@@ -157,9 +150,6 @@ vector<Edge> ConstructiveGraph::bellmanFord(int job){
 		dist[i] = -INF;
 
 	dist[0] = 0;
-
-	vector<Node> caminho;
-	caminho.resize(nVertices);
 
     vector<Edge> caminhoEdge;
     caminhoEdge.resize(nVertices);
@@ -175,7 +165,6 @@ vector<Edge> ConstructiveGraph::bellmanFord(int job){
             Node vertDestino = (graph.edges[j].destination);
 			int weight = graph.edges[j].weight;
 			if (dist[vertOrigem.index] != -INF && dist[vertOrigem.index] + weight > dist[vertDestino.index]){
-				caminho[vertDestino.index] = (vertOrigem);
                 caminhoEdge[vertDestino.index] = graph.edges[j];
 				dist[vertDestino.index] = dist[vertOrigem.index] + weight;
 			}
@@ -185,19 +174,25 @@ vector<Edge> ConstructiveGraph::bellmanFord(int job){
     cout << "DISTANCES:" << endl;   
     printDistances(dist, nVertices);
 
-    vector<Edge> criticalPath;
-    int i = (job+1)*vertexPerJob;
-    while(i != 0)
-    {
-        criticalPath.push_back(caminhoEdge[i]);
-        i = caminhoEdge[i].source.index;
+    vector<vector<Edge>> criticalPath(instance.get_num_jobs());
+    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
+
+        int i = (job+1)*vertexPerJob;
+        while(i != 0)
+        {
+            criticalPath[job].push_back(caminhoEdge[i]);
+            i = caminhoEdge[i].source.index;
+        }
     }
 
     cout << "CAMINHO CRITICO:" << endl;
 	for(int i=0 ; i<criticalPath.size() ; i++){
-		cout << i << ": (" << criticalPath[i].source.index << " " << criticalPath[i].destination.index << "), ";
+        cout << i << ": ";
+        for(int j=0 ; j<criticalPath[i].size() ; j++){
+            cout << "(" << criticalPath[i][j].source.index << " " << criticalPath[i][j].destination.index << "), ";
+        }
+        cout << endl;
 	}
-	cout << endl;
 
     return criticalPath;
 }

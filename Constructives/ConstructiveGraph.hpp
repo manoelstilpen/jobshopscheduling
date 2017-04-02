@@ -17,7 +17,7 @@ class ConstructiveGraph{
         ConstructiveGraph();
         void construct();
 
-        vector<Edge> bellmanFord(int);
+        vector<vector<Edge>> bellmanFord();
 
         void print();
         void printDistances(int dist[], int n);
