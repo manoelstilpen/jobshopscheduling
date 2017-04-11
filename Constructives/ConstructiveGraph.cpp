@@ -69,10 +69,11 @@ void ConstructiveGraph::construct(){
     // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
     Grasp grasp(instance, 0.5);
-    Solution initialSolution = grasp.apply_grasp2();
+//    Solution initialSolution = grasp.apply_grasp2();
+    Solution initialSolution = grasp.apply();
     grasp.print();
 
-    // criando grafo disjuntivo
+    // criando grafo disjuntivo atraves do sequenciamento gerado pelo grasp
     for(int i=0 ; i<initialSolution.size() ; i++)
     {
         for(int j=0 ; j<initialSolution[i].size() ; j++)
@@ -97,10 +98,10 @@ void ConstructiveGraph::construct(){
             }
         }
     }
-/*
+
     cout << endl;
     this->print();
-*/
+
     vector<vector<Edge>> criticalPath = this->bellmanFord();
     vector<vector<Edge>> couldMove(nJobs);
 
@@ -130,13 +131,80 @@ void ConstructiveGraph::construct(){
         cout << endl;
     }
 
-    graph.edges[couldMove[0][0].index].invertWay();
-    graph.edges[couldMove[0][0].index].weight = instance.get_vec_schedules(couldMove[0][0].destination.job, couldMove[0][0].destination.operation).time_execution;
+    graph.edges[couldMove[3][0].index].invertWay();
+    graph.edges[couldMove[3][0].index].weight = instance.get_vec_schedules(couldMove[3][0].destination.job, couldMove[3][0].destination.operation).time_execution;
 
-    cout << "DEPOIS MOVIMENTO: " << endl << endl;
     //this->print();
 
-    bellmanFord();
+////////////////////////////////////////////////////////////////////
+/*
+    criticalPath = bellmanFord();
+
+     for(int i=0 ; i<nJobs ; i++)
+    {
+        couldMove[i].clear();
+        if(criticalPath[i].size() > 1)
+        {
+            for(int j=0 ; j<criticalPath[i].size() ; j++)
+            {
+                if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
+                    criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
+                {
+                    couldMove[i].push_back(criticalPath[i][j]);
+                }
+            }
+        }
+    }
+
+//   this->print();
+
+    cout << "ARESTAS QUE PODEM MOVER: " << endl;
+    for(int i=0 ; i<couldMove.size() ; i++){
+        cout << "Job " << i << ": ";
+        for(int j=0 ; j<couldMove[i].size() ; j++){
+            cout << "(" << couldMove[i][j].source.index << " " << couldMove[i][j].destination.index << "), ";
+        }
+        cout << endl;
+    }
+
+    graph.edges[couldMove[1][0].index].invertWay();
+    graph.edges[couldMove[1][0].index].weight = instance.get_vec_schedules(couldMove[1][0].destination.job, couldMove[1][0].destination.operation).time_execution;
+
+    cout << "DEPOIS MOVIMENTO: " << endl << endl;
+
+    /////////////////////////////////////////////////////////////////////////
+
+    criticalPath = bellmanFord();
+
+     for(int i=0 ; i<nJobs ; i++)
+    {
+        couldMove[i].clear();
+        if(criticalPath[i].size() > 1)
+        {
+            for(int j=0 ; j<criticalPath[i].size() ; j++)
+            {
+                if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
+                    criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
+                {
+                    couldMove[i].push_back(criticalPath[i][j]);
+                }
+            }
+        }
+    }
+
+//   this->print();
+
+    cout << "ARESTAS QUE PODEM MOVER: " << endl;
+    for(int i=0 ; i<couldMove.size() ; i++){
+        cout << "Job " << i << ": ";
+        for(int j=0 ; j<couldMove[i].size() ; j++){
+            cout << "(" << couldMove[i][j].source.index << " " << couldMove[i][j].destination.index << "), ";
+        }
+        cout << endl;
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+*/
 }   
 
 vector<vector<Edge>> ConstructiveGraph::bellmanFord(){

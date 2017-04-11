@@ -51,7 +51,7 @@ Solution ConstructiveGreedy::generate_solution(){
 						int sizeLC = ceil(this->alpha * tasks.size()); // ceil -> rounds up
 						int randomized = rand() % sizeLC;			
 						//cout << sizeLC << " " << randomized << endl;
-						machines = aloca_tarefa(&machines, &(this->jobs), tasks[randomized]);
+						machines.aloca_tarefa(tasks[randomized]);
 						tasks.erase(tasks.begin() + randomized);
 					}
 				}

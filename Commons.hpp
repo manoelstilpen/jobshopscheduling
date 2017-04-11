@@ -9,7 +9,7 @@
 
 using namespace std;
 
-//Total Weighted Tardiness Job-Shop Scheduling
+//Total Weighted Tardiness Job-Shop Scheduling Problem
 namespace twtjssp{
 
 	enum NodeType{GHOST, BEGIN, INTERNO};
@@ -111,7 +111,6 @@ namespace twtjssp{
 	};
 
 	typedef vector<vector<Schedule>> ScheduleMatrix;
-	typedef vector< vector<Schedule>>  Solution;
 
 	static bool compara_tempo(Schedule p1, Schedule p2) {
 		return p1.time_execution < p2.time_execution;
@@ -121,23 +120,9 @@ namespace twtjssp{
 		return p1.task < p2.task;
 	}
 
-	inline void print_solution(Solution sol){
-		for(int i=0 ; i<sol.size() ; i++){
-			cout << "MACHINE " << i << ": ";
-			for(int j=0 ; j<sol[i].size() ; j++){
-				cout << "(" << sol[i][j].job << "," << sol[i][j].task << "," << sol[i][j].time_execution << ") - ";
-			}
-			cout << endl;
-		}
-		cout << "==========================================================================================" << endl;
-	}
-
 	inline void print_schedule(Schedule s){
 		cout << "(" << s.job << "," << s.task << "," << s.machine << "," << s.time_execution << ") - ";
 	}
-
-	Solution aloca_tarefa(Solution* solution, ScheduleMatrix* jobs, Schedule tarefa);
-
 }
 
 #endif

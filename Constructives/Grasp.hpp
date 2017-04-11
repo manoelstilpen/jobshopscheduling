@@ -1,49 +1,26 @@
-#ifndef GRASP
-#define GRASP
+#ifndef GRASP_HPP
+#define GRASP_HPP
 
+#include "Constructive.hpp"
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
-#include "../Evaluator.hpp"
-
-#include <algorithm>  // sort
 
 using namespace twtjssp;
 
-class Grasp{
+class Grasp : public Constructive {
 
 public:
-	Grasp();
-	Grasp(ProblemInstance instance, double alpha);
+    Grasp();
+    Grasp(ProblemInstance instance, double _alpha = 0);
 
-	Solution apply_grasp1();
-	Solution apply_grasp2();
-	Solution grasp_SPRT();
+    virtual Solution apply();
+    virtual float define_priority(Schedule op);
 
-	float analisa_manoel(Schedule tarefa);
-	float analisa_prioridade(Schedule tarefa);
-	float analisa_mod(Schedule tarefa);
+protected:
 
-	void set_alpha(double);
-	void set_instance(ProblemInstance);
-	void set_repeat(int);
+    double alpha;
 
-	int get_atraso();
-
-	void print();
-	void print_graph();
-	void print_partial();
-
-private:
-	ProblemInstance instance;
-	ScheduleMatrix jobs;
-	Solution solution;
-	Evaluator evaluator;
-
-	double alpha;
-	int repeat;
-	int media_atraso;
-
-	struct Custo{
+    struct Custo{
 		int job;
 		int task;
 		int indice;

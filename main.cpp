@@ -1,8 +1,8 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
 #include "Constructives/Constructives.hpp"
-#include "DeltaMoves/DeltaMoveExchange.hpp"
-#include "DeltaMoves/DeltaMoveOpt1.hpp"
+//#include "DeltaMoves/DeltaMoveExchange.hpp"
+//#include "DeltaMoves/DeltaMoveOpt1.hpp"
 #include "Evaluator.hpp"
 
 #include <stdlib.h>     /* atof */
@@ -58,9 +58,13 @@ int main(int argc, char** argv){
 	int nTasks = instance.get_num_tasks();
 	int nMachines = instance.get_num_machines();
 
-	ConstructiveGraph cGraph;
+	Grasp grasp(instance);
+	grasp.apply();
+	grasp.print();
+
+/*	ConstructiveGraph cGraph;
 	cGraph.setInstance(instance);
-	cGraph.construct();
+	cGraph.construct();*/
 
 
 /*

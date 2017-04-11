@@ -11,6 +11,11 @@ using namespace twtjssp;
 class ProblemInstance{
 
 public:
+
+	vector<Schedule> operator[](const int& i){
+		return vec_schedules[i];		
+	}
+
 	ProblemInstance();
 	ProblemInstance(std::string);
 

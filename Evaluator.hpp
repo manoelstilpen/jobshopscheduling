@@ -2,15 +2,16 @@
 #define EVALUATOR
 
 #include "Commons.hpp"
+#include "Solution.hpp"
 #include "ProblemInstance.hpp"
 
 class Evaluator{
 public:
 	Evaluator();
 	Evaluator(ProblemInstance p);
-	Evaluator(Solution s, ProblemInstance p);
 
 	int evaluate_solution(Solution);
+
 	int analisa_job(Schedule, Solution, float);
 	int analisa_machine(Schedule, Solution);
 	bool testa_solucao(Solution);
