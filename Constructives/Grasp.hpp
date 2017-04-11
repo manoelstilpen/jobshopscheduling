@@ -16,6 +16,8 @@ public:
     virtual Solution apply();
     virtual float define_priority(Schedule op);
 
+    float valor_grasp(int min, int max);
+
 protected:
 
     double alpha;
