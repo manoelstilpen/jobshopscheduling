@@ -7,20 +7,24 @@
 
 using namespace twtjssp;
 
+/**
+ * Class used to define a GRASP method, you can override his methods to create your own grasp
+ */
+
 class Grasp : public Constructive {
 
 public:
     Grasp();
     Grasp(ProblemInstance instance, double _alpha = 0);
 
-    virtual Solution apply();
-    virtual float define_priority(Schedule op);
+    virtual Solution apply();                   /*!< applies the grasp method */
+    virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
 
-    float valor_grasp(int min, int max);
+    float valor_grasp(int min, int max);        /*!< returns the value which defines the operation's restrict list */
 
 protected:
 
-    double alpha;
+    double alpha;   /*!< defines how greedy will be your grasp  */
 
     struct Custo{
 		int job;

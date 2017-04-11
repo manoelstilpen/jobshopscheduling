@@ -13,7 +13,7 @@ Grasp::Grasp(ProblemInstance instance, double _alpha) :
 Solution Grasp::apply(){
     /*
 	 * GRASP CONSTRUCTIVE
-	 * GRASP MOD
+	 * GRASP MOD 
 	 */
 
 	srand(time(NULL));
