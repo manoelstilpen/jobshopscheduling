@@ -195,7 +195,7 @@ bool Evaluator::testa_solucao(Solution solution){
 
 					if(tempoInicio < timeLast || tempoInicio < timeAtual){
 						cout << "ERRO NA SOLUCAO!!!" << endl;
-	//					cout << i << " " << j << endl;
+						cout << i << " " << j << endl;
 						return false;
 					}
 					timeLast = solution[machine][k].time_execution;

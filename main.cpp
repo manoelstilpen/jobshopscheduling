@@ -58,7 +58,7 @@ int main(int argc, char** argv){
 	int nTasks = instance.get_num_tasks();
 	int nMachines = instance.get_num_machines();
 
-	Grasp grasp(instance);
+	ConstructiveGreedy grasp(instance);
 	grasp.apply();
 	grasp.print();
 

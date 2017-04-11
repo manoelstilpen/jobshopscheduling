@@ -101,5 +101,5 @@ float Grasp::define_priority(Schedule op){
 }
 
 float Grasp::valor_grasp(int min, int max){
-    return (maior - this->alpha*(maior-menor));
+    return (max - this->alpha*(max-min));
 }

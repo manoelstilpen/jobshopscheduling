@@ -11,22 +11,20 @@
 // CONJUNCAO => e
 // DISJUNCAO => ou
 
-class ConstructiveGraph{
+class ConstructiveGraph : public Constructive{
     
     public:
         ConstructiveGraph();
-        void construct();
+        ConstructiveGraph(ProblemInstance);
+        virtual Solution apply();
 
         vector<vector<Edge>> bellmanFord();
 
-        void print();
+        virtual void print();
         void printDistances(int dist[], int n);
-        void setInstance(ProblemInstance);
 
     private:
         Graph graph;
-        ProblemInstance instance;
-
         int vertexPerJob;
 
 };

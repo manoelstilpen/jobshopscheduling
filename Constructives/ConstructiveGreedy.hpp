@@ -4,6 +4,7 @@
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 #include "../Evaluator.hpp"
+#include "Constructive.hpp"
 
 #include <iostream>
 #include <algorithm>  // sort
@@ -11,32 +12,20 @@
 
 using namespace twtjssp;
 
-class ConstructiveGreedy{
+class ConstructiveGreedy : public Constructive{
 
 public:
 
 	ConstructiveGreedy();
-	ConstructiveGreedy(ProblemInstance p, double alpha);
+	ConstructiveGreedy(ProblemInstance p, double alpha = 0.5);
 
-	Solution generate_solution();
-
-	void set_instance(ProblemInstance);
-	void set_repeat(int);
-
-	int get_atraso();
-
-	void print();
-	void print_graph();
+	virtual Solution apply();
+	virtual void print_graph();
 
 private:
-	ProblemInstance instance;
-	Solution machines;
-	ScheduleMatrix jobs;
-	Evaluator evaluator;
 
 	double alpha;
-	int repeat;
-	int media_atraso;
+
 };
 
 #endif

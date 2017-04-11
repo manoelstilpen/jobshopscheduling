@@ -1,15 +1,15 @@
 #include "ConstructiveGraph.hpp"
 
-ConstructiveGraph::ConstructiveGraph(){
+ConstructiveGraph::ConstructiveGraph() : Constructive(){
 
 }
 
-void ConstructiveGraph::construct(){
-    ScheduleMatrix schedules = instance.get_vec_schedules();
-    int nJobs = instance.get_num_jobs();
-    int nOperations = instance.get_num_tasks();
+ConstructiveGraph::ConstructiveGraph(ProblemInstance p) : Constructive(p){
 
-    vertexPerJob = nOperations + GHOSTNODES;
+}
+
+Solution ConstructiveGraph::apply(){
+    this->vertexPerJob = nOperations + GHOSTNODES;
 
     // quantidade de operacoes + nodos finais(2) + no inicial(1)
     graph.nVertex = (nOperations+GHOSTNODES)*nJobs + INITNODE;
@@ -49,7 +49,7 @@ void ConstructiveGraph::construct(){
                 if(vertexAtual < nOperations)
                 {
                     // caso for um vertice pertencente a sequencia do job
-                    edge.weight = schedules[jobAtual-1][vertexAtual].time_execution;
+                    edge.weight = instance[jobAtual-1][vertexAtual].time_execution;
                 }
                 else 
                 {
@@ -92,7 +92,7 @@ void ConstructiveGraph::construct(){
 
                 edge.source = Node(source.job, source.task, vertexPerJob*source.job+source.task+1, NodeType::INTERNO);
                 edge.destination = Node(dest.job, dest.task, vertexPerJob*dest.job+dest.task+1, NodeType::INTERNO);
-                edge.weight = instance.get_vec_schedules(source.job, source.task).time_execution;
+                edge.weight = instance[source.job][source.task].time_execution;
 
                 graph.edges.push_back(edge);
             }
@@ -278,8 +278,4 @@ void ConstructiveGraph::printDistances(int dist[], int n){
 	for (int i = 0; i < n; ++i)
 		printf("%d \t\t %d\n", i, dist[i]);
 
-}
-
-void ConstructiveGraph::setInstance(ProblemInstance i){
-    this->instance = i;
 }

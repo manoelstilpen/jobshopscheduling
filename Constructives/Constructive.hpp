@@ -42,8 +42,12 @@ class Constructive {
             evaluator.print();
         }
 
+        virtual void print_graphic(){
+            cout << this->media_atraso << endl;
+        }
+
         void set_repeat(int t){ this->repeat = t;}
-        int get_media_atraso(){ return this->media_atraso;}
+        int get_atraso(){ return this->media_atraso;}
         
     protected:
         Solution solution;
