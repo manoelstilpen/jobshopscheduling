@@ -8,6 +8,8 @@ Grasp::Grasp(ProblemInstance instance, double _alpha) :
     Constructive(instance),
     alpha(_alpha){
 
+		define_function();
+
 }
 
 Solution Grasp::apply(){
@@ -31,9 +33,9 @@ Solution Grasp::apply(){
 
 			vector<Custo> custos;
 			for(int j=0 ; j<jobs_temp.size() ; j++){
-				 // avalia a prioridade daquela operacao
+				 // avalia a prioridade das operacoes candidatas
 				custos.push_back(Custo
-                    (jobs_temp[j][0].job, jobs_temp[j][0].task, j, define_priority(jobs_temp[j][0])));
+                    (jobs_temp[j][0].job, jobs_temp[j][0].task, j, priority_func(jobs_temp[j][0])));
 			}
 
 			// Analise de qual é o menor custo do grasp
@@ -80,26 +82,30 @@ Solution Grasp::apply(){
 	return solution;
 }
 
-float Grasp::define_priority(Schedule op){
-    // max (t+p(i,j), d(i,j))
-	int mod;
-	int quant_tarefas = solution[op.machine].size();
-	int processTime = this->instance[op.job][op.task].time_execution;
-	int due_date = this->instance.get_due_times()[op.job];
+void Grasp::define_function(){
+	// defines the function for mod rule
 
-	if(quant_tarefas == 0){
-		mod = processTime;
-	} else {
-		mod = processTime + solution[op.machine][quant_tarefas-1].time_execution;
-	}
+	this->priority_func = [this](Schedule op) {
+		// max (t+p(i,j), d(i,j))
+		int mod;
+		int quant_tarefas = solution[op.machine].size();
+		int processTime = this->instance[op.job][op.task].time_execution;
+		int due_date = this->instance.get_due_times()[op.job];
 
-	if(due_date > mod){
-		mod = due_date;
-	}
+		if(quant_tarefas == 0){
+			mod = processTime;
+		} else {
+			mod = processTime + solution[op.machine][quant_tarefas-1].time_execution;
+		}
 
-	return mod;
+		if(due_date > mod){
+			mod = due_date;
+		}
+
+		return mod;
+	};
 }
 
-float Grasp::valor_grasp(int min, int max){
-    return (max - this->alpha*(max-min));
+float Grasp::valor_grasp(float min, float max){
+    return (float) (min + this->alpha*(max-min));
 }

@@ -5,6 +5,8 @@
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 
+#include <functional>
+
 using namespace twtjssp;
 
 /**
@@ -18,13 +20,16 @@ public:
     Grasp(ProblemInstance instance, double _alpha = 0);
 
     virtual Solution apply();                   /*!< applies the grasp method */
-    virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
+//    virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
 
-    float valor_grasp(int min, int max);        /*!< returns the value which defines the operation's restrict list */
+    float valor_grasp(float min, float max);        /*!< returns the value which defines the operation's restrict list */
 
 protected:
 
+	std::function<float(Schedule)> priority_func; 
     double alpha;   /*!< defines how greedy will be your grasp  */
+
+	virtual void define_function();
 
     struct Custo{
 		int job;
