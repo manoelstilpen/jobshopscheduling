@@ -8,14 +8,14 @@
 
 int main(int argc, char** argv){
 
-	int opt;
 //	string instance_name = "abz5_f13.txt";
 //	string instance_name = "instance.txt";
 	string instance_name = "bierwirth.txt";
-	double alpha_grasp = 0.5;
+	double alpha_grasp = 0;
 	int repeat = 1;
-	string modo = "grasp2";
+	string modo = "sprt";
 
+	int opt;
 	while ((opt = getopt(argc, argv, "i:a:m:r:")) != -1) {
 		switch(opt){
 			case 'i':{
@@ -50,44 +50,30 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+	//instance.print();
 
-	int nJobs = instance.get_num_jobs();
-	int nTasks = instance.get_num_tasks();
-	int nMachines = instance.get_num_machines();
-
-	GraspSPRT grasp(instance, 1);
-	grasp.apply();
-	grasp.print();
-
-/*	ConstructiveGraph cGraph;
-	cGraph.setInstance(instance);
-	cGraph.construct();*/
-
-
-/*
-	if(modo.compare("grasp1") == 0){
-		Grasp grasp(instance, alpha_grasp);
+	if(modo.compare("sprt") == 0){
+		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
-		solution = grasp.apply_grasp1();
+		solution = grasp.apply();
 
-		grasp.print_graph();
+		grasp.print_graphic();
 		grasp.print();
-	} else if(modo.compare("sprt") == 0){		
-		Grasp grasp(instance, alpha_grasp);
+	} else if(modo.compare("priority") == 0){		
+		GraspPriority grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
-		solution = grasp.grasp_SPRT();
+		solution = grasp.apply();
 
-		grasp.print_graph();
+		grasp.print_graphic();
 		//grasp.print();
-	} else if(modo.compare("grasp2") == 0){
+	} else if(modo.compare("mod") == 0){
 		Grasp grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
-		solution = grasp.apply_grasp2();
+		solution = grasp.apply();
 
-		grasp.print_graph();
+		grasp.print_graphic();
 		grasp.print();
 	}
-*/
+
 	return 0;
 }

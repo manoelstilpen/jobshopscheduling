@@ -19,17 +19,20 @@ public:
     Grasp();
     Grasp(ProblemInstance instance, double _alpha = 0);
 
-    virtual Solution apply();                   /*!< applies the grasp method */
-//    virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
-
-    float valor_grasp(float min, float max);        /*!< returns the value which defines the operation's restrict list */
+	virtual Solution apply();	/*!< applies the grasp method */
+	virtual void print_graphic();
 
 protected:
 
-	std::function<float(Schedule)> priority_func; 
-    double alpha;   /*!< defines how greedy will be your grasp  */
+	ScheduleMatrix jobs_temp; 	/*!< temporary variable */
+	vector<int> restricts; 		/*!< restricts operations */
+    double alpha;   			/*!< defines how greedy will be your grasp  */
 
-	virtual void define_function();
+	virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
+	virtual int choose_schedule();
+    virtual float valor_grasp(float min, float max);  /*!< returns the value which defines the operation's restrict list */
+	void remove_choosed_schedule(int index);
+
 
     struct Custo{
 		int job;

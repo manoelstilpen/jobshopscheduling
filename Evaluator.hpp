@@ -12,15 +12,12 @@ public:
 
 	int evaluate_solution(Solution);
 
-	int analisa_job(Schedule, Solution, float);
-	int analisa_machine(Schedule, Solution);
 	bool testa_solucao(Solution);
 
 	void set_instance(ProblemInstance);
 	void set_solution(Solution);
 
 	void print();
-	void print_graph();
 
 private:
 	ProblemInstance instance;

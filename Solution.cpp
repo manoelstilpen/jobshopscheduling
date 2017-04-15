@@ -68,6 +68,32 @@ void Solution::aloca_tarefa(Schedule tarefa){
     }
 }
 
+int Solution::time_can_be_alocated(Schedule op){
+    // retorna o tempo que a operacao pode ser inicializada
+    
+    // tempo atual da maquina da operacao op
+    int timeMachine = [&]() {
+        if(solution[op.machine].size() == 0) return 0;
+        else return solution[op.machine].back().time_execution;
+    }();
+    
+    // tempo de termino da ultima operacao 
+    int lastOperation = [&]() {
+        if(op.task == 0) return 0;
+
+        int lastMachine = instance[op.job][op.task-1].machine;
+        for(Schedule i : solution[lastMachine]){
+            if(i.job == op.job){
+                return i.time_execution;
+            }
+        }
+
+        return 0;
+    }();
+
+    return max(timeMachine, lastOperation);
+}
+
 int Solution::size(){
     return this->solution.size();
 }
@@ -82,13 +108,17 @@ void Solution::resize(int i){
     this->solution.resize(i);
 }
 
-inline void print_solution(Solution sol){
-    for(int i=0 ; i<sol.size() ; i++){
+inline void Solution::print_solution(){
+    for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
-        for(int j=0 ; j<sol[i].size() ; j++){
-            cout << "(" << sol[i][j].job << "," << sol[i][j].task << "," << sol[i][j].time_execution << ") - ";
+        for(int j=0 ; j<solution[i].size() ; j++){
+            cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;
     }
     cout << "==========================================================================================" << endl;
+}
+
+inline void Solution::print_graphic(){
+
 }

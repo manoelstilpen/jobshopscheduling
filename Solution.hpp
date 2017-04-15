@@ -20,14 +20,16 @@ class Solution {
 
         Solution();
         Solution(ProblemInstance);
-
+ 
         void aloca_tarefa(Schedule tarefa);
+        int time_can_be_alocated(Schedule); /*!< returm the instant the schedule can be allocated */
 
         int size();
         void clear();
         void resize(int i);
 
-        inline void print_solution(Solution sol);
+        inline void print_solution();
+        inline void print_graphic();
 
     private:
         ProblemInstance instance;

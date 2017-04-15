@@ -21,14 +21,10 @@ bool ProblemInstance::load_instance(){
 	}
 
 	file >> this->instance_name;
-	file >> this->num_machines;
 	file >> this->num_jobs;
+	file >> this->num_tasks;	
 
-	if(file.peek() != '\n'){
-		file >> this->num_tasks;	
-	} else {
-		this->num_tasks = this->num_jobs;
-	}
+	this->num_machines = this->num_tasks;
 
 	this->vec_schedules.resize(this->num_jobs);
 	this->vec_priorities.resize(this->num_jobs);

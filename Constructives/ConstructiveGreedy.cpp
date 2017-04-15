@@ -10,6 +10,11 @@ ConstructiveGreedy::ConstructiveGreedy(ProblemInstance p, double alpha) : Constr
 }
 
 Solution ConstructiveGreedy::apply(){
+
+/*
+ * NAO ESTA FUNCIONANDO. A INSERCAO PARA ESTE CASO NAO FUNCIONA
+ */
+
 	srand(time(NULL));
 
 	this->media_atraso = 0;

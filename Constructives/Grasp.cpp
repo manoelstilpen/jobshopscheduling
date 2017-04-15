@@ -8,7 +8,6 @@ Grasp::Grasp(ProblemInstance instance, double _alpha) :
     Constructive(instance),
     alpha(_alpha){
 
-		define_function();
 
 }
 
@@ -24,18 +23,19 @@ Solution Grasp::apply(){
 	for(int l = 0 ; l<this->repeat ; l++){
 
         // realiza copia para ser possivel remover scheduless
-        ScheduleMatrix jobs_temp = this->instance.get_vec_schedules();
+        jobs_temp = this->instance.get_vec_schedules();
 
 		solution.clear();
 		solution.resize(nMachines);
 
-		for(int i=0 ; i<this->nJobs*this->nOperations ; i++){
+		for(int i=0 ; i<nJobs*nOperations ; i++){
 
 			vector<Custo> custos;
 			for(int j=0 ; j<jobs_temp.size() ; j++){
 				 // avalia a prioridade das operacoes candidatas
-				custos.push_back(Custo
-                    (jobs_temp[j][0].job, jobs_temp[j][0].task, j, priority_func(jobs_temp[j][0])));
+				custos.push_back(
+					Custo(jobs_temp[j][0].job, jobs_temp[j][0].task, j, define_priority(jobs_temp[j][0]))
+				);
 			}
 
 			// Analise de qual é o menor custo do grasp
@@ -52,25 +52,18 @@ Solution Grasp::apply(){
 
 			float limite_grasp = valor_grasp(menor, maior);
 
-			// Salva os indices dos jobs que tem os menores custos
-			vector<int> tarefas_restritas;
+			restricts.clear();
 			for(int j=0 ; j<custos.size() ; j++){
 				if(custos[j].custo <= limite_grasp){
-					tarefas_restritas.push_back(custos[j].indice);
+					restricts.push_back(custos[j].indice);
 				}
 			}		
-
-            // escolhe aleatoriamente um indice
-			int rand_index = rand() % tarefas_restritas.size();
-            // aloca a tarefa escolhida aleatoriamente
-			solution.aloca_tarefa(jobs_temp[tarefas_restritas[rand_index]][0]);
-
-			// Remove a solucao ja alocada - remove a primeira posicao
-			jobs_temp[tarefas_restritas[rand_index]].erase(jobs_temp[tarefas_restritas[rand_index]].begin());
-			if(jobs_temp[tarefas_restritas[rand_index]].size() == 0){
-				// Caso ja tenha alocado todas as tarefas do job, elimina o job da matriz
-				jobs_temp.erase(jobs_temp.begin()+tarefas_restritas[rand_index]);
-			}
+			
+			// escolhe a operacao(retornando o indice), aloca na solucao e remove do vetor 
+			int index = choose_schedule();
+			solution.aloca_tarefa(jobs_temp[restricts[index]][0]);
+			remove_choosed_schedule(index);
+			
 		}
 
 		// Acumula o atraso (quando é executado mais de uma vez)
@@ -82,30 +75,47 @@ Solution Grasp::apply(){
 	return solution;
 }
 
-void Grasp::define_function(){
+int Grasp::choose_schedule(){
+	// escolhe aleatoriamente um indice e retorna
+	return rand() % restricts.size();
+}
+
+float Grasp::define_priority(Schedule op){
 	// defines the function for mod rule
 
-	this->priority_func = [this](Schedule op) {
-		// max (t+p(i,j), d(i,j))
-		int mod;
-		int quant_tarefas = solution[op.machine].size();
-		int processTime = this->instance[op.job][op.task].time_execution;
-		int due_date = this->instance.get_due_times()[op.job];
+	// max (t+p(i,j), d(i,j))
+	int mod;
+	int quant_tarefas = solution[op.machine].size();
+	int processTime = this->instance[op.job][op.task].time_execution;
+	int due_date = this->instance.get_due_times()[op.job];
 
-		if(quant_tarefas == 0){
-			mod = processTime;
-		} else {
-			mod = processTime + solution[op.machine][quant_tarefas-1].time_execution;
-		}
+	if(quant_tarefas == 0){
+		mod = processTime;
+	} else {
+		mod = processTime + solution[op.machine][quant_tarefas-1].time_execution;
+	}
 
-		if(due_date > mod){
-			mod = due_date;
-		}
+	if(due_date > mod){
+		mod = due_date;
+	}
 
-		return mod;
-	};
+	return mod;
+}
+
+void Grasp::remove_choosed_schedule(int index){
+
+	// Remove a solucao ja alocada - remove a primeira posicao
+	jobs_temp[restricts[index]].erase(jobs_temp[restricts[index]].begin());
+	if(jobs_temp[restricts[index]].size() == 0){
+		// Caso ja tenha alocado todas as tarefas do job, elimina o job da matriz
+		jobs_temp.erase(jobs_temp.begin()+restricts[index]);
+	}
 }
 
 float Grasp::valor_grasp(float min, float max){
     return (float) (min + this->alpha*(max-min));
+}
+
+void Grasp::print_graphic(){
+	cout << alpha << " " << media_atraso << endl;
 }
