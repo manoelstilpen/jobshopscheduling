@@ -25,10 +25,14 @@ float GraspSPRT::define_priority(Schedule tarefa){
 	}
 
 	s -= rpt;
-//		cout << "Job: " << tarefa.job << " " << tarefa.task << " " << s << " " << rpt << endl;
+//	cout << "Job: " << tarefa.job << " " << tarefa.task << " " << s << " " << rpt << endl;
 	return (float) (s / rpt); 
 }
-
+/*
+int GraspSPRT::choose_schedule(){
+	return 0;
+}
+*/
 void GraspSPRT::print_graphic(){
 	cout << alpha << " " << media_atraso << endl;
 }

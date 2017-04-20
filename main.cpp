@@ -14,7 +14,7 @@ int main(int argc, char** argv){
 	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0;
 	int repeat = 1;
-	string modo = "graph";
+	string modo = "sprt";
 
 	int opt;
 	while ((opt = getopt(argc, argv, "i:a:m:r:")) != -1) {
@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+//	instance.print();
 
 	if(modo.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);

@@ -18,8 +18,9 @@ void GraphExchange::apply(){
     graph.bellmanFord();
 
     int melhorAtraso = evaluator.evaluate_by_graph(graph);
+    int inicial = melhorAtraso;
 
-    for(int c=0 ; c<10 ; c++)
+    for(int c=0 ; c<1000 ; c++)
     {
         
         updateCouldMove();
@@ -33,7 +34,7 @@ void GraphExchange::apply(){
 //        Solution::print_solution(graph.generate_gantt());
 
         int atraso = evaluator.evaluate_by_graph(graph);
-  //      cout << "ATRASO: " << atraso << endl;
+//        cout << "ATRASO: " << atraso << endl;
         if(atraso < melhorAtraso){
             melhorAtraso = atraso;
             bestSolution.setSolution(graph.generate_gantt());
@@ -41,8 +42,11 @@ void GraphExchange::apply(){
         }        
     }
 
+    float perc = percent_between(inicial, melhorAtraso);
+
     cout << endl;
-    cout << "MELHOR: " << melhorAtraso << endl;
+    cout << "INICIAL: " << inicial << endl;
+    cout << "MELHOR: " << melhorAtraso << " (" << perc << "%)" << endl;
     bestSolution.print_solution();
     
 }

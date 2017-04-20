@@ -5,7 +5,7 @@ for file in Instances/*.txt;
 
         rm *.txt
 
-        for mode in sprt priority mod
+        for mode in sprt
             do
                 for alpha in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
                     do
@@ -13,18 +13,17 @@ for file in Instances/*.txt;
                     done
             done
 
-                gnuplot -persist <<-EOFMarker
+                  gnuplot -persist <<-EOFMarker
 
                     set terminal png
-                    set output '${file}.png'
+                    set output 'sprt.png'
                     set xlabel "Alpha"
                     set ylabel "Atraso"
-                    set title '${file}'
+                    set title 'SPRT'
                     set grid
 
-                    plot "priority.txt" using 1:2 title 'PRIORITY' with linespoints, \
-                        "sprt.txt" using 1:2 title 'SPRT' with linespoints, \
-                        "mod.txt" using 1:2 title 'MOD' with linespoints
+                    plot "sprt1.txt" using 1:2 title 'ESCOLHA FIXA' with linespoints, \
+                        "sprt2.txt" using 1:2 title 'ESCOLHA ALEATORIA' with linespoints
                         
 
 EOFMarker

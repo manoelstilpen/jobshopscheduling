@@ -8,7 +8,6 @@ Grasp::Grasp(ProblemInstance instance, double _alpha) :
     Constructive(instance),
     alpha(_alpha){
 
-
 }
 
 Solution Grasp::apply(){
@@ -57,10 +56,12 @@ Solution Grasp::apply(){
 				if(custos[j].custo <= limite_grasp){
 					restricts.push_back(custos[j].indice);
 				}
-			}		
+			}
+		
 			
 			// escolhe a operacao(retornando o indice), aloca na solucao e remove do vetor 
 			int index = choose_schedule();
+//			cout << "escolhido: " << jobs_temp[restricts[index]][0].job << endl;
 			solution.aloca_tarefa(jobs_temp[restricts[index]][0]);
 			remove_choosed_schedule(index);
 			
@@ -76,7 +77,7 @@ Solution Grasp::apply(){
 }
 
 int Grasp::choose_schedule(){
-	// escolhe aleatoriamente um indice e retorna
+	// escolhe aleatoriamente um indice na lista restrita de operacoes
 	return rand() % restricts.size();
 }
 

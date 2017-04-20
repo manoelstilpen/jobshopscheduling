@@ -121,6 +121,10 @@ namespace twtjssp{
 	inline void print_schedule(Schedule s){
 		cout << "(" << s.job << "," << s.task << "," << s.machine << "," << s.time_execution << ") - ";
 	}
+
+	inline float percent_between(float a, float b){
+		return (((float)a/(float)b)-1)*100.f;
+	}
 }
 
 #endif
