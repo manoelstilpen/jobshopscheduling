@@ -4,9 +4,7 @@
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 #include "Grasp.hpp"
-
-#define GHOSTNODES 2
-#define INITNODE 1
+#include "GraspPriority.hpp"
 
 // CONJUNCAO => e
 // DISJUNCAO => ou
@@ -18,14 +16,11 @@ class ConstructiveGraph : public Constructive{
         ConstructiveGraph(ProblemInstance);
         virtual Solution apply();
 
-        vector<vector<Edge>> bellmanFord();
-
         virtual void print();
-        void printDistances(int dist[], int n);
+        void print_gantt();
 
     private:
         Graph graph;
-        int vertexPerJob;
 
 };
 

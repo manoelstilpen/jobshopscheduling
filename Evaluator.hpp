@@ -11,6 +11,7 @@ public:
 	Evaluator(ProblemInstance p);
 
 	int evaluate_solution(Solution);
+	int evaluate_by_graph(Graph);
 
 	bool testa_solucao(Solution);
 

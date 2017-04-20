@@ -8,7 +8,7 @@
 
 using namespace twtjssp;
 
-class ProblemInstance{
+class ProblemInstance {
 
 public:
 
@@ -26,7 +26,8 @@ public:
 
 	int get_num_machines();
 	int get_num_jobs();
-	int get_num_tasks();
+	int get_num_tasks(); // deprecated
+	int get_num_operations();
 	std::string get_name_file();
 	string get_instance_name();
 	std::vector<int> get_vec_priorities();

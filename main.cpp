@@ -1,6 +1,7 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
 #include "Constructives/Constructives.hpp"
+#include "Movements/Movements.hpp"
 #include "Evaluator.hpp"
 
 #include <stdlib.h>     /* atof */
@@ -13,7 +14,7 @@ int main(int argc, char** argv){
 	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0;
 	int repeat = 1;
-	string modo = "sprt";
+	string modo = "graph";
 
 	int opt;
 	while ((opt = getopt(argc, argv, "i:a:m:r:")) != -1) {
@@ -50,7 +51,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	//instance.print();
+	instance.print();
 
 	if(modo.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
@@ -58,7 +59,7 @@ int main(int argc, char** argv){
 		solution = grasp.apply();
 
 		grasp.print_graphic();
-		grasp.print();
+		//grasp.print();
 	} else if(modo.compare("priority") == 0){		
 		GraspPriority grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
@@ -72,7 +73,13 @@ int main(int argc, char** argv){
 		solution = grasp.apply();
 
 		grasp.print_graphic();
-		grasp.print();
+		//grasp.print();
+	} else if(modo.compare("graph") == 0){
+		ConstructiveGraph graph(instance);
+		solution = graph.apply();
+		GraphExchange exchange(solution);
+		exchange.apply();
+//		graph.print();
 	}
 
 	return 0;

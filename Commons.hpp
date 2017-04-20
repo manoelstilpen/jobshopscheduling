@@ -3,7 +3,11 @@
 
 #define INF 99999999
 
+#define GHOSTNODES 2
+#define INITNODE 1
+
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <ctime>
 
@@ -84,13 +88,6 @@ namespace twtjssp{
 
 	};
 
-	struct Graph{
-		int nVertex;
-		int nEdges;
-
-		vector<Edge> edges;
-	};
-
 	struct JobTask{
 		int job;	// as first
 		int task;	// as second
@@ -111,6 +108,7 @@ namespace twtjssp{
 	};
 
 	typedef vector<vector<Schedule>> ScheduleMatrix;
+	typedef vector<vector<Schedule>> GanttRepresentation;
 
 	static bool compara_tempo(Schedule p1, Schedule p2) {
 		return p1.time_execution < p2.time_execution;

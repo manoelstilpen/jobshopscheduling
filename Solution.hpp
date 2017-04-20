@@ -3,6 +3,7 @@
 
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
+#include "Graph.hpp"
 
 using namespace twtjssp;
 
@@ -28,12 +29,22 @@ class Solution {
         void clear();
         void resize(int i);
 
-        inline void print_solution();
+        void print_solution();
         inline void print_graphic();
+
+        void setGraph(Graph);
+        void setSolution(GanttRepresentation);
+        
+        Graph getGraph();
+
+        ProblemInstance getInstance();
+
+        static void print_solution(GanttRepresentation);
 
     private:
         ProblemInstance instance;
-        vector<vector<Schedule>> solution;
+        Graph graph; /*!< graph representation of solution */
+        GanttRepresentation solution;
 
 
 };

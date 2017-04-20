@@ -108,7 +108,7 @@ void Solution::resize(int i){
     this->solution.resize(i);
 }
 
-inline void Solution::print_solution(){
+void Solution::print_solution(){
     for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
         for(int j=0 ; j<solution[i].size() ; j++){
@@ -121,4 +121,31 @@ inline void Solution::print_solution(){
 
 inline void Solution::print_graphic(){
 
+}
+
+void Solution::setGraph(Graph g){
+    this->graph = g;
+}
+
+void Solution::setSolution(GanttRepresentation s){
+    this->solution = s;
+}
+
+Graph Solution::getGraph(){
+    return this->graph;
+}
+
+ProblemInstance Solution::getInstance(){
+    return this->instance;
+}
+
+void Solution::print_solution(GanttRepresentation solution){
+    for(int i=0 ; i<solution.size() ; i++){
+        cout << "MACHINE " << i << ": ";
+        for(int j=0 ; j<solution[i].size() ; j++){
+            cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
+        }
+        cout << endl;
+    }
+    cout << "==========================================================================================" << endl;
 }

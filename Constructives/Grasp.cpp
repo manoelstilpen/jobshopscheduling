@@ -113,6 +113,8 @@ void Grasp::remove_choosed_schedule(int index){
 }
 
 float Grasp::valor_grasp(float min, float max){
+	// 0 -> Greedy
+	// 1 -> Random
     return (float) (min + this->alpha*(max-min));
 }
 

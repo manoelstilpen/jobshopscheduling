@@ -97,6 +97,10 @@ int ProblemInstance::get_num_tasks(){
 	return this->num_tasks;
 }
 
+int ProblemInstance::get_num_operations(){
+	return this->num_tasks;
+}
+
 string ProblemInstance::get_name_file(){
 	return this->instance_file_name;
 }
