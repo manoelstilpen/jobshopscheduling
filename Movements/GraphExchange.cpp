@@ -57,7 +57,7 @@ void GraphExchange::updateCouldMove(){
 
     couldMove.clear();
 
-    for(int i=0 ; i<instance.get_num_jobs() ; i++)
+    for(int i=0 ; i<criticalPath.size() ; i++)
     {
         if(criticalPath[i].size() > 1)
         {

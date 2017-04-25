@@ -5,6 +5,7 @@
 #include "../ProblemInstance.hpp"
 #include "Grasp.hpp"
 #include "GraspPriority.hpp"
+#include "Constructives.hpp"
 
 // CONJUNCAO => e
 // DISJUNCAO => ou

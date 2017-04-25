@@ -66,8 +66,8 @@ vector<vector<Edge>> Graph::bellmanFord(){
             i = caminhoEdge[i].source.index;
         }
     }
-
-/*    cout << "CAMINHO CRITICO:" << endl;
+/*
+    cout << "CAMINHO CRITICO:" << endl;
 	for(int i=0 ; i<criticalPath.size() ; i++){
         cout << i << ": ";
         for(int j=0 ; j<criticalPath[i].size() ; j++){
@@ -96,8 +96,6 @@ GanttRepresentation Graph::generate_gantt(){
 
     GanttRepresentation solution;
     solution.resize(instance.get_num_machines());
-
-//    bellmanFord();
     
     // gera o grafico com base no grafo
     for(int i=0 ; i<instance.get_num_jobs() ; i++){
@@ -108,6 +106,7 @@ GanttRepresentation Graph::generate_gantt(){
         }
     }
 
+    // ordena as operacoes
     for(int i=0 ; i<solution.size() ; i++){
         sort(solution[i].begin(), solution[i].end(),
             [](const Schedule &a, const Schedule &b) -> bool{ 

@@ -22,8 +22,7 @@ for file in Instances/*.txt;
                     set title 'SPRT'
                     set grid
 
-                    plot "sprt1.txt" using 1:2 title 'ESCOLHA FIXA' with linespoints, \
-                        "sprt2.txt" using 1:2 title 'ESCOLHA ALEATORIA' with linespoints
+                    plot "sprt.txt" using 1:2 title 'ESCOLHA FIXA' with linespoints
                         
 
 EOFMarker

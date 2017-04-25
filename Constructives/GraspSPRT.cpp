@@ -17,12 +17,16 @@ GraspSPRT::GraspSPRT(ProblemInstance p, double alpha) : Grasp(p, alpha) {
 float GraspSPRT::define_priority(Schedule tarefa){
 	// priority = s / RPT
 	float s = instance.get_due_times()[tarefa.job];
+//	cout << "(" << s << "-";
 	s -= solution.time_can_be_alocated(tarefa);
+//	cout << solution.time_can_be_alocated(tarefa) << "-";
 
 	float rpt = 0; // tempo de processamento restante 
 	for(int i=tarefa.task ; i<instance[tarefa.job].size() ; i++){
-		rpt += instance[tarefa.job][i].time_execution;
+		rpt += (solution.time_can_be_alocated(instance[tarefa.job][i]) + instance[tarefa.job][i].time_execution);
+//		rpt += (instance[tarefa.job][i].time_execution);
 	}
+//	cout << rpt << ")/" << rpt << endl;
 
 	s -= rpt;
 //	cout << "Job: " << tarefa.job << " " << tarefa.task << " " << s << " " << rpt << endl;

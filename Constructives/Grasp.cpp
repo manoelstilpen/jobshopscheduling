@@ -47,6 +47,7 @@ Solution Grasp::apply(){
 				if(custos[j].custo > maior){
 					maior = custos[j].custo;
 				}
+	//			cout << custos[j].job << "-" << custos[j].task << " " << custos[j].custo << endl;
 			}
 
 			float limite_grasp = valor_grasp(menor, maior);
@@ -61,7 +62,7 @@ Solution Grasp::apply(){
 			
 			// escolhe a operacao(retornando o indice), aloca na solucao e remove do vetor 
 			int index = choose_schedule();
-//			cout << "escolhido: " << jobs_temp[restricts[index]][0].job << endl;
+	//		cout << "escolhido: " << jobs_temp[restricts[index]][0].job << "-" << jobs_temp[restricts[index]][0].task << endl;
 			solution.aloca_tarefa(jobs_temp[restricts[index]][0]);
 			remove_choosed_schedule(index);
 			
