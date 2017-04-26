@@ -18,6 +18,7 @@ Solution ConstructiveGraph::apply(){
         Edge edge;
 
         edge.index = index;
+        edge.critical = false;
         index++;
 
         // final de um job
@@ -83,6 +84,8 @@ Solution ConstructiveGraph::apply(){
                 index++; 
 
                 dest = initialSolution[i][k];
+
+                edge.critical = verify_critical(source, dest);
 
                 edge.source = Node(source.job, source.task, graph.getVertexPerJob()*source.job+source.task+1, NodeType::INTERNO);
                 edge.destination = Node(dest.job, dest.task, graph.getVertexPerJob()*dest.job+dest.task+1, NodeType::INTERNO);

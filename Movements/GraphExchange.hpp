@@ -1,30 +1,22 @@
 #ifndef GRAPHEXCHANGE_HPP
 #define GRAPHEXCHANGE_HPP
 
-#include "../Commons.hpp"
-#include "../Solution.hpp"
-#include "../Evaluator.hpp"
+#include <unistd.h>
+#include "Movement.hpp"
 
 using namespace twtjssp;
 
-class GraphExchange {
+class GraphExchange : public Movement {
 
 public:
     GraphExchange();
     GraphExchange(Solution);
 
-    void apply();
-    void updateCouldMove();
+    virtual Solution apply();
 
-
-private:
-    Graph graph;
-    Solution solution;
-    Evaluator evaluator;
-    ProblemInstance instance;
-
-    vector<vector<Edge>> criticalPath;
-    vector<Edge> couldMove;
+    float couldMoveTime;
+    float evaluateTime;
+    float invertTime;
 };
 
 #endif

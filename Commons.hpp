@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <vector>
 #include <ctime>
+#include <functional>
 
 using namespace std;
 
@@ -69,21 +70,31 @@ namespace twtjssp{
 		Node destination;
 		int weight;
 		int index;
+		bool critical;
 
 		Edge(){
 			weight = -1;
+			critical = false;
 		}
 
 		Edge(Node src, Node dest, int wght){
 			this->source = src;
 			this->destination = dest;
 			this->weight = wght;
+			this->critical = [&]() {
+				if(source.job != destination.job && source.job != -1 && destination.job != -1) return true;
+				return false;
+			}();
 		}
 
 		void invertWay(){
 			Node aux = destination;
 			destination = source;
 			source = aux;
+		}
+
+		bool isCritical(){
+			return this->critical;
 		}
 
 	};
@@ -107,8 +118,8 @@ namespace twtjssp{
 		}
 	};
 
-	typedef vector<vector<Schedule>> ScheduleMatrix;
-	typedef vector<vector<Schedule>> GanttRepresentation;
+	typedef vector< vector<Schedule> > ScheduleMatrix;
+	typedef vector< vector<Schedule> > GanttRepresentation;
 
 	static bool compara_tempo(Schedule p1, Schedule p2) {
 		return p1.time_execution < p2.time_execution;
@@ -124,6 +135,12 @@ namespace twtjssp{
 
 	inline float percent_between(float a, float b){
 		return (((float)a/(float)b)-1)*100.f;
+	}
+
+	inline bool verify_critical(Schedule src, Schedule dest){
+		if(src.job != dest.job && src.job != -1 && dest.job != -1) return true;
+
+		return false;
 	}
 }
 

@@ -4,54 +4,60 @@ GraphExchange::GraphExchange(){
 
 }
 
-GraphExchange::GraphExchange(Solution sol){
-    this->solution = sol;
-    this->graph = sol.getGraph();
-    this->instance = sol.getInstance();
-    this->evaluator.set_instance(this->instance);
+GraphExchange::GraphExchange(Solution sol) : Movement(sol){
+    couldMoveTime = evaluateTime = invertTime = 0;
 }
 
-void GraphExchange::apply(){
+Solution GraphExchange::apply(){
 
-    Solution bestSolution = solution;
+    bestSolution = solution;
 
     graph.bellmanFord();
 
-    int melhorAtraso = evaluator.evaluate_by_graph(graph);
-    int inicial = melhorAtraso;
+    melhorAtraso = evaluator.evaluate_by_graph(graph);
+    atrasoInicial = melhorAtraso;
 
-    for(int c=0 ; c<1000 ; c++)
-    {
-        
+//    while(true){
+    clock_t totalAbsolute = clock();
+    for(int i=0 ; i<100 ; i++){
+
+        clock_t inicio = clock();
         updateCouldMove();
+        couldMoveTime += (double) (clock() - inicio)/CLOCKS_PER_SEC;
+
+        if(couldMove.size() == 0) break;
 
         int randomEdge = rand() % couldMove.size();
 
-//        cout << "TROCANDO " << couldMove[randomEdge].source.job << "-" << couldMove[randomEdge].source.operation <<
-//        " com " << couldMove[randomEdge].destination.job << "-" << couldMove[randomEdge].destination.operation << endl;
+        cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
+
+        inicio = clock();
         graph.invert(couldMove[randomEdge].index);
+        invertTime += (double) (clock() - inicio)/CLOCKS_PER_SEC;
 
 //        Solution::print_solution(graph.generate_gantt());
-
+        inicio = clock();
         int atraso = evaluator.evaluate_by_graph(graph);
+        evaluateTime += (double) (clock() - inicio)/CLOCKS_PER_SEC;
+
 //        cout << "ATRASO: " << atraso << endl;
         if(atraso < melhorAtraso){
             melhorAtraso = atraso;
+            cout << melhorAtraso << " " << i << endl;
             bestSolution.setSolution(graph.generate_gantt());
             bestSolution.setGraph(graph);
-        }        
+        }
+            
     }
 
-    float perc = percent_between(inicial, melhorAtraso);
-
-    cout << endl;
-    cout << "INICIAL: " << inicial << endl;
-    cout << "MELHOR: " << melhorAtraso << " (" << perc << "%)" << endl;
-    bestSolution.print_solution();
-    
+    print();
+    cout << "CouldMove: " << couldMoveTime << endl;
+    cout << "Evaluate:  " << evaluateTime << endl;
+    cout << "Inverting:  " << invertTime << endl;
+    cout << "Total:     " << (double) (clock() - totalAbsolute)/CLOCKS_PER_SEC << endl;
 }
 
-void GraphExchange::updateCouldMove(){
+/*void GraphExchange::updateCouldMove(){
     // atualiza o caminho critico e as arestas passiveis de troca
     criticalPath = graph.bellmanFord();
 
@@ -72,15 +78,6 @@ void GraphExchange::updateCouldMove(){
         }
     }        
 
-    /*
-        cout << "ARESTAS QUE PODEM MOVER: " << endl;
-        for(int i=0 ; i<couldMove.size() ; i++)
-        {
-            cout << "Job " << i << ": ";
-            for(int j=0 ; j<couldMove[i].size() ; j++){
-                cout << "(" << couldMove[i][j].source.index << " " << couldMove[i][j].destination.index << "), ";
-            }
-            cout << endl;
-        }
-    */
-}
+    //printCouldMove();
+
+}*/

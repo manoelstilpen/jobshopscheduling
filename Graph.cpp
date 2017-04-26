@@ -22,7 +22,7 @@ void Graph::setInstance(ProblemInstance p){
     this->nVertex = (p.get_num_tasks()+GHOSTNODES)*p.get_num_jobs() + INITNODE;
 }
 
-vector<vector<Edge>> Graph::bellmanFord(){
+vector< vector<Edge> > Graph::bellmanFord(){
     int nArestas = edges.size();
 
 	distances.resize(nVertex);
@@ -56,7 +56,8 @@ vector<vector<Edge>> Graph::bellmanFord(){
     cout << "DISTANCES:" << endl;   
     printDistances();
 */
-    vector<vector<Edge>> criticalPath(instance.get_num_jobs());
+    criticalPath.clear();
+    criticalPath.resize(instance.get_num_jobs());
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
         int i = (job+1)*vertexPerJob;
@@ -66,7 +67,11 @@ vector<vector<Edge>> Graph::bellmanFord(){
             i = caminhoEdge[i].source.index;
         }
     }
-/*
+
+    return criticalPath;
+}
+
+void Graph::printCriticalPath(){
     cout << "CAMINHO CRITICO:" << endl;
 	for(int i=0 ; i<criticalPath.size() ; i++){
         cout << i << ": ";
@@ -75,8 +80,6 @@ vector<vector<Edge>> Graph::bellmanFord(){
         }
         cout << endl;
 	}
-*/
-    return criticalPath;
 }
 
 void Graph::invert(int index){

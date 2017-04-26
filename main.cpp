@@ -77,7 +77,7 @@ int main(int argc, char** argv){
 	} else if(modo.compare("graph") == 0){
 		ConstructiveGraph graph(instance);
 		solution = graph.apply();
-		GraphExchange exchange(solution);
+		FirstImprovement exchange(solution);
 		exchange.apply();
 		//graph.print();
 	}

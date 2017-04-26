@@ -17,12 +17,13 @@ public:
     Graph();
     Graph(ProblemInstance);
 
-    vector<vector<Edge>> bellmanFord();
+    vector< vector<Edge> > bellmanFord();
 
     void add(Edge);
     void invert(int);
 
     void printDistances();
+    void printCriticalPath();
     GanttRepresentation generate_gantt();
 
     int size();
@@ -43,6 +44,7 @@ private:
 
     vector<Edge> edges;
     vector<int> distances;
+    vector< vector<Edge> > criticalPath;
 };
 
 #endif
