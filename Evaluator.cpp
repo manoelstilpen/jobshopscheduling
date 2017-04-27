@@ -28,10 +28,10 @@ int Evaluator::evaluate_solution(Solution solution){
 
 	for(int i=0 ; i<nJobs ; i++){
 		int lastMachine = jobs[i][nTasks-1].machine;
-		for(int j=0 ; j<nJobs ; j++){
+		for(int j=nJobs-1 ; j>=0 ; j--){
 			if(solution[lastMachine][j].job == i){
 				realTimes[i] = (solution[lastMachine][j].time_execution);
-				tardiness[i] = realTimes[i] - expectedTimes[i];
+				tardiness[i] = (realTimes[i] - expectedTimes[i]) * instance.get_vec_priorities()[i];
 				if(tardiness[i] < 0){
 					tardiness[i] = 0;
 				}
@@ -53,7 +53,7 @@ int Evaluator::evaluate_by_graph(Graph graph){
 	graph.bellmanFord();
 	
 	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
-		soma_atraso += (graph.getDistances()[v_per_job*i]);// * instance.get_vec_priorities()[i-1]);
+		soma_atraso += (graph.getDistances()[v_per_job*i] * instance.get_vec_priorities()[i-1]);
 	}
 
 	return soma_atraso;

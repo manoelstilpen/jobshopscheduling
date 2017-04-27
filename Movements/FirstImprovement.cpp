@@ -29,14 +29,14 @@ Solution FirstImprovement::apply(){
         for(int i=0 ; i<couldMove.size() ; i++){
 
             graph.invert(couldMove[randomEdge].index);
-//            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
+            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
             if(atraso < melhorAtraso)
             {
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
-  //              cout << melhorAtraso << endl;
+                cout << melhorAtraso << endl;
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
                 break;

@@ -37,12 +37,28 @@ public:
             if(size > 1)
             {
 
-                for(int j=0 ; j<criticalPath[i].size() ; j++){
-
-                    while(j < size-2 && criticalPath[i][j].isCritical() && criticalPath[i][j+1].isCritical())
+                for(int j=0 ; j<criticalPath[i].size() ; j++)
+                {
+                    if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
+                        criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
                     {
-                        //cout << criticalPath[i][j].source.index << " " << criticalPath[i][j].destination.index
-                         //<< ") " << criticalPath[i][j+1].source.index << " " << criticalPath[i][j+1].destination.index << endl;
+                        if(std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
+                                return a.source.job == criticalPath[i][j].source.job &&
+                                        a.destination.job == criticalPath[i][j].destination.job &&
+                                        a.source.operation == criticalPath[i][j].source.operation &&
+                                        a.destination.operation == criticalPath[i][j].destination.operation; 
+                            
+                            }) == couldMove.end()) {
+
+                                // v does not contains x 
+                                couldMove.push_back(criticalPath[i][j]);
+                        } 
+                    }
+                }
+                    /*while(j < size-2 && criticalPath[i][j].isCritical() && criticalPath[i][j+1].isCritical())
+                    {
+                        cout << criticalPath[i][j].source.index << " " << criticalPath[i][j].destination.index
+                         << ") " << criticalPath[i][j+1].source.index << " " << criticalPath[i][j+1].destination.index << endl;
                         if(std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
                                 return a.source.job == criticalPath[i][j].source.job &&
                                         a.destination.job == criticalPath[i][j].destination.job &&
@@ -54,7 +70,6 @@ public:
                                 // v does not contains x 
                                 couldMove.push_back(criticalPath[i][j]);
   //                              cout << "NAO CONTEM PRIMEIRO" << endl;
-                        
                         } 
                         
                         if (std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
@@ -67,37 +82,17 @@ public:
                         {                        
                                 couldMove.push_back(criticalPath[i][j+1]);
     //                            cout << "NAO CONTEM SEGUNDO" << endl;
-                        }/*else {
-                            cout << "CONTEM" << endl;
-                        }*/
+                        }
 
                         j += 1; 
                     }
 
-                }
-
-                /*for(int j=0 ; j<criticalPath[i].size() ; j++)
-                {
-                    if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
-                        criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
-                    {
-                        couldMove.push_back(criticalPath[i][j]);
-                    }
-                }*/
-               /* if(criticalPath[i][2].source.job != criticalPath[i][2].destination.job)
-                {
-                    couldMove.push_back(criticalPath[i][2]);
-                }
-
-                if(criticalPath[i][size-2].source.job != criticalPath[i][size-2].destination.job)
-                {
-                    couldMove.push_back(criticalPath[i][size-2]);
                 }*/
 
             }
         }
 
-        //printCouldMove();
+//        printCouldMove();
     }
 
     void printCouldMove(){
