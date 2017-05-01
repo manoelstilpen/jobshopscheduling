@@ -36,11 +36,9 @@ public:
 
             if(size > 1)
             {
-
                 for(int j=0 ; j<criticalPath[i].size() ; j++)
                 {
-                    if(criticalPath[i][j].source.job != criticalPath[i][j].destination.job && 
-                        criticalPath[i][j].source.job != -1 && criticalPath[i][j].destination.job != -1)
+                    if(criticalPath[i][j].isCritical())
                     {
                         if(std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
                                 return a.source.job == criticalPath[i][j].source.job &&
@@ -113,6 +111,30 @@ public:
         bestSolution.print_solution();
     }
 
+    void print_progress(){
+        float progress = float(iterAtual)/float(iterTotal);
+        int barWidth = 70;
+                                            
+        std::cout << "[";
+        int pos = barWidth * progress;
+
+        for (int i = 0; i < barWidth; i++) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }                                                                                                     
+
+        std::cout << "] " << int(progress * 100.0) << " %\r";
+        std::cout.flush();
+
+//        std::cout << std::endl; 
+    }
+
+    void print_method_informations(){
+        cout << "==========================================================================================" << endl;
+        cout << " -> METHOD <- " << endl;
+    }
+
 protected:
     Graph graph;
     Solution solution;
@@ -122,6 +144,9 @@ protected:
 
     int atrasoInicial;
     int melhorAtraso;
+
+    int iterAtual;
+    int iterTotal;
 
     vector< vector<Edge> > criticalPath;
     vector<Edge> couldMove;

@@ -1,4 +1,4 @@
-COMPILER = g++ -std=c++11 -Wall -g
+COMPILER = g++ -std=c++11 -Wall -g -O2
 EXEC_PROG = app
 BINARIES = $(EXEC_PROG)
 

@@ -13,6 +13,7 @@ public:
     SimulatedAnnealing(Solution);
 
     virtual Solution apply();
+    virtual void print_method_informations();
 
 private:
 
@@ -22,8 +23,9 @@ private:
     float temperaturaFinal;
     int maxIteracoes;
 
-    const float boltzmann = 1.38064852;
-    const float euler = 2.718281;
+    const float boltzmann = 1.3806e-5;
+//    const float boltzmann = 1.38064852;
+    const float euler = std::exp(1.0);
 };
 
 #endif
