@@ -4,6 +4,12 @@ GraspPriority::GraspPriority(ProblemInstance p, double al) : Grasp(p, al){
 
 }
 
+void GraspPriority::print_method_informations(){
+	cout << "=========================================================================================" << endl;
+	cout << " -> CONSTRUCTIVE GRASP PRIORITY <-" << endl;
+	cout << "ALPHA: " << this->alpha << endl;
+}
+
 float GraspPriority::define_priority(Schedule tarefa){
     /* Retorna o tempo de termino da operacao, dando uma prioridade caso
 	 * sua operacao seguinte possa ser iniciada imediatamente apos a operacao atual, 
@@ -13,6 +19,7 @@ float GraspPriority::define_priority(Schedule tarefa){
 	// tempo de conclusao da tarefa
 	int conclusionTime = solution.time_can_be_alocated(tarefa) + tarefa.time_execution;
 
+	// se nao for a ultima operacao do job
 	if(tarefa.task < nOperations-1){
 		int nextMachine = instance[tarefa.job][tarefa.task+1].machine;
 		int timeNextMachine = 0;

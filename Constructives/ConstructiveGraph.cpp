@@ -8,6 +8,11 @@ ConstructiveGraph::ConstructiveGraph(ProblemInstance p) : Constructive(p){
     graph.setInstance(p);
 }
 
+void ConstructiveGraph::print_method_informations(){
+    cout << "==========================================================================================" << endl;
+    cout << " -> CONSTRUCTIVE GRAPH <- " << endl;    
+}
+
 Solution ConstructiveGraph::apply(){
 
     int jobAtual = 1;
@@ -63,7 +68,7 @@ Solution ConstructiveGraph::apply(){
 
     // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
-    GraspSPRT grasp(instance, 0);
+    GraspPriority grasp(instance, 0);
 //    Solution initialSolution = grasp.apply_grasp2();
     Solution initialSolution = grasp.apply();
     grasp.print();

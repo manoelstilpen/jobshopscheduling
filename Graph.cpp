@@ -39,8 +39,10 @@ vector< vector<Edge> > Graph::bellmanFord(){
 	// Step 2: Relax all edges |nVertex| - 1 times. A simple shortest 
 	// path from src to any other vertex can have at-most |V| - 1 
 	// edges
-	for (int i = 1; i <= nVertex-1; i++)
+    bool houveAlteracao = false;
+	for (int i = 1; i <= nVertex-1 && houveAlteracao; i++)
 	{
+        houveAlteracao = false;
 		for (int j = 0; j < nArestas; j++)
 		{
             Node vertOrigem = (edges[j].source);
@@ -49,6 +51,7 @@ vector< vector<Edge> > Graph::bellmanFord(){
 			if (distances[vertOrigem.index] != -INF && distances[vertOrigem.index] + weight > distances[vertDestino.index]){
                 caminhoEdge[vertDestino.index] = edges[j];
 				distances[vertDestino.index] = distances[vertOrigem.index] + weight;
+                houveAlteracao = true;
 			}
 		}
 	}

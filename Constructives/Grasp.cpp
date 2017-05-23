@@ -10,11 +10,19 @@ Grasp::Grasp(ProblemInstance instance, double _alpha) :
 
 }
 
+void Grasp::print_method_informations(){
+	cout << "=========================================================================================" << endl;
+	cout << " -> CONSTRUCTIVE GRASP MOD <- " << endl;
+	cout << "ALPHA: " << this->alpha << endl;
+}
+
 Solution Grasp::apply(){
     /*
 	 * GRASP CONSTRUCTIVE
 	 * GRASP MOD 
 	 */
+
+	print_method_informations();
 
 	srand(time(NULL));
 	this->media_atraso = 0;

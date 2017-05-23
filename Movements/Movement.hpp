@@ -106,22 +106,22 @@ public:
         float perc = percent_between(atrasoInicial, melhorAtraso);
 
         cout << endl;
-        cout << "INICIAL: " << atrasoInicial << endl;
-        cout << "MELHOR: " << melhorAtraso << " (" << perc << "%)" << endl;
+        cout << "ATRASO INICIAL: " << atrasoInicial << endl;
+        cout << "ATRASO FINAL: " << melhorAtraso << " (" << perc << "%)" << endl;
         bestSolution.print_solution();
     }
 
     void print_progress(){
         float progress = float(iterAtual)/float(iterTotal);
-        int barWidth = 70;
+        int barWidth = 100;
                                             
         std::cout << "[";
         int pos = barWidth * progress;
 
         for (int i = 0; i < barWidth; i++) {
-            if (i < pos) std::cout << "=";
-            else if (i == pos) std::cout << ">";
-            else std::cout << " ";
+            if (i <= pos) std::cout << "\033[1;32m#\033[0m";
+//            else if (i == pos) std::cout << "\033[1;31m>\033[0m";
+            else std::cout << ".";
         }                                                                                                     
 
         std::cout << "] " << int(progress * 100.0) << " %\r";

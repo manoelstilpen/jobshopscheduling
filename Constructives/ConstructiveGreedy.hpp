@@ -20,6 +20,7 @@ public:
 	ConstructiveGreedy(ProblemInstance p, double alpha = 0.5);
 
 	virtual Solution apply();
+	virtual void print_method_informations();
 	virtual void print_graph();
 
 private:

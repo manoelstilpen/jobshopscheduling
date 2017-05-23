@@ -21,6 +21,7 @@ public:
 
 	virtual Solution apply();	/*!< applies the grasp method */
 	virtual void print_graphic();
+	virtual void print_method_informations();
 
 protected:
 

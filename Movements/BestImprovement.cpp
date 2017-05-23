@@ -1,20 +1,19 @@
-#include "FirstImprovement.hpp"
+#include "BestImprovement.hpp"
 
-FirstImprovement::FirstImprovement(Solution sol) : Movement(sol){
-    
-}
-
-FirstImprovement::FirstImprovement(){
+BestImprovement::BestImprovement() : Movement(){
 
 }
 
-void FirstImprovement::print_method_informations(){
+BestImprovement::BestImprovement(Solution s) : Movement(s){
+
+}
+
+void BestImprovement::print_method_informations(){
     cout << "==========================================================================================" << endl;
-    cout << " -> FIRST IMPROVEMENT <- " << endl;
+    cout << " -> BEST IMPROVEMENT <- " << endl;
 }
 
-Solution FirstImprovement::apply(){
-
+Solution BestImprovement::apply(){
     print_method_informations();
 
     bestSolution = solution;
@@ -49,17 +48,16 @@ Solution FirstImprovement::apply(){
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
                 houveMelhora = true;
-                break;
             }
             else 
             {
                 // no caso de piora, reverte o movimento
                 graph.invert(couldMove[randomEdge].index);
-                randomEdge++;
             }
+            randomEdge++;
         }
 
     } while(houveMelhora);
 
     print();
-}   
+}

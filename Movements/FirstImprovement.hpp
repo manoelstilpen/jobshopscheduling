@@ -13,7 +13,7 @@ public:
     FirstImprovement();
 
     virtual Solution apply();
-
+    virtual void print_method_informations();
 };
 
 #endif

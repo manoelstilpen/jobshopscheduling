@@ -9,6 +9,11 @@ ConstructiveGreedy::ConstructiveGreedy(ProblemInstance p, double alpha) : Constr
 	this->alpha = alpha;
 }
 
+void ConstructiveGreedy::print_method_informations(){
+	cout << "=========================================================================================" << endl;
+	cout << " -> CONSTRUCTIVE GREEDY <-" << endl;
+}
+
 Solution ConstructiveGreedy::apply(){
 
 /*

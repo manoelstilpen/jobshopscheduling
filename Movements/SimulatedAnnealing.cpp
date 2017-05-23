@@ -72,7 +72,7 @@ Solution SimulatedAnnealing::apply(){
             else
             {
                 float x = (rand() % 100)/100.0;
-                float expo = (-delta/(temperatura));
+                float expo = (float(-delta)/float(float(temperatura)));
                 float prob = pow(exp(1.0), expo);
 //                cout << exp(1.0) << "^" << expo << "=" << prob << endl;
 //                cout << x << " " << prob << endl;

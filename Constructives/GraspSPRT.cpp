@@ -4,6 +4,13 @@ GraspSPRT::GraspSPRT() : Grasp(){
 
 }
 
+
+void GraspSPRT::print_method_informations(){
+	cout << "=========================================================================================" << endl;
+	cout << " -> CONSTRUCTIVE GRASP SPRT <-" << endl;
+	cout << "ALPHA: " << this->alpha << endl;
+}
+
 GraspSPRT::GraspSPRT(ProblemInstance p, double alpha) : Grasp(p, alpha) {
 
 }

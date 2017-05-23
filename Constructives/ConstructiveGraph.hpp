@@ -16,6 +16,7 @@ class ConstructiveGraph : public Constructive{
         ConstructiveGraph();
         ConstructiveGraph(ProblemInstance);
         virtual Solution apply();
+        virtual void print_method_informations();
 
         virtual void print();
         void print_gantt();

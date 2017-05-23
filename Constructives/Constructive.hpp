@@ -14,6 +14,7 @@ class Constructive {
     public:
 
         virtual Solution apply() = 0;
+        virtual void print_method_informations() = 0;
 
         Constructive(){
 
