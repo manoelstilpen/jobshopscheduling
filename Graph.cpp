@@ -40,7 +40,7 @@ vector< vector<Edge> > Graph::bellmanFord(){
 	// path from src to any other vertex can have at-most |V| - 1 
 	// edges
     bool houveAlteracao = false;
-	for (int i = 1; i <= nVertex-1 && houveAlteracao; i++)
+	for (int i = 1; i <= nVertex-1; i++)
 	{
         houveAlteracao = false;
 		for (int j = 0; j < nArestas; j++)

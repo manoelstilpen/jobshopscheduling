@@ -12,6 +12,7 @@ public:
 
 	int evaluate_solution(Solution);
 	int evaluate_by_graph(Graph);
+	int evaluate_by_graph(Solution);
 
 	bool testa_solucao(Solution);
 

@@ -68,7 +68,7 @@ Solution ConstructiveGraph::apply(){
 
     // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
-    GraspPriority grasp(instance, 0);
+    GraspSPRT grasp(instance, 0);
 //    Solution initialSolution = grasp.apply_grasp2();
     Solution initialSolution = grasp.apply();
     grasp.print();

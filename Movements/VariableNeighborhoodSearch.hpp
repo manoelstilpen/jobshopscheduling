@@ -16,7 +16,8 @@ public:
     virtual void print_method_informations();
 
 private:
-    int nVizinhancas;
+
+    vector<Movement*> vizinhancas;
     
 };
 

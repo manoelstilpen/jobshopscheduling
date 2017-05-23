@@ -20,6 +20,10 @@ public:
 
     }
 
+    virtual ~Movement(){
+        
+    }
+
     virtual Solution apply() = 0;
 
     virtual void updateCouldMove() {
@@ -133,6 +137,15 @@ public:
     void print_method_informations(){
         cout << "==========================================================================================" << endl;
         cout << " -> METHOD <- " << endl;
+    }
+
+    void set_solution(Solution s){
+        solution = s;
+        set_graph(s.getGraph());
+    }
+
+    void set_graph(Graph g){
+        graph = g;
     }
 
 protected:

@@ -14,7 +14,8 @@ void BestImprovement::print_method_informations(){
 }
 
 Solution BestImprovement::apply(){
-    print_method_informations();
+    
+//    print_method_informations();
 
     bestSolution = solution;
 
@@ -31,33 +32,29 @@ Solution BestImprovement::apply(){
 
         if(couldMove.size() == 0) break;
 
-        int randomEdge = 0;
         houveMelhora = false;
         atraso = INF;
         for(int i=0 ; i<couldMove.size() ; i++){
 
-            graph.invert(couldMove[randomEdge].index);
-//            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
+            graph.invert(couldMove[i].index);
+            //cout << "TROCANDO " << couldMove[i].source.index << "-" << couldMove[i].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
             if(atraso < melhorAtraso)
             {
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
-//                cout << melhorAtraso << endl;
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
                 houveMelhora = true;
             }
-            else 
-            {
-                // no caso de piora, reverte o movimento
-                graph.invert(couldMove[randomEdge].index);
-            }
-            randomEdge++;
+            
+            // refaz o movimento para poder avaliar as outras possibilidades
+            graph.invert(couldMove[i].index);
         }
 
     } while(houveMelhora);
 
-    print();
+//    print();
+    return bestSolution;
 }

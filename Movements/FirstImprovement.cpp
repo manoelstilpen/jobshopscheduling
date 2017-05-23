@@ -15,7 +15,7 @@ void FirstImprovement::print_method_informations(){
 
 Solution FirstImprovement::apply(){
 
-    print_method_informations();
+//    print_method_informations();
 
     bestSolution = solution;
 
@@ -36,7 +36,7 @@ Solution FirstImprovement::apply(){
         houveMelhora = false;
         atraso = INF;
         for(int i=0 ; i<couldMove.size() ; i++){
-
+            
             graph.invert(couldMove[randomEdge].index);
 //            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
@@ -61,5 +61,7 @@ Solution FirstImprovement::apply(){
 
     } while(houveMelhora);
 
-    print();
+//    print();
+
+    return bestSolution;
 }   

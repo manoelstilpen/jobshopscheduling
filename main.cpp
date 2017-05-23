@@ -77,9 +77,11 @@ int main(int argc, char** argv){
 	} else if(modo.compare("graph") == 0){
 		ConstructiveGraph graph(instance);
 		solution = graph.apply();
-		SimulatedAnnealing exchange(solution);
-		exchange.apply();
-		//graph.print();
+//		SimulatedAnnealing exchange(solution);
+//		Solution s1 = exchange.apply();
+		VariableNeighborhoodSearch vns(solution);
+		vns.apply();
+		vns.print();
 	}
 
 	return 0;
