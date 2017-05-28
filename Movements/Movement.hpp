@@ -97,6 +97,20 @@ public:
 //        printCouldMove();
     }
 
+    void undo_movements(){
+
+        for(int i=0 ; i<lastMovements.size() ; i++){
+            graph.invert(lastMovements[i]);
+        }
+
+        lastMovements.clear();
+    }
+
+    void undo_last_movement(){
+        graph.invert(lastMovements.back());
+        lastMovements.pop_back();
+    }
+
     void printCouldMove(){
         cout << "ARESTAS QUE PODEM MOVER: " << endl;
         for(int i=0 ; i<couldMove.size() ; i++)
@@ -108,7 +122,6 @@ public:
 
     void print(){
         float perc = percent_between(atrasoInicial, melhorAtraso);
-
         cout << endl;
         cout << "ATRASO INICIAL: " << atrasoInicial << endl;
         cout << "ATRASO FINAL: " << melhorAtraso << " (" << perc << "%)" << endl;
@@ -160,6 +173,10 @@ protected:
 
     int iterAtual;
     int iterTotal;
+
+    int repeat;
+
+    vector<int> lastMovements;
 
     vector< vector<Edge> > criticalPath;
     vector<Edge> couldMove;

@@ -5,6 +5,8 @@
 #include "ProblemInstance.hpp"
 #include "Graph.hpp"
 
+#include <fstream>
+
 using namespace twtjssp;
 
 class Solution {
@@ -33,11 +35,16 @@ class Solution {
         inline void print_graphic();
 
         void setGraph(Graph);
-        void setSolution(GanttRepresentation);
         
+        void setSolution(GanttRepresentation);
+        GanttRepresentation getSolution();
+        
+        GanttRepresentation extract_solution_from_file(string);
+
         Graph getGraph();
 
         ProblemInstance getInstance();
+
 
         static void print_solution(GanttRepresentation);
 

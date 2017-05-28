@@ -38,6 +38,8 @@ Solution FirstImprovement::apply(){
         for(int i=0 ; i<couldMove.size() ; i++){
             
             graph.invert(couldMove[randomEdge].index);
+            lastMovements.push_back(couldMove[randomEdge].index);
+
 //            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
@@ -54,7 +56,7 @@ Solution FirstImprovement::apply(){
             else 
             {
                 // no caso de piora, reverte o movimento
-                graph.invert(couldMove[randomEdge].index);
+                undo_last_movement();
                 randomEdge++;
             }
         }

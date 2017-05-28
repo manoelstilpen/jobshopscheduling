@@ -37,6 +37,7 @@ Solution BestImprovement::apply(){
         for(int i=0 ; i<couldMove.size() ; i++){
 
             graph.invert(couldMove[i].index);
+            lastMovements.push_back(couldMove[i].index);
             //cout << "TROCANDO " << couldMove[i].source.index << "-" << couldMove[i].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
@@ -50,7 +51,7 @@ Solution BestImprovement::apply(){
             }
             
             // refaz o movimento para poder avaliar as outras possibilidades
-            graph.invert(couldMove[i].index);
+            undo_last_movement();
         }
 
     } while(houveMelhora);

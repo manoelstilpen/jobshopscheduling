@@ -25,7 +25,7 @@ namespace twtjssp{
 
 	struct Schedule{
 		int job;
-		int task;
+		int task, operation;
 		int machine;
 		int time_execution;
 
@@ -39,9 +39,22 @@ namespace twtjssp{
 			time_execution = t;
 		}
 
-		Schedule(int j, int t, int tm){
+		Schedule(int j, int t, int m){
+			job = j;
+			task = operation = t;
+			machine = m;
+		}
+
+/*		Schedule(int j, int t, int tm){
 			job = j;
 			task = t;
+			time_execution = tm;
+		}*/
+
+		Schedule(int j, int t, int m, int tm){
+			job = j;
+			operation = task = t;
+			machine = m;
 			time_execution = tm;
 		}
 	};

@@ -20,7 +20,7 @@ Solution VariableNeighborhoodSearch::apply(){
     melhorAtraso = evaluator.evaluate_by_graph(graph);
     atrasoInicial = melhorAtraso;
 
-    const int max_iter = 200;
+    const int max_iter = 300;
     const int r = vizinhancas.size();
 
     iterAtual = 0;
@@ -36,7 +36,7 @@ Solution VariableNeighborhoodSearch::apply(){
             // gerando um vizinho s' qualquer
             vizinhancas[vizinhanca_atual]->set_solution(solution);
             Solution s1 = vizinhancas[vizinhanca_atual]->apply();
-            
+
             // aplicando busca local em s1
             vizinhancas[0]->set_solution(s1);
             Solution s2 = vizinhancas[0]->apply();
@@ -45,6 +45,7 @@ Solution VariableNeighborhoodSearch::apply(){
 
             if ( atraso < melhorAtraso ) {
                 solution = s2;
+                bestSolution = s2;
                 melhorAtraso = atraso;
                 vizinhanca_atual = 1;
 //                cout << melhorAtraso << endl;
@@ -54,15 +55,15 @@ Solution VariableNeighborhoodSearch::apply(){
 
             iterAtual++;
             print_progress();
+  //          cout << atraso << endl;
         }
     }
-
-    bestSolution = solution;
 
     for(int i=0 ; i<vizinhancas.size() ; i++){
         delete vizinhancas[i];
     }
 
+    return bestSolution;
 }
 
 void VariableNeighborhoodSearch::print_method_informations(){

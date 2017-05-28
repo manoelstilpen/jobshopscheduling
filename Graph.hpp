@@ -24,12 +24,17 @@ public:
 
     void printDistances();
     void printCriticalPath();
+
+    Graph construct_conjuctive_graph();
+    Graph construct_disjuntive_graph(GanttRepresentation);
+
     GanttRepresentation generate_gantt();
+    Graph generate_graph(GanttRepresentation);
 
     int size();
 
     void setNVertex(int);
-    void setInstance(ProblemInstance);
+    void set_instance(ProblemInstance);
 
     int getVertexPerJob();
     vector<int> getDistances();

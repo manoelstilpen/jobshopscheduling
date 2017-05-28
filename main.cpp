@@ -9,9 +9,9 @@
 
 int main(int argc, char** argv){
 
-//	string instance_name = "abz5_f13.txt";
+	string instance_name = "abz6_f13.txt";
 //	string instance_name = "instance.txt";
-	string instance_name = "bierwirth.txt";
+//	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0;
 	int repeat = 1;
 	string modo = "graph";
@@ -75,13 +75,23 @@ int main(int argc, char** argv){
 		grasp.print_graphic();
 		//grasp.print();
 	} else if(modo.compare("graph") == 0){
-		ConstructiveGraph graph(instance);
-		solution = graph.apply();
-//		SimulatedAnnealing exchange(solution);
-//		Solution s1 = exchange.apply();
-		VariableNeighborhoodSearch vns(solution);
+		
+		/*Solution sol(instance);
+		sol.extract_solution_from_file("Instances/solution-vitor-abz6.txt");
+		sol.print_solution();
+		Evaluator eval(instance);
+		cout << eval.evaluate_by_graph(sol) << endl;
+		VariableNeighborhoodSearch vns(sol);
 		vns.apply();
-		vns.print();
+		vns.print();*/
+
+		for(int i=0 ; i<10 ; i++){
+			ConstructiveGraph graph(instance);
+			Solution solution = graph.apply();
+			VariableNeighborhoodSearch vns(solution);
+			solution = vns.apply();
+			vns.print();
+		}
 	}
 
 	return 0;

@@ -18,6 +18,8 @@ Solution ShakeK::apply(){
         int random_edge = rand() % couldMove.size(); // choose random edge to shake
 
         graph.invert(couldMove[random_edge].index);
+
+        lastMovements.push_back(random_edge);
     }
 
     solution.setGraph(graph);

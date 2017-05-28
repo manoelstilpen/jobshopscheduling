@@ -6,6 +6,7 @@ Solution::Solution(){
 
 Solution::Solution(ProblemInstance p){
     this->instance = p;
+    graph.set_instance(p);
 }
 
 void Solution::aloca_tarefa(Schedule tarefa){
@@ -94,6 +95,54 @@ int Solution::time_can_be_alocated(Schedule op){
     return max(timeMachine, lastOperation);
 }
 
+// 4358 -> ATRASO DA SOLUCAO VIA OPTFRAME
+GanttRepresentation Solution::extract_solution_from_file(string filename){
+
+    std::fstream file(filename);
+
+    if(!file.is_open()){
+	    std::cout << "ERROR: FILE NOT FOUND" << std::endl;
+	}
+
+    string nome_instancia;
+    file >> nome_instancia; 
+
+    if(instance.get_instance_name().compare(nome_instancia) != 0){
+        cout << "SOLUCAO NAO CORRESPONDE COM A INSTANCIA CARREGADA" << endl;
+    }
+
+    solution.resize(instance.get_num_jobs());
+
+    int job, op;
+    for(int i=0 ; i<instance.get_num_jobs() ; i++){
+        for(int j=0 ; j<instance.get_num_operations() ; j++){
+            file >> job;
+            file >> op;
+
+            solution[i].push_back(Schedule(job, op, i));
+            
+        }
+    } 
+
+    int t1, t2;
+    for(int i=0 ; i<instance.get_num_jobs() ; i++){
+        for(int j=0 ; j<instance.get_num_operations() ; j++){
+
+            file >> t1;
+            file >> t2;
+
+            solution[i][j].time_execution = t2;
+        }
+    }
+
+    file.close();
+
+    graph.construct_conjuctive_graph();
+    graph.construct_disjuntive_graph(solution);
+
+    return solution;
+}
+
 int Solution::size(){
     return this->solution.size();
 }
@@ -129,6 +178,10 @@ void Solution::setGraph(Graph g){
 
 void Solution::setSolution(GanttRepresentation s){
     this->solution = s;
+}
+
+GanttRepresentation Solution::getSolution(){
+    return this->solution;
 }
 
 Graph Solution::getGraph(){
