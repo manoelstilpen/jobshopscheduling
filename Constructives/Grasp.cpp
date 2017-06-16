@@ -41,7 +41,7 @@ Solution Grasp::apply(){
 			for(int j=0 ; j<jobs_temp.size() ; j++){
 				 // avalia a prioridade das operacoes candidatas
 				custos.push_back(
-					Custo(jobs_temp[j][0].job, jobs_temp[j][0].task, j, define_priority(jobs_temp[j][0]))
+					Custo(jobs_temp[j][0].job, jobs_temp[j][0].operation, j, define_priority(jobs_temp[j][0]))
 				);
 			}
 

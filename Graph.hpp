@@ -24,6 +24,7 @@ public:
 
     void printDistances();
     void printCriticalPath();
+    void printEdges();
 
     Graph construct_conjuctive_graph();
     Graph construct_disjuntive_graph(GanttRepresentation);

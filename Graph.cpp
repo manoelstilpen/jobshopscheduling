@@ -1,10 +1,11 @@
 #include "Graph.hpp"
 
 Graph::Graph(){
-
+    nEdges = 0;
 }
 
 Graph::Graph(ProblemInstance p){
+    nEdges = 0;
     set_instance(p);
 }   
 
@@ -95,6 +96,14 @@ void Graph::printDistances(){
 	printf("Vertex Distance from Source\n");
     for (int i = 0; i < distances.size(); ++i)
 		printf("%d \t\t %d\n", i, distances[i]);
+
+}
+
+void Graph::printEdges(){
+
+    for(Edge e: edges){
+        cout << e.toString() << endl;
+    }
 
 }
 

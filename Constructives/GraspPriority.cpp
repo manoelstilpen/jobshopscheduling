@@ -1,5 +1,9 @@
 #include "GraspPriority.hpp"
 
+GraspPriority::GraspPriority() : Grasp(){
+
+}
+
 GraspPriority::GraspPriority(ProblemInstance p, double al) : Grasp(p, al){
 
 }
@@ -10,18 +14,18 @@ void GraspPriority::print_method_informations(){
 	cout << "ALPHA: " << this->alpha << endl;
 }
 
-float GraspPriority::define_priority(Schedule tarefa){
+float GraspPriority::define_priority(Schedule op){
     /* Retorna o tempo de termino da operacao, dando uma prioridade caso
 	 * sua operacao seguinte possa ser iniciada imediatamente apos a operacao atual, 
 	 * evitando janelas na producao
 	 */
 
 	// tempo de conclusao da tarefa
-	int conclusionTime = solution.time_can_be_alocated(tarefa) + tarefa.time_execution;
+	int conclusionTime = solution.time_can_be_alocated(op) + op.time_execution;
 
 	// se nao for a ultima operacao do job
-	if(tarefa.task < nOperations-1){
-		int nextMachine = instance[tarefa.job][tarefa.task+1].machine;
+	if(op.operation < nOperations-1){
+		int nextMachine = instance[op.job][op.operation+1].machine;
 		int timeNextMachine = 0;
 		if(solution[nextMachine].size() > 0){
 			timeNextMachine = solution[nextMachine].back().time_execution;
@@ -33,7 +37,7 @@ float GraspPriority::define_priority(Schedule tarefa){
 	}
 
 	// subtrai do tempo de conclusao 
-	conclusionTime -= instance.get_due_times()[tarefa.job];
+	conclusionTime -= instance.get_due_times()[op.job];
 	
 	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
 	if(conclusionTime < 0) conclusionTime = 0;

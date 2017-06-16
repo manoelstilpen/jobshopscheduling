@@ -3,3 +3,4 @@
 #include "BestImprovement.hpp"
 #include "VariableNeighborhoodSearch.hpp"
 #include "ShakeK.hpp"
+#include "CEI.hpp"

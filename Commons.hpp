@@ -7,6 +7,7 @@
 #define INITNODE 1
 
 #include <iostream>
+#include <sstream>
 #include <algorithm>
 #include <vector>
 #include <ctime>
@@ -31,7 +32,7 @@ namespace twtjssp{
 
 		Schedule(){
 			machine = time_execution = -1;
-			job = task = -1;
+			job = task = operation = -1;
 		}
 
 		Schedule(int m, int t){
@@ -76,6 +77,12 @@ namespace twtjssp{
 			this->type = tp;
 		}
 
+		string toString(){
+			stringstream ss;
+			ss << "(" << job << "-" << operation << ": " << index << ")";
+			return ss.str();
+		}
+
 	};
 
 	struct Edge{
@@ -108,6 +115,12 @@ namespace twtjssp{
 
 		bool isCritical(){
 			return this->critical;
+		}
+
+		string toString(){
+			stringstream ss;
+			ss << source.toString() << " -> " << destination.toString() << " - " << index;
+			return ss.str();
 		}
 
 	};

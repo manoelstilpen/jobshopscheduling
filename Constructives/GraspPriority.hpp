@@ -6,6 +6,7 @@
 class GraspPriority : public Grasp {
 
 public:
+    GraspPriority();
     GraspPriority(ProblemInstance, double);
 
     virtual float define_priority(Schedule);

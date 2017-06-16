@@ -49,6 +49,8 @@ class Constructive {
 
         void set_repeat(int t){ this->repeat = t;}
         int get_atraso(){ return this->media_atraso;}
+
+        void set_instance(ProblemInstance p) { this->instance = p; }
         
     protected:
         Solution solution;

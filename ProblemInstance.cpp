@@ -39,7 +39,8 @@ bool ProblemInstance::load_instance(){
 			file >> schedule.time_execution;
 
 			schedule.job = i;
-			schedule.task = j;
+			schedule.task = j; // DEPRECATED
+			schedule.operation = j;
 			
 			this->vec_schedules[i].push_back(schedule);
 		}

@@ -32,13 +32,11 @@ public:
         criticalPath = graph.bellmanFord();
 
         couldMove.clear();
-//        graph.printCriticalPath();
-        // apenas move as arestas que estao ou no inicio do caminho ou no fim
+        //graph.printCriticalPath();
+        
         for(int i=0 ; i<criticalPath.size() ; i++)
         {
-            int size = criticalPath[i].size();
-
-            if(size > 1)
+            if(criticalPath[i].size() > 1)
             {
                 for(int j=0 ; j<criticalPath[i].size() ; j++)
                 {
@@ -57,44 +55,10 @@ public:
                         } 
                     }
                 }
-                    /*while(j < size-2 && criticalPath[i][j].isCritical() && criticalPath[i][j+1].isCritical())
-                    {
-                        cout << criticalPath[i][j].source.index << " " << criticalPath[i][j].destination.index
-                         << ") " << criticalPath[i][j+1].source.index << " " << criticalPath[i][j+1].destination.index << endl;
-                        if(std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
-                                return a.source.job == criticalPath[i][j].source.job &&
-                                        a.destination.job == criticalPath[i][j].destination.job &&
-                                        a.source.operation == criticalPath[i][j].source.operation &&
-                                        a.destination.operation == criticalPath[i][j].destination.operation; 
-                            
-                            }) == couldMove.end()) {
-
-                                // v does not contains x 
-                                couldMove.push_back(criticalPath[i][j]);
-  //                              cout << "NAO CONTEM PRIMEIRO" << endl;
-                        } 
-                        
-                        if (std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
-                                return a.source.job == criticalPath[i][j+1].source.job &&
-                                        a.destination.job == criticalPath[i][j+1].destination.job &&
-                                        a.source.operation == criticalPath[i][j+1].source.operation &&
-                                        a.destination.operation == criticalPath[i][j+1].destination.operation; 
-                            
-                            }) == couldMove.end())
-                        {                        
-                                couldMove.push_back(criticalPath[i][j+1]);
-    //                            cout << "NAO CONTEM SEGUNDO" << endl;
-                        }
-
-                        j += 1; 
-                    }
-
-                }*/
-
             }
         }
-
-//        printCouldMove();
+        
+        //printCouldMove();
     }
 
     void undo_movements(){

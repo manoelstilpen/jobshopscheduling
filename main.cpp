@@ -9,9 +9,9 @@
 
 int main(int argc, char** argv){
 
-	string instance_name = "abz6_f13.txt";
+//	string instance_name = "abz6_f13.txt";
 //	string instance_name = "instance.txt";
-//	string instance_name = "bierwirth.txt";
+	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0;
 	int repeat = 1;
 	string modo = "graph";
@@ -85,13 +85,13 @@ int main(int argc, char** argv){
 		vns.apply();
 		vns.print();*/
 
-		for(int i=0 ; i<10 ; i++){
-			ConstructiveGraph graph(instance);
-			Solution solution = graph.apply();
+		//for(int i=0 ; i<10 ; i++){
+			ConstructiveGraph contructive(instance);
+			Solution solution = contructive.apply();
 			VariableNeighborhoodSearch vns(solution);
 			solution = vns.apply();
 			vns.print();
-		}
+		//}
 	}
 
 	return 0;
