@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+//	instance.print();
 
 	if(modo.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
@@ -90,7 +90,7 @@ int main(int argc, char** argv){
 			Solution solution = contructive.apply();
 			VariableNeighborhoodSearch vns(solution);
 			solution = vns.apply();
-			vns.print();
+			vns.print_graphic();
 		//}
 	}
 

@@ -47,7 +47,7 @@ Solution SimulatedAnnealing::apply(){
 
             int randomEdge = rand() % couldMove.size();
 
-            graph.invert(couldMove[randomEdge].index);
+            graph.invert(couldMove[randomEdge][0].index);
 
     //        Solution::print_solution(graph.generate_gantt());
             int atraso = evaluator.evaluate_by_graph(graph);
@@ -79,7 +79,7 @@ Solution SimulatedAnnealing::apply(){
                 if(x >= prob)
                 {
                     // rejeita o movimento, refazendo-o
-                    graph.invert(couldMove[randomEdge].index);
+                    graph.invert(couldMove[randomEdge][0].index);
                 } else {
   //                  cout << "ACEITOU PIORA " << x << " " << prob << endl;
                     movimentoAceito = true;

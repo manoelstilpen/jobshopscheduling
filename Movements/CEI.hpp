@@ -15,12 +15,12 @@ public:
     CEI();
 
     virtual Solution apply();
-    virtual void updateCouldMove();
+//    virtual void updateCouldMove();
 
 
 private:
 
-    vector< vector<Edge> > couldMove;
+    //vector< vector<Edge> > couldMove;
 
 };
 

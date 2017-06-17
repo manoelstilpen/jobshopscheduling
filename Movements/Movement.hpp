@@ -34,6 +34,31 @@ public:
         couldMove.clear();
         //graph.printCriticalPath();
         
+        bool bloco = false;
+        int blocoAtual = -1;
+        for(int i=0 ; i<criticalPath.size() ; i++){
+
+            for(int j=0 ; j<criticalPath[i].size()-1 ; j++){
+
+                if(criticalPath[i][j].isCritical()){
+                    if(!bloco){
+                        couldMove.push_back(vector<Edge>());
+                        blocoAtual++;
+                    }
+                    couldMove[blocoAtual].push_back(criticalPath[i][j]);
+                    bloco = true;
+
+                } else if(bloco == true) {
+                    bloco = false;
+                }
+            }
+        }
+
+        sort(couldMove.begin(), couldMove.end(), [&](const vector<Edge> a,
+                                                            const vector<Edge> b){
+            return a.size() > b.size();
+        });
+/*
         for(int i=0 ; i<criticalPath.size() ; i++)
         {
             if(criticalPath[i].size() > 1)
@@ -57,8 +82,13 @@ public:
                 }
             }
         }
-        
+       */ 
         //printCouldMove();
+    }
+
+    void invert(int edge_index){
+        graph.invert(edge_index);
+        lastMovements.push_back(edge_index);
     }
 
     void undo_movements(){
@@ -79,9 +109,11 @@ public:
         cout << "ARESTAS QUE PODEM MOVER: " << endl;
         for(int i=0 ; i<couldMove.size() ; i++)
         {
-            cout << "(" << couldMove[i].source.index << " " << couldMove[i].destination.index << "), ";
+            for(int j=0 ; j<couldMove[i].size() ; j++){
+                cout << "(" << couldMove[i][j].source.index << " " << couldMove[i][j].destination.index << "), ";
+            }
+            cout << endl;
         }
-        cout << endl;
     }
 
     void print(){
@@ -90,6 +122,10 @@ public:
         cout << "ATRASO INICIAL: " << atrasoInicial << endl;
         cout << "ATRASO FINAL: " << melhorAtraso << " (" << perc << "%)" << endl;
         bestSolution.print_solution();
+    }
+
+    void print_graphic(){
+        cout << melhorAtraso << endl;
     }
 
     void print_progress(){
@@ -143,7 +179,7 @@ protected:
     vector<int> lastMovements;
 
     vector< vector<Edge> > criticalPath;
-    vector<Edge> couldMove;
+    vector< vector<Edge> > couldMove;
 
 
 };

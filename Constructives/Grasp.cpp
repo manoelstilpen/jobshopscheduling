@@ -22,7 +22,7 @@ Solution Grasp::apply(){
 	 * GRASP MOD 
 	 */
 
-	print_method_informations();
+//	print_method_informations();
 
 	srand(time(NULL));
 	this->media_atraso = 0;

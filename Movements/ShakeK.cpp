@@ -9,19 +9,21 @@ ShakeK::ShakeK(Solution s, int k) : Movement(s){
 }
 
 Solution ShakeK::apply(){
+    bool inicio = true;
 
     for(int i=0 ; i<k_moves ; i++){
-        
         updateCouldMove();
-
         if(couldMove.size() == 0) break;
 
-        int random_edge = rand() % couldMove.size(); // choose random edge to shake
-        graph.invert(couldMove[random_edge].index);
+        int random_block = rand() % couldMove.size(); // choose random block to shake
+        int random_edge = rand() % couldMove[random_block].size();
+        
+        if(inicio) invert(couldMove[random_block][0].index);
+        else invert(couldMove[random_block].back().index);
 
-        lastMovements.push_back(random_edge);
+        inicio = !inicio;
+
     }
-
     solution.setGraph(graph);
     return solution;
 }

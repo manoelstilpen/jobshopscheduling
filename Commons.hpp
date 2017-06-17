@@ -119,7 +119,7 @@ namespace twtjssp{
 
 		string toString(){
 			stringstream ss;
-			ss << source.toString() << " -> " << destination.toString() << " - " << index;
+			ss << source.toString() << " -> " << destination.toString() << " - " << weight << " " << index;
 			return ss.str();
 		}
 

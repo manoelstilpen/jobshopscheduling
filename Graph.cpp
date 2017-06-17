@@ -25,9 +25,8 @@ void Graph::set_instance(ProblemInstance p){
 
 vector< vector<Edge> > Graph::bellmanFord(){
     int nArestas = edges.size();
-
 	distances.resize(nVertex);
-
+    //printEdges();
 	// Step 1: Initialize distances from src to all other vertices as INFINITE
     for (int i = 0; i < distances.size(); i++)
 		distances[i] = -INF;
@@ -40,9 +39,9 @@ vector< vector<Edge> > Graph::bellmanFord(){
 	// Step 2: Relax all edges |nVertex| - 1 times. A simple shortest 
 	// path from src to any other vertex can have at-most |V| - 1 
 	// edges
+
     bool houveAlteracao = false;
-	for (int i = 1; i <= nVertex-1; i++)
-	{
+	for (int i = 1; i <= nVertex-1; i++){
         houveAlteracao = false;
 		for (int j = 0; j < nArestas; j++)
 		{
@@ -60,13 +59,20 @@ vector< vector<Edge> > Graph::bellmanFord(){
     cout << "DISTANCES:" << endl;   
     printDistances();
 */
+/*
+    cout << "CAMINHO" << endl;
+    for(int i=0 ; i<caminhoEdge.size(); i++){
+        cout << i << ": ";
+        cout << caminhoEdge[i].toString() << endl;
+    }
+ */   
     criticalPath.clear();
     criticalPath.resize(instance.get_num_jobs());
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
         int i = (job+1)*vertexPerJob;
         while(i != 0)
-        {
+        {   
             criticalPath[job].push_back(caminhoEdge[i]);
             i = caminhoEdge[i].source.index;
         }
@@ -87,9 +93,10 @@ void Graph::printCriticalPath(){
 }
 
 void Graph::invert(int index){
+
     edges[index].invertWay();
     edges[index].weight = instance[edges[index].source.job][edges[index].source.operation].time_execution;
-    bellmanFord();
+//    bellmanFord();
 }
 
 void Graph::printDistances(){

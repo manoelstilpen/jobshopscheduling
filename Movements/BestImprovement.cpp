@@ -36,8 +36,8 @@ Solution BestImprovement::apply(){
         atraso = INF;
         for(int i=0 ; i<couldMove.size() ; i++){
 
-            graph.invert(couldMove[i].index);
-            lastMovements.push_back(couldMove[i].index);
+            graph.invert(couldMove[i][0].index);
+            lastMovements.push_back(couldMove[i][0].index);
             //cout << "TROCANDO " << couldMove[i].source.index << "-" << couldMove[i].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
