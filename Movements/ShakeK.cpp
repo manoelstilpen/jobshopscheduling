@@ -17,13 +17,25 @@ Solution ShakeK::apply(){
 
         int random_block = rand() % couldMove.size(); // choose random block to shake
         int random_edge = rand() % couldMove[random_block].size();
-        
-        if(inicio) invert(couldMove[random_block][0].index);
-        else invert(couldMove[random_block].back().index);
+        int choice = rand() % 2;
+
+        if(choice == 0){
+            invert(couldMove[random_block][0].index);
+        } else if(choice == 1){
+            invert(couldMove[random_block].back().index);
+        } /*else if(choice == 2){
+            invert(couldMove[random_block][0].index);
+            invert(couldMove[random_block].back().index);
+
+            if(!graph.isFeasible()){
+                undo_last_movement();
+                undo_last_movement();
+            }
+        }*/
 
         inicio = !inicio;
-
     }
+
     solution.setGraph(graph);
     return solution;
 }

@@ -41,7 +41,7 @@ public:
     vector<int> getDistances();
     int getDistanceFrom(int, int);
 
-    bool verifyFeasibility();
+    bool isFeasible();
 
 
 private:

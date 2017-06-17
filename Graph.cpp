@@ -67,7 +67,7 @@ vector< vector<Edge> > Graph::bellmanFord(){
     }
  */   
 
-    if(verifyFeasibility()){
+    if(isFeasible()){
 
         criticalPath.clear();
         criticalPath.resize(instance.get_num_jobs());
@@ -88,7 +88,7 @@ vector< vector<Edge> > Graph::bellmanFord(){
     return criticalPath;
 }
 
-bool Graph::verifyFeasibility(){
+bool Graph::isFeasible(){
 
     for (int i = 0; i < nEdges; i++){
         int u = edges[i].source.index;
@@ -118,6 +118,7 @@ void Graph::invert(int index){
 
     edges[index].invertWay();
     edges[index].weight = instance[edges[index].source.job][edges[index].source.operation].time_execution;
+
 //    bellmanFord();
 }
 

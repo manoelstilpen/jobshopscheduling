@@ -11,19 +11,27 @@ CEI::CEI() : Movement(){
 Solution CEI::apply(){
 
     updateCouldMove();
-    printCouldMove();
     
     for(int i=0 ; i<couldMove.size() ; i++){
         if(couldMove[i].size() <= 2){
-            couldMove.erase(couldMove.begin()+i);
+            couldMove.erase(couldMove.begin()+i, couldMove.end());
+            break;
         }
     }
 
+    if(couldMove.size() == 0) return solution;
+
+    printCouldMove();
     int random_block = rand() % couldMove.size();
-    int choosed = ceil(couldMove[random_block].size()/2);
+    int edge_choosed = (rand() % (couldMove[random_block].size()-2))+1;
+/*
+    while(graph.isFeasible()){
 
-    cout << choosed << " " << couldMove[random_block].size() << endl;
 
+
+    }*/
+
+    solution.setGraph(graph);
     return solution;
 }
 /*
