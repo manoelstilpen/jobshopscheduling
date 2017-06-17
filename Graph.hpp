@@ -41,6 +41,8 @@ public:
     vector<int> getDistances();
     int getDistanceFrom(int, int);
 
+    bool verifyFeasibility();
+
 
 private:
     ProblemInstance instance;

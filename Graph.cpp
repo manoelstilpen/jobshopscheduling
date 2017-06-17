@@ -66,19 +66,41 @@ vector< vector<Edge> > Graph::bellmanFord(){
         cout << caminhoEdge[i].toString() << endl;
     }
  */   
-    criticalPath.clear();
-    criticalPath.resize(instance.get_num_jobs());
-    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
-        int i = (job+1)*vertexPerJob;
-        while(i != 0)
-        {   
-            criticalPath[job].push_back(caminhoEdge[i]);
-            i = caminhoEdge[i].source.index;
+    if(verifyFeasibility()){
+
+        criticalPath.clear();
+        criticalPath.resize(instance.get_num_jobs());
+        for(int job = 0 ; job < instance.get_num_jobs() ; job++){
+
+            int i = (job+1)*vertexPerJob;
+            int tamanho = 0;
+            while(i != 0 && tamanho < nVertex-1)
+            {   
+                criticalPath[job].push_back(caminhoEdge[i]);
+                i = caminhoEdge[i].source.index;
+                tamanho++;
+            }
         }
+
     }
 
     return criticalPath;
+}
+
+bool Graph::verifyFeasibility(){
+
+    for (int i = 0; i < nEdges; i++){
+        int u = edges[i].source.index;
+        int v = edges[i].destination.index;
+        int weight = edges[i].weight;
+        if (distances[u] != -INF && distances[u] + weight > distances[v]){
+            cout << "CONTEM CICLO" << endl;
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void Graph::printCriticalPath(){

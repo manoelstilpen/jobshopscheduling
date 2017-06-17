@@ -1,2 +1,3 @@
-- Definir como deve ser realizado os movimentos
-- Modificar programa, utilizar melhores praticas de programacao
+- ALTERAR ESTRUTURAS DE REPRESENTACAO DO GRAFO (LISTA OU MATRIZ??)
+- ALTERAR IMPLEMENTACOES PORCAS QUE UTILIZAM A REPRESENTACAO ATUAL
+- UTILIZAR TDD
