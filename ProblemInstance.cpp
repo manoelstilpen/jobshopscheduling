@@ -62,6 +62,7 @@ void ProblemInstance::print(){
 	std::cout << " Tasks: " << this->num_tasks << std::endl;
 
 	for(int i=0 ; i<this->num_jobs ; i++){
+		std::cout << "Job " << i << ": ";
 		for(int j=0 ; j<this->num_tasks ; j++){
 			std::cout << "(" << this->vec_schedules[i][j].machine << " ";
 			std::cout << this->vec_schedules[i][j].time_execution << ") - ";
@@ -70,6 +71,8 @@ void ProblemInstance::print(){
 		std::cout << this->vec_priorities[i] << " ";
 		std::cout << this->due_times[i] << std::endl;
 	}
+
+	std::cout << std::endl;
 }
 
 void ProblemInstance::set_name_file(string name){

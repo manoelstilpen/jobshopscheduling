@@ -26,6 +26,7 @@ Solution FirstImprovement::apply(){
 
     int atraso;
     bool houveMelhora = false;
+    
     do {
 
         updateCouldMove();
