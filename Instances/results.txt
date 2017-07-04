@@ -1,0 +1,40 @@
+Resultados das execucoes por instancias:
+
+abz5_f13: 
+
+	Melhor Lit: 1403
+	Melhor TWTJSSP: 1440
+	Melhor Meu: 1625
+
+abz6_f13:
+
+	Melhor Lit: 436
+	Melhor TWTJSSP: 436
+	Melhor Meu: 436
+
+la16_f13:
+
+	Melhor Lit: 1169
+	Melhor TWTJSSP: 1185
+	Melhor Meu: 1528
+
+la17_f13:
+
+	Melhor Lit: 899
+	Melhor TWTJSSP: 899
+	Melhor Meu: 1429
+
+la22_f15:
+
+	Melhor Lit: 196 (de acordo bierwirth)
+	Melhor Meu: 312
+
+la23_f15:
+
+	Melhor Lit: 2
+	Melhor Bierwirth: 2 
+	Melhor Meu: 2
+
+
+
+
