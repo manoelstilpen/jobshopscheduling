@@ -24,16 +24,52 @@ la17_f13:
 	Melhor TWTJSSP: 899
 	Melhor Meu: 1299
 
+la18_f13:
+
+	Melhor Lit: 929
+	Melhor Meu: 1247
+
+la19_f13:
+
+	Melhor Lit: 948
+	Melhor Meu: 948
+
+la20_f13:
+
+	Melhor Lit: 805
+	Melhor Bierwirth: 
+	Melhor Meu: 1116
+
+la21_f13:
+
+	Melhor Lit: 463
+	Melhor Meu: 469
+
+la22_f13:
+
+	Melhor Lit: 1064
+	Melhor Meu: 1295
+
 la22_f15:
 
-	Melhor Lit: 196 (de acordo bierwirth)
+	Melhor Lit: 196
 	Melhor Meu: 250
+
+la23_f13:
+
+	Melhor Lit: 835
+	Melhor Meu: 1295
 
 la23_f15:
 
 	Melhor Lit: 2
 	Melhor Bierwirth: 2 
 	Melhor Meu: 2
+
+la24_f13:
+
+	Melhor Lit: 835
+	Melhor Meu: 1728
 
 
 
