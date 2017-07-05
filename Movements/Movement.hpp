@@ -125,7 +125,7 @@ public:
     }
 
     void print_graphic(){
-        cout << melhorAtraso << endl;
+        cout << atrasoInicial << "\t" << melhorAtraso;
     }
 
     void print_progress(){

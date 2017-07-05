@@ -51,7 +51,9 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+//	instance.print();
+
+clock_t begin = clock();
 
 	if(modo.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
@@ -90,9 +92,14 @@ int main(int argc, char** argv){
 			Solution solution = constructive.apply();
 			VariableNeighborhoodSearch vns(solution);
 			solution = vns.apply();
-			vns.print();
+			vns.print_graphic();
 		//}
 	}
+
+clock_t end = clock();
+double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+cout << "\t" << elapsed_secs << endl;
 
 	return 0;
 }

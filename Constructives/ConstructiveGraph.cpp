@@ -22,9 +22,9 @@ Solution ConstructiveGraph::apply(){
 
     // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
-    GraspPriority grasp(instance, 0.8);
+    GraspPriority grasp(instance, 0.7);
     Solution initialSolution = grasp.apply();
-    grasp.print();
+  //  grasp.print();
 
     graph = graph.construct_disjuntive_graph(initialSolution.getSolution());
 //    graph.bellmanFord();

@@ -10,7 +10,7 @@ VariableNeighborhoodSearch::VariableNeighborhoodSearch(Solution s) : Movement(s)
 
 Solution VariableNeighborhoodSearch::apply(){
     
-    print_method_informations();
+//    print_method_informations();
 
     vizinhancas.push_back(new FirstImprovement(solution)); // busca local do vns
     vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos  
