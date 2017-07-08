@@ -60,7 +60,7 @@ clock_t begin = clock();
 		grasp.set_repeat(repeat);
 		solution = grasp.apply();
 
-//		grasp.print_graphic();
+		grasp.print_graphic();
 		grasp.print();
 	} else if(modo.compare("priority") == 0){		
 		GraspPriority grasp(instance, alpha_grasp);

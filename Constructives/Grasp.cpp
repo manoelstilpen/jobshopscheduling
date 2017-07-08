@@ -29,7 +29,7 @@ Solution Grasp::apply(){
 
 	for(int l = 0 ; l<this->repeat ; l++){
 
-        // realiza copia para ser possivel remover scheduless
+        // realiza copia para ser possivel remover schedules
         jobs_temp = this->instance.get_vec_schedules();
 
 		solution.clear();

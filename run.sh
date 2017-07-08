@@ -3,9 +3,12 @@
 files=`ls Instances/Testes`
 
 for arch in $files; do
+	for modo in sprt priority mod; do
+		./app -i $arch -r 30 -a 0.7 -m $modo >> execucoes/${arch}_parc
+	done
 
-	for i in `seq 1 30`; do
-		./app -i $arch >> execucoes/${arch}_parc
+	for modo in sprt priority mod; do
+		./app -i $arch -a 0 -m $modo >> execucoes/${arch}_parc
 	done
 
 done
