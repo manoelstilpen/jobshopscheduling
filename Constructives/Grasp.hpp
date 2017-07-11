@@ -5,6 +5,8 @@
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 
+#include "../Movements/FirstImprovement.hpp"
+
 #include <functional>
 
 using namespace twtjssp;
@@ -17,9 +19,11 @@ class Grasp : public Constructive {
 
 public:
     Grasp();
-    Grasp(ProblemInstance instance, double _alpha = 0);
+	Grasp(bool);
+    Grasp(ProblemInstance instance, double _alpha = 0, bool _refine = true);
 
 	virtual Solution apply();	/*!< applies the grasp method */
+	virtual Solution refinement(Solution);
 	virtual void print_graphic();
 	virtual void print_method_informations();
 
@@ -27,7 +31,11 @@ protected:
 
 	ScheduleMatrix jobs_temp; 	/*!< temporary variable */
 	vector<int> restricts; 		/*!< restricts operations */
+
+	Movement* local_search;
+
     double alpha;   			/*!< defines how greedy will be your grasp  */
+	bool refine;				/*!< true if should apply a local search */
 
 	virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
 	virtual int choose_schedule();

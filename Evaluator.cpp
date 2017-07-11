@@ -64,6 +64,7 @@ int Evaluator::evaluate_by_graph(Solution s){
 
 	int soma_atraso = 0;
 	int v_per_job = graph.getVertexPerJob();
+	
 	graph.bellmanFord();
 	
 	for(int i=1 ; i<=instance.get_num_jobs() ; i++){

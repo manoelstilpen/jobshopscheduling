@@ -54,7 +54,7 @@ Solution VariableNeighborhoodSearch::apply(){
             }
 
             iterAtual++;
-//            print_progress();
+            print_progress();
   //          cout << atraso << endl;
         }
     }

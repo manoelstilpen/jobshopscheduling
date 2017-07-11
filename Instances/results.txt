@@ -48,7 +48,7 @@ la21_f13:
 la22_f13:
 
 	Melhor Lit: 1064
-	Melhor Meu: 1295
+	Melhor Meu: 1431
 
 la22_f15:
 
@@ -58,7 +58,7 @@ la22_f15:
 la23_f13:
 
 	Melhor Lit: 835
-	Melhor Meu: 1250
+	Melhor Meu: 1142
 
 la23_f15:
 
@@ -69,7 +69,7 @@ la23_f15:
 la24_f13:
 
 	Melhor Lit: 835
-	Melhor Meu: 1728
+	Melhor Meu: 1032
 
 
 

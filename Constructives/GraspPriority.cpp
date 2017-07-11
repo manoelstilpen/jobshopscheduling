@@ -4,7 +4,7 @@ GraspPriority::GraspPriority() : Grasp(){
 
 }
 
-GraspPriority::GraspPriority(ProblemInstance p, double al) : Grasp(p, al){
+GraspPriority::GraspPriority(ProblemInstance p, double _a, bool _r) : Grasp(p, _a, _r){
 
 }
 

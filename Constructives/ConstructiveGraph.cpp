@@ -20,18 +20,22 @@ Solution ConstructiveGraph::apply(){
     
 //    this->print();
 
-    // gera o sequenciamento das operações nas maquinas atravez de alguma regra de despacho
-    // depois gera o grafo disjuntivo com base no sequenciamento anteriormente gerado
-    GraspPriority grasp(instance, 0);
-    Solution initialSolution = grasp.apply();
-  //  grasp.print();
+    // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
+    // depois gera o grafo disjuntivo com base no sequenciamento gerado
+    Grasp* dispatch_rule = new GraspSPRT(instance, 0.7, true);
+    Solution initialSolution = dispatch_rule->apply();
 
     graph = graph.construct_disjuntive_graph(initialSolution.getSolution());
+
 //    graph.bellmanFord();
 //    graph.printCriticalPath();
 //    graph.printEdges();
 
     initialSolution.setGraph(graph);
+    initialSolution = dispatch_rule->refinement(initialSolution);
+    
+    Evaluator eval(instance);
+    cout << eval.evaluate_by_graph(initialSolution) << endl;
 
     return initialSolution;
 }

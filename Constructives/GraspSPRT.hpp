@@ -13,7 +13,7 @@ class GraspSPRT : public Grasp {
 
 public:
     GraspSPRT();
-    GraspSPRT(ProblemInstance p, double alpha=0);
+    GraspSPRT(ProblemInstance p, double alpha=0, bool _r = true);
 
     virtual float define_priority(Schedule);
 //    virtual int choose_schedule();

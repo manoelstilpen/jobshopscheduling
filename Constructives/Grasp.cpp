@@ -1,12 +1,18 @@
 #include "Grasp.hpp"
 
 Grasp::Grasp() : Constructive(){
-
+	refine = false;
 }
 
-Grasp::Grasp(ProblemInstance instance, double _alpha) : 
+Grasp::Grasp(bool r) : Constructive(),
+	refine(r){
+
+	}
+
+Grasp::Grasp(ProblemInstance instance, double _alpha, bool _refine) : 
     Constructive(instance),
-    alpha(_alpha){
+    alpha(_alpha),
+	refine(_refine){
 
 }
 
@@ -82,6 +88,13 @@ Solution Grasp::apply(){
 
 	// Calcula a media de atraso
 	this->media_atraso /= this->repeat;
+	return solution;
+}
+
+Solution Grasp::refinement(Solution s){
+	local_search = new FirstImprovement(s);
+	solution = local_search->apply();
+
 	return solution;
 }
 

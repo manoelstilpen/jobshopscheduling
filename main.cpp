@@ -14,10 +14,11 @@ int main(int argc, char** argv){
 	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0;
 	int repeat = 1;
-	string modo = "graph";
+	string movement = "vns";
+	string constructive = "priority";
 
 	int opt;
-	while ((opt = getopt(argc, argv, "i:a:m:r:")) != -1) {
+	while ((opt = getopt(argc, argv, "i:a:m:r:c:")) != -1) {
 		switch(opt){
 			case 'i':{
 				// instance name
@@ -30,14 +31,21 @@ int main(int argc, char** argv){
 			}break;
 
 			case 'm':{
-				// constructive mode
-				modo = optarg;
+				// movement mode
+				movement = optarg;
 			}break;
 
 			case 'r':{
 				// repeat times
 				repeat = atoi(optarg);
-			}
+			}break;
+
+			case 'c':{
+				// constructive mode
+				//TODO
+			}break;
+
+
 
 		}
 	}
@@ -55,28 +63,28 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	if(modo.compare("sprt") == 0){
+	if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply();
 
 		grasp.print_graphic();
-		grasp.print();
-	} else if(modo.compare("priority") == 0){		
+//		grasp.print();
+	} else if(movement.compare("priority") == 0){		
 		GraspPriority grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply();
 
 		grasp.print_graphic();
 		//grasp.print();
-	} else if(modo.compare("mod") == 0){
+	} else if(movement.compare("mod") == 0){
 		Grasp grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply();
 
 		grasp.print_graphic();
 		//grasp.print();
-	} else if(modo.compare("graph") == 0){
+	} else if(movement.compare("vns") == 0){
 		
 		/*Solution sol(instance);
 		sol.extract_solution_from_file("Instances/solution-vitor-abz6.txt");
@@ -92,14 +100,14 @@ clock_t begin = clock();
 			Solution solution = constructive.apply();
 			VariableNeighborhoodSearch vns(solution);
 			solution = vns.apply();
-			vns.print_graphic();
+			vns.print();
 		//}
 	}
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-cout << "\t" << elapsed_secs << endl;
+//cout << elapsed_secs << endl;
 
 	return 0;
 }
