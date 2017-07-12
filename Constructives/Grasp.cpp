@@ -23,11 +23,12 @@ Solution Grasp::apply(){
 
 //	print_method_informations();
 
-	srand(time(NULL));
 	this->media_atraso = 0;
 
-	for(int l = 0 ; l<this->repeat ; l++){
+	srand(time(0));	
 
+	for(int l = 0 ; l<this->repeat ; l++){
+		
         // realiza copia para ser possivel remover schedules
         jobs_temp = this->instance.get_vec_schedules();
 

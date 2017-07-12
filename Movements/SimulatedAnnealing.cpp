@@ -33,7 +33,7 @@ Solution SimulatedAnnealing::apply(){
     int atrasoCorrente = melhorAtraso;
     temperatura = temperaturaInicial;
     iterAtual = 0;
-    iterTotal = (temperaturaInicial/alpha)*maxIteracoes*7; // nao sei como cheguei
+    iterTotal = (temperaturaInicial/alpha)*maxIteracoes*7; // nao sei como cheguei nisso
     bool movimentoAceito = false;
 
     clock_t inicio = clock();

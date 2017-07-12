@@ -88,8 +88,6 @@ clock_t begin = clock();
 
 		ConstructiveGraph constructive(instance, alpha_grasp);
 		Solution s = constructive.apply();
-		Evaluator eval(instance);
-	    cout << eval.evaluate_by_graph(s) << endl;
 
 
 		/*Solution sol(instance);
