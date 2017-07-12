@@ -4,7 +4,7 @@ GraspPriority::GraspPriority() : Grasp(){
 
 }
 
-GraspPriority::GraspPriority(ProblemInstance p, double _a, bool _r) : Grasp(p, _a, _r){
+GraspPriority::GraspPriority(ProblemInstance p, double _a) : Grasp(p, _a){
 
 }
 
@@ -15,37 +15,18 @@ void GraspPriority::print_method_informations(){
 }
 
 float GraspPriority::define_priority(Schedule op){
-    /* Retorna o tempo de termino da operacao, dando uma prioridade caso
-	 * sua operacao seguinte possa ser iniciada imediatamente apos a operacao atual, 
-	 * evitando janelas na producao
-	 */
+    /* Retorna o tempo de folga ou atraso da operacao */
 
-	// tempo de conclusao da tarefa
-	int conclusionTime = solution.time_can_be_alocated(op) + op.time_execution;
+	// tempo de conclusao da operacao caso fosse inserida
+	int remainingTime = solution.time_can_be_alocated(op) + op.time_execution;
 
-	// se nao for a ultima operacao do job
-	if(op.operation < nOperations-1){
-		int nextMachine = instance[op.job][op.operation+1].machine;
-		int timeNextMachine = 0;
-		if(solution[nextMachine].size() > 0){
-			timeNextMachine = solution[nextMachine].back().time_execution;
-		}
-
-		if(timeNextMachine <= conclusionTime){
-			conclusionTime *= 0.5;
-		}
-	}
-
-	// subtrai do tempo de conclusao 
-	conclusionTime -= instance.get_due_times()[op.job];
+	// subtrai da data de entrega do job
+	remainingTime -= instance.get_due_times()[op.job];
 	
 	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
-	if(conclusionTime < 0) conclusionTime = 0;
+	if(remainingTime < 0) remainingTime = 0;
 
-	// multiplica pela prioridade de cada job fornecido pela instancia
-	//tempo *= instance.get_vec_priorities()[tarefa.job];
-
-	return conclusionTime;
+	return remainingTime;
 }
 
 int GraspPriority::choose_schedule(){

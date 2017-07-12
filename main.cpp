@@ -85,7 +85,13 @@ clock_t begin = clock();
 		grasp.print_graphic();
 		//grasp.print();
 	} else if(movement.compare("vns") == 0){
-		
+
+		ConstructiveGraph constructive(instance, alpha_grasp);
+		Solution s = constructive.apply();
+		Evaluator eval(instance);
+	    cout << eval.evaluate_by_graph(s) << endl;
+
+
 		/*Solution sol(instance);
 		sol.extract_solution_from_file("Instances/solution-vitor-abz6.txt");
 		sol.print_solution();
@@ -94,14 +100,13 @@ clock_t begin = clock();
 		VariableNeighborhoodSearch vns(sol);
 		vns.apply();
 		vns.print();*/
-
-		//for(int i=0 ; i<10 ; i++){
-			ConstructiveGraph constructive(instance);
-			Solution solution = constructive.apply();
-			VariableNeighborhoodSearch vns(solution);
-			solution = vns.apply();
-			vns.print();
-		//}
+/*
+		ConstructiveGraph constructive(instance);
+		Solution solution = constructive.apply();
+		VariableNeighborhoodSearch vns(solution);
+		solution = vns.apply();
+		vns.print();
+*/	
 	}
 
 clock_t end = clock();

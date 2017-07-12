@@ -4,7 +4,7 @@ ConstructiveGraph::ConstructiveGraph() : Constructive(){
 
 }
 
-ConstructiveGraph::ConstructiveGraph(ProblemInstance p) : Constructive(p){
+ConstructiveGraph::ConstructiveGraph(ProblemInstance p, double _a) : Constructive(p), alpha(_a){
     graph.set_instance(p);
 }
 
@@ -17,12 +17,10 @@ Solution ConstructiveGraph::apply(){
 
     Graph graph(instance);
     graph = graph.construct_conjuctive_graph();
-    
-//    this->print();
 
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
-    Grasp* dispatch_rule = new GraspSPRT(instance, 0.7, true);
+    Grasp* dispatch_rule = new GraspPriority(instance, alpha);
     Solution initialSolution = dispatch_rule->apply();
 
     graph = graph.construct_disjuntive_graph(initialSolution.getSolution());
@@ -34,9 +32,9 @@ Solution ConstructiveGraph::apply(){
     initialSolution.setGraph(graph);
     initialSolution = dispatch_rule->refinement(initialSolution);
     
-    Evaluator eval(instance);
+/*    Evaluator eval(instance);
     cout << eval.evaluate_by_graph(initialSolution) << endl;
-
+*/
     return initialSolution;
 }
 

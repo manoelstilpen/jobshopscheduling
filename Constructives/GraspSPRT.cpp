@@ -5,14 +5,14 @@ GraspSPRT::GraspSPRT() : Grasp(){
 }
 
 
+GraspSPRT::GraspSPRT(ProblemInstance p, double alpha) : Grasp(p, alpha) {
+
+}
+
 void GraspSPRT::print_method_informations(){
 	cout << "=========================================================================================" << endl;
 	cout << " -> CONSTRUCTIVE GRASP SPRT <-" << endl;
 	cout << "ALPHA: " << this->alpha << endl;
-}
-
-GraspSPRT::GraspSPRT(ProblemInstance p, double alpha, bool _r) : Grasp(p, alpha, _r) {
-
 }
 
 /*

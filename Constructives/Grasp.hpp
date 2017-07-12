@@ -19,8 +19,7 @@ class Grasp : public Constructive {
 
 public:
     Grasp();
-	Grasp(bool);
-    Grasp(ProblemInstance instance, double _alpha = 0, bool _refine = true);
+    Grasp(ProblemInstance instance, double _alpha = 0);
 
 	virtual Solution apply();	/*!< applies the grasp method */
 	virtual Solution refinement(Solution);

@@ -1,18 +1,11 @@
 #include "Grasp.hpp"
 
 Grasp::Grasp() : Constructive(){
-	refine = false;
 }
 
-Grasp::Grasp(bool r) : Constructive(),
-	refine(r){
-
-	}
-
-Grasp::Grasp(ProblemInstance instance, double _alpha, bool _refine) : 
+Grasp::Grasp(ProblemInstance instance, double _alpha) : 
     Constructive(instance),
-    alpha(_alpha),
-	refine(_refine){
+    alpha(_alpha) {
 
 }
 
@@ -72,7 +65,6 @@ Solution Grasp::apply(){
 					restricts.push_back(custos[j].indice);
 				}
 			}
-		
 			
 			// escolhe a operacao(retornando o indice), aloca na solucao e remove do vetor 
 			int index = choose_schedule();
@@ -82,7 +74,7 @@ Solution Grasp::apply(){
 			
 		}
 
-		// Acumula o atraso (quando é executado mais de uma vez)
+		// Acumula o atraso (util quando repeat > 1)
 		this->media_atraso += evaluator.evaluate_solution(solution);
 	}
 

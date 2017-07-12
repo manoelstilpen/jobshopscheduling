@@ -7,7 +7,7 @@ class GraspPriority : public Grasp {
 
 public:
     GraspPriority();
-    GraspPriority(ProblemInstance, double _a = 0, bool _r = true);
+    GraspPriority(ProblemInstance, double _a = 0);
 
     virtual float define_priority(Schedule);
     virtual int choose_schedule();
