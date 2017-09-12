@@ -14,6 +14,13 @@ public:
         this->graph = sol.getGraph();
         this->instance = sol.getInstance();
         this->evaluator.set_instance(this->instance);
+
+        this->timeTotal = 0;
+        this->atrasoInicial = 0;
+        this->melhorAtraso = 0;
+
+        this->iterAtual = 0;
+        this->iterTotal = 0;
     }
 
     Movement(){
@@ -125,7 +132,7 @@ public:
     }
 
     void print_graphic(){
-        cout << atrasoInicial << "\t" << melhorAtraso;
+        cout << atrasoInicial << "\t" << melhorAtraso << "\t" << timeTotal << endl;
     }
 
     void print_progress(){
@@ -175,6 +182,8 @@ protected:
     int iterTotal;
 
     int repeat;
+
+    float timeTotal;
 
     vector<int> lastMovements;
 

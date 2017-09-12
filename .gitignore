@@ -1,5 +1,6 @@
 *.o
 *.json
+*.txt
 *.png
 GPATH
 GRTAGS

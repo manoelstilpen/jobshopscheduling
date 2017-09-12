@@ -92,15 +92,15 @@ Solution SimulatedAnnealing::apply(){
         }
 
         temperatura *= alpha;
-        print_progress();
+//        print_progress();
   //      cout << temperatura << endl;
         iterT = 0;
     }
 
-    print();
-    cout << "ITERACOES: " << iterAtual << endl;
-    float seg = ((double) (clock() - inicio)/CLOCKS_PER_SEC);
-    cout << "TEMPO:     " << seg << "s => " << seg/60 << "min" << endl;
+    //  print();
+//    cout << "ITERACOES: " << iterAtual << endl;
+    timeTotal = ((double) (clock() - inicio)/CLOCKS_PER_SEC);
+//    cout << "TEMPO:     " << seg << "s => " << seg/60 << "min" << endl;
 
     return solution;
 }
