@@ -10,7 +10,7 @@ Solution::Solution(ProblemInstance p){
 }
 
 void Solution::aloca_tarefa(Schedule tarefa){
-    /* Aloca a tarefa na solucao */
+    /* Aloca a tarefa na solucao de Gantt */
 
     int machine = tarefa.machine;
     int sizeMachine = this->solution[machine].size(); // quantidade de tasks alocadas na maquina
@@ -19,13 +19,13 @@ void Solution::aloca_tarefa(Schedule tarefa){
     if(tarefa.task == 0){
     
         if(this->solution[machine].size() == 0){
-            // Como nao tem outra tarefa alocada nessa maquina, apenas insere a tarefa na maquina
+            // Como nao tem outra tarefa alocada nessa maquina, apenas insere a tarefa
             this->solution[machine].push_back(tarefa);
         } else {
             // Armazena o tempo acumulado da maquina e adiciona ao tempo da nova tarefa
-            int tempo = this->solution[machine][sizeMachine-1].time_execution;
+            int tempo = this->solution[machine].back().time_execution;
             tarefa.time_execution += tempo; // adiciona o tempo acumulado
-            this->solution[machine].push_back(tarefa); // aloca a tarefa na maquina
+            this->solution[machine].push_back(tarefa); // insere a tarefa na maquina
         }
 
     } else {
@@ -50,19 +50,19 @@ void Solution::aloca_tarefa(Schedule tarefa){
         // Tempo acumulado da maquina que a tarefa deve ser inserida
         int timeMachine = 0;
         if(sizeMachine != 0){
-            timeMachine = this->solution[machine][sizeMachine-1].time_execution;
+            timeMachine = this->solution[machine].back().time_execution;
         }
 
         if(timeMachine > timeLastTask){
             /* Se o tempo acumulado da maquina atual for MAIOR que o instante em que a ultima tarefa
-             * foi finalizada, pode inserir a tarefa atual imediatamente depois.
+             * foi finalizada, pode-se inserir a tarefa atual imediatamente no fim da maquina.
              */
-            tarefa.time_execution += this->solution[machine][sizeMachine-1].time_execution;
+            tarefa.time_execution += this->solution[machine].back().time_execution;
             this->solution[machine].push_back(tarefa);
         } else {
             /* Se o tempo acumulado da maquina atual for MENOR do que o instante em que a ultima tarefa
-                * foi finalizada, cria-se uma janela na producao na maquina. 
-                */
+             * foi finalizada, cria-se uma janela na producao na maquina. 
+             */
             tarefa.time_execution += timeLastTask;
             this->solution[machine].push_back(tarefa);
         }

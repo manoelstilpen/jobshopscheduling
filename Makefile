@@ -1,6 +1,7 @@
-COMPILER = g++ -std=c++11 -Wall -g -O2
+COMPILER = g++ -std=c++11 -Wall -g -O3
 EXEC_PROG = app
 BINARIES = $(EXEC_PROG)
+LIBS = -lboost_system -lboost_filesystem -lboost_program_options
 
 SOURCES := $(shell find -name '*.cpp')
 
