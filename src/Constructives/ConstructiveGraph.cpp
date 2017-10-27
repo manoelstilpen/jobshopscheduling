@@ -21,6 +21,7 @@ Solution ConstructiveGraph::apply(){
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
+    // priority rule
     Grasp* dispatch_rule = new Grasp(instance, alpha);
     Solution initialSolution = dispatch_rule->apply();
 
@@ -36,7 +37,8 @@ Solution ConstructiveGraph::apply(){
     cout << eval.evaluate_by_graph(initialSolution) << " "; 
 */
 
-    initialSolution = dispatch_rule->refinement(initialSolution);
+// COLOCAR REFINO
+    //initialSolution = dispatch_rule->refinement(initialSolution);
 
 //    cout << eval.evaluate_by_graph(initialSolution) << endl;
     

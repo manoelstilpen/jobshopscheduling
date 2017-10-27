@@ -1,7 +1,7 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
-/* #include "Constructives/Constructives.hpp"
-#include "Movements/Movements.hpp" */
+#include "Constructives/Constructives.hpp"
+//#include "Movements/Movements.hpp"
 #include "Evaluator.hpp"
 
 #include <iostream>
@@ -105,8 +105,8 @@ int main(int argc, char** argv){
 clock_t begin = clock();
 
 	Graph graph(instance);
-	graph.construct_conjuctive_graph();
-	graph.bellmanFord();
+	ConstructiveGraph constructive(instance, alpha_grasp);
+	Solution s = constructive.apply();
 	
 
 	/* if(movement.compare("sprt") == 0){

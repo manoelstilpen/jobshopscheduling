@@ -30,8 +30,6 @@ void Graph::add(Node src, Node dest, EdgeData data){
 void Graph::add(int src, int dest){
     //add edge by it's id
 
-//    edges[src].push_back();
-
 }
 
 // TODO: inverter uma aresta recebendo os indices dos vertices como parametro
@@ -55,11 +53,10 @@ void Graph::invert(Node src, Node dest){
     }
 
     // invertendo
-    EdgeData data = (*it).second;
-    edges[idDest].push_back(make_pair(Node(src.job, src.operation, idSrc, NodeType::INTERNO), data));
+    edges[idDest].push_back(make_pair(Node(src.job, src.operation, idSrc, NodeType::INTERNO), (*it).second));
 }
 
-vector< vector<Node> > Graph::bellmanFord(){
+vector< pair<Node, Node> > Graph::bellmanFord(){
 
     int nArestas = nEdges;
 
@@ -99,7 +96,7 @@ vector< vector<Node> > Graph::bellmanFord(){
         cout << i << ": " << caminhoEdge[i] << endl;
     } */    
 
-    vector< vector<Node> > criticalPath(instance.get_num_jobs());
+    vector< pair<Node, Node> > criticalPath(instance.get_num_jobs());
     
     //if(isFeasible(distances)){
 
@@ -109,7 +106,7 @@ vector< vector<Node> > Graph::bellmanFord(){
             int tamanho = 0;
 
             while(i != 0 && tamanho < nVertex-1){   
-                criticalPath[job].push_back(vertexList[caminhoEdge[i]]);
+                criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[caminhoEdge[i+1]]));
                 i = caminhoEdge[i];
                 tamanho++;
             }
@@ -262,9 +259,9 @@ Graph Graph::construct_disjuntive_graph(GanttRepresentation initialSolution){
         cout << endl;
     }
 
-    for(auto i : vertexList){
+    /* for(auto i : vertexList){
         cout << "(" << i.first << " " << i.second.job << " " << i.second.operation << ")" << endl;
-    }
+    } */
 
     return *this;
 }

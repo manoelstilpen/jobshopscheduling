@@ -31,15 +31,15 @@ Solution FirstImprovement::apply(){
 
         updateCouldMove();
 
-        if(couldMove.size() == 0) break;
+        if(criticalBlocks.size() == 0) break;
 
         int randomBlock = 0;
         houveMelhora = false;
         atraso = INF;
-        for(int i=0 ; i<couldMove.size() ; i++){
+        for(int i=0 ; i<criticalBlocks.size() ; i++){
 
-            int randomEdge = rand() % couldMove[randomBlock].size();
-            invert(couldMove[randomBlock][randomEdge].index);
+            int randomEdge = rand() % criticalBlocks[randomBlock].size();
+            invert(criticalBlocks[randomBlock][randomEdge]);
 
 //            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);

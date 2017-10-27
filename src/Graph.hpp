@@ -19,7 +19,7 @@ public:
     void invert(int, int);
     void invert(Node, Node);
 
-    vector< vector<Node> > bellmanFord();
+    vector< pair<Node, Node> > bellmanFord();
     bool isFeasible(vector<int>);
 
     Graph construct_conjuctive_graph();
