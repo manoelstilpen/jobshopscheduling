@@ -45,19 +45,16 @@ Solution FirstImprovement::apply(){
 
             atraso = evaluator.evaluate_by_graph(graph);
 
-            if(atraso < melhorAtraso)
-            {
+            if(atraso < melhorAtraso){
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
 
                 // TIRAR COMENTARIO:
-                //bestSolution.setSolution(graph.generate_gantt());
+                bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
                 houveMelhora = true;
                 break;
-            }
-            else 
-            {
+            } else {
                 // no caso de piora, reverte o movimento
                 undo_last_movement();
                 randomBlock++;

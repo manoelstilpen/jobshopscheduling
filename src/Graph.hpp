@@ -25,6 +25,8 @@ public:
     Graph construct_conjuctive_graph();
     Graph construct_disjuntive_graph(GanttRepresentation);
 
+    GanttRepresentation generate_gantt();
+
     int getNEdges();
     int getVertexPerJob();
     int getDistanceFrom(int);

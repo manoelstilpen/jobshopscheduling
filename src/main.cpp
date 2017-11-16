@@ -1,6 +1,7 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
 #include "Constructives/Constructives.hpp"
+#include "Movements/VariableNeighborhoodSearch.hpp"
 //#include "Movements/Movements.hpp"
 #include "Evaluator.hpp"
 
@@ -106,8 +107,12 @@ clock_t begin = clock();
 
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
-	
+	VariableNeighborhoodSearch vns(s);
+	s = vns.apply();
 
+	Evaluator eval(instance);
+    cout << eval.evaluate_solution(s) << endl;
+	
 	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);

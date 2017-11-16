@@ -268,6 +268,32 @@ Graph Graph::construct_disjuntive_graph(GanttRepresentation initialSolution){
     return *this;
 }
 
+GanttRepresentation Graph::generate_gantt(){
+
+    GanttRepresentation solution;
+    solution.resize(instance.get_num_machines());
+    
+    // gera o grafico com base no grafo
+    for(int i=0 ; i<instance.get_num_jobs() ; i++){
+        for(int j=0 ; j<instance.get_num_operations() ; j++){
+            Schedule atual = instance[i][j];
+            solution[atual.machine].push_back(atual);
+            solution[atual.machine].back().time_execution = getDistanceFrom(vertexPerJob*atual.job+atual.operation+1) + instance[atual.job][atual.operation].time_execution; 
+        }
+    }
+
+    // ordena as operacoes
+    for(int i=0 ; i<solution.size() ; i++){
+        sort(solution[i].begin(), solution[i].end(),
+            [](const Schedule &a, const Schedule &b) -> bool{ 
+                return a.time_execution < b.time_execution; 
+            }
+        );
+    }
+
+    return solution;
+}
+
 int Graph::getNEdges(){
     int cont = 0;
 
