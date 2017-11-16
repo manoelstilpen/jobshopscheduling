@@ -34,7 +34,7 @@ void Graph::add(int src, int dest){
 
 // TODO: inverter uma aresta recebendo os indices dos vertices como parametro
 void Graph::invert(int src, int dest){
-    
+    cout << "IMPLEMENTAR" << endl;
 }
 
 void Graph::invert(Node src, Node dest){
@@ -53,6 +53,7 @@ void Graph::invert(Node src, Node dest){
     }
 
     // invertendo
+    edges[idSrc].erase(it);
     edges[idDest].push_back(make_pair(Node(src.job, src.operation, idSrc, NodeType::INTERNO), (*it).second));
 }
 
@@ -60,8 +61,9 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
 
     int nArestas = nEdges;
 
-	// Step 1: Initialize distances from src to all other vertices as INFINITE
-	vector<int> distances(nVertex, -INF);
+    // Step 1: Initialize distances from src to all other vertices as INFINITE
+    distances.clear();
+	distances.resize(nVertex, -INF);
     distances[0] = 0;
         
     vector<int> caminhoEdge;
@@ -87,16 +89,17 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
         }
     }
 
-//    for (int i = 0; i < distances.size(); ++i)
-//        printf("%d \t %d\n", i, distances[i]);
+    /* for (int i = 0; i < distances.size(); ++i)
+        printf("%d \t %d\n", i, distances[i]);
     
 
-    /* cout << "CAMINHO" << endl;
+    cout << "CAMINHO" << endl;
     for(int i=0 ; i<caminhoEdge.size(); i++){
         cout << i << ": " << caminhoEdge[i] << endl;
-    } */    
+    }
+    cout << endl; */
 
-    vector< pair<Node, Node> > criticalPath(instance.get_num_jobs());
+    vector< pair<Node, Node> > criticalPath;
     
     //if(isFeasible(distances)){
 
@@ -106,20 +109,17 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
             int tamanho = 0;
 
             while(i != 0 && tamanho < nVertex-1){   
-                criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[caminhoEdge[i+1]]));
+                criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
                 i = caminhoEdge[i];
                 tamanho++;
             }
         }
 
-        /* for(int i=0 ; i<criticalPath.size() ; i++){
-            for(int j=0 ; j<criticalPath[i].size() ; j++){
-                cout << criticalPath[i][j].toString() << " ";
-            }
-            cout << endl;
-        } */
-
-   // }
+        /* cout << "CAMINHOS CRITICOS GRAFO: " << endl;
+        for(int i=0 ; i<criticalPath.size() ; i++){
+            cout << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << endl;
+        }
+        cout << "END" << endl;  */
 
     return criticalPath;
 }
@@ -249,15 +249,17 @@ Graph Graph::construct_disjuntive_graph(GanttRepresentation initialSolution){
                 add(src, destination, data);
             }
         }
-    }
+    } 
 
-    for(auto m : edges){
+//    bellmanFord();
+
+    /* for(auto m : edges){
         cout << m.first << " - ";
         for(auto i : m.second){
             cout << "(" << i.first.job << " " << i.first.operation << " " << i.second.weight << ") "; 
         }
         cout << endl;
-    }
+    } */
 
     /* for(auto i : vertexList){
         cout << "(" << i.first << " " << i.second.job << " " << i.second.operation << ")" << endl;
@@ -274,4 +276,22 @@ int Graph::getNEdges(){
     }
 
     return cont;
+}
+
+int Graph::getVertexPerJob(){
+    return vertexPerJob;
+}
+
+int Graph::getDistanceFrom(int id){
+    return distances[id];
+}
+
+void Graph::printGraph(){
+    for(auto m : edges){
+        cout << m.first << " - ";
+        for(auto i : m.second){
+            cout << "(" << i.first.job << " " << i.first.operation << " " << i.second.weight << ") "; 
+        }
+        cout << endl;
+    }
 }

@@ -104,7 +104,6 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	Graph graph(instance);
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
 	

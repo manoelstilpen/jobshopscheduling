@@ -34,12 +34,10 @@ public:
     virtual Solution apply() = 0;
 
     virtual void updateCouldMove() {
-
         // atualiza o caminho critico e as arestas passiveis de troca
         criticalPath = graph.bellmanFord();
 
         criticalBlocks.clear();
-        //graph.printCriticalPath();
         
         bool bloco = false;
         int blocoAtual = -1;
@@ -65,20 +63,21 @@ public:
             return a.size() > b.size();
         }); */
 
-        printCouldMove();
+//        printCouldMove();
     }
 
     bool isCritical(pair<Node, Node> edge){
-        return edge.first.job != edge.second.job;
+        return (edge.first.job != edge.second.job) && 
+                edge.first.job != -1 && edge.second.job != -1;
     }
 
     void invert(pair<Node, Node> edge){
         graph.invert(edge.first, edge.second);
-//        lastMovements.push_back(edge_index);
+        lastMovements.push_back(edge);
     }
 
     void undo_movements(){
-
+        cout << "IMPLEMENTAR" << endl;
         for(int i=0 ; i<lastMovements.size() ; i++){
            // graph.invert(lastMovements[i]);
         }
@@ -87,14 +86,13 @@ public:
     }
 
     void undo_last_movement(){
-        //graph.invert(lastMovements.back());
+        graph.invert(lastMovements.back().second, lastMovements.back().first);
         lastMovements.pop_back();
     }
 
     void printCouldMove(){
         cout << "ARESTAS QUE PODEM MOVER: " << endl;
-        for(int i=0 ; i<criticalBlocks.size() ; i++)
-        {
+        for(int i=0 ; i<criticalBlocks.size() ; i++){
             for(int j=0 ; j<criticalBlocks[i].size() ; j++){
                 cout << "(" << criticalBlocks[i][j].first.index << " " << criticalBlocks[i][j].second.index << "), ";
             }
@@ -164,7 +162,7 @@ protected:
 
     float timeTotal;
 
-    vector<int> lastMovements;
+    vector<pair<Node, Node> > lastMovements;
 
     vector< pair<Node, Node > > criticalPath;
     vector< vector< pair<Node, Node > > > criticalBlocks;

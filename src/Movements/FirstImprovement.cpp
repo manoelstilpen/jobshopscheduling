@@ -21,14 +21,14 @@ Solution FirstImprovement::apply(){
 
     graph.bellmanFord();
 
-    melhorAtraso = evaluator.evaluate_by_graph(graph);
+    melhorAtraso = evaluator.evaluate_by_graph(graph);  
     atrasoInicial = melhorAtraso;
 
     int atraso;
     bool houveMelhora = false;
     
     do {
-
+        
         updateCouldMove();
 
         if(criticalBlocks.size() == 0) break;
@@ -36,19 +36,19 @@ Solution FirstImprovement::apply(){
         int randomBlock = 0;
         houveMelhora = false;
         atraso = INF;
+
         for(int i=0 ; i<criticalBlocks.size() ; i++){
 
             int randomEdge = rand() % criticalBlocks[randomBlock].size();
+
             invert(criticalBlocks[randomBlock][randomEdge]);
 
-//            cout << "TROCANDO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
             atraso = evaluator.evaluate_by_graph(graph);
 
             if(atraso < melhorAtraso)
             {
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
-//                cout << melhorAtraso << endl;
 
                 // TIRAR COMENTARIO:
                 //bestSolution.setSolution(graph.generate_gantt());
@@ -62,11 +62,10 @@ Solution FirstImprovement::apply(){
                 undo_last_movement();
                 randomBlock++;
             }
+
         }
 
     } while(houveMelhora);
-
-//    print();
 
     return bestSolution;
 }   

@@ -26,6 +26,10 @@ public:
     Graph construct_disjuntive_graph(GanttRepresentation);
 
     int getNEdges();
+    int getVertexPerJob();
+    int getDistanceFrom(int);
+
+    void printGraph();
     
 private:
 
@@ -41,6 +45,8 @@ private:
 
     map<int, vector< pair<Node, EdgeData> > > edges;
     map<int, Node> vertexList;
+
+    vector<int> distances;
 
 };
 

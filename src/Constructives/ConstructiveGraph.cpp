@@ -33,14 +33,13 @@ Solution ConstructiveGraph::apply(){
 
     initialSolution.setGraph(graph);
 
-  /*   Evaluator eval(instance);
-    cout << eval.evaluate_by_graph(initialSolution) << " "; 
-*/
+    Evaluator eval(instance);
 
-// COLOCAR REFINO
-    //initialSolution = dispatch_rule->refinement(initialSolution);
+//    cout << eval.evaluate_by_graph(initialSolution) << " ";
 
-//    cout << eval.evaluate_by_graph(initialSolution) << endl;
+    initialSolution = dispatch_rule->refinement(initialSolution);
+
+    cout << eval.evaluate_by_graph(initialSolution.getGraph()) << endl;
     
     return initialSolution;
 }
