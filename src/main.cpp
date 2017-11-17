@@ -111,8 +111,9 @@ clock_t begin = clock();
 	s = vns.apply();
 
 	Evaluator eval(instance);
-    cout << eval.evaluate_solution(s) << endl;
-	
+    cout << eval.evaluate_by_graph(s) << endl;
+	//s.print_solution();
+
 	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);

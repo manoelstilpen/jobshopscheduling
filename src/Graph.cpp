@@ -53,8 +53,11 @@ void Graph::invert(Node src, Node dest){
     }
 
     // invertendo
+    EdgeData data = (*it).second;
+    data.weight = instance[dest.job][dest.operation].time_execution;
+
     edges[idSrc].erase(it);
-    edges[idDest].push_back(make_pair(Node(src.job, src.operation, idSrc, NodeType::INTERNO), (*it).second));
+    edges[idDest].push_back(make_pair(Node(src.job, src.operation, idSrc, NodeType::INTERNO), data));
 }
 
 vector< pair<Node, Node> > Graph::bellmanFord(){

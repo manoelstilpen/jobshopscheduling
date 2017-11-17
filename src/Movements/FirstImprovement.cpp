@@ -40,7 +40,6 @@ Solution FirstImprovement::apply(){
         for(int i=0 ; i<criticalBlocks.size() ; i++){
 
             int randomEdge = rand() % criticalBlocks[randomBlock].size();
-
             invert(criticalBlocks[randomBlock][randomEdge]);
 
             atraso = evaluator.evaluate_by_graph(graph);
@@ -49,7 +48,6 @@ Solution FirstImprovement::apply(){
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
 
-                // TIRAR COMENTARIO:
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
                 houveMelhora = true;

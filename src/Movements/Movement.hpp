@@ -57,11 +57,11 @@ public:
             }
 
         }
-/*
-        sort(couldMove.begin(), couldMove.end(), [&](const vector<Edge> a,
-                                                            const vector<Edge> b){
+
+        sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<pair<Node, Node>> a,
+                                                            const vector<pair<Node, Node>> b){
             return a.size() > b.size();
-        }); */
+        });
 
 //        printCouldMove();
     }
@@ -78,11 +78,11 @@ public:
 
     void undo_movements(){
         cout << "IMPLEMENTAR" << endl;
-        for(int i=0 ; i<lastMovements.size() ; i++){
-           // graph.invert(lastMovements[i]);
+        /* for(int i=0 ; i<lastMovements.size() ; i++){
+            graph.invert(lastMovements[i]);
         }
 
-        lastMovements.clear();
+        lastMovements.clear(); */
     }
 
     void undo_last_movement(){
