@@ -47,10 +47,13 @@ Solution FirstImprovement::apply(){
             if(atraso < melhorAtraso){
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
-
+                
+                graph.bellmanFord();
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
+
                 houveMelhora = true;
+
                 break;
             } else {
                 // no caso de piora, reverte o movimento
@@ -61,6 +64,6 @@ Solution FirstImprovement::apply(){
         }
 
     } while(houveMelhora);
-
+    
     return bestSolution;
 }   

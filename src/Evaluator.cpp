@@ -59,18 +59,7 @@ int Evaluator::evaluate_by_graph(Graph _graph){
 }
 
 int Evaluator::evaluate_by_graph(Solution _s){
- 	Graph graph = _s.getGraph();
-
-	int soma_atraso = 0;
-	int v_per_job = graph.getVertexPerJob();
-	
-	graph.bellmanFord();
-	
-	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
-		soma_atraso += (graph.getDistanceFrom(v_per_job*i) * instance.get_vec_priorities()[i-1]);
-	}
-
-	return soma_atraso;
+ 	return evaluate_by_graph(_s.getGraph());
 }
 
 bool Evaluator::testa_solucao(Solution solution){

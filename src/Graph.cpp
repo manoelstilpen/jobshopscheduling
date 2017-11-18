@@ -61,12 +61,12 @@ void Graph::invert(Node src, Node dest){
 }
 
 vector< pair<Node, Node> > Graph::bellmanFord(){
-
+    clock_t begin = clock();
     int nArestas = nEdges;
 
-    // Step 1: Initialize distances from src to all other vertices as INFINITE
+    // Step 1: Initialize distances from src to all other vertices as -INFINITE
     distances.clear();
-	distances.resize(nVertex, -INF);
+    distances.resize(nVertex, -INF);
     distances[0] = 0;
         
     vector<int> caminhoEdge;
@@ -74,8 +74,10 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
 
 	// Step 2: Relax all edges |nVertex|-1 times. A simple longest 
 	// path from src to any other vertex can have at-most |V| - 1 
-	// edges
-	for (int i = 1; i <= nVertex-1; i++){
+    // edges
+    bool houveAlteracao = true;
+	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
+        houveAlteracao = false;
         for(int j=0 ; j<edges.size() ; j++){
 		    for (int k = 0; k < edges[j].size(); k++){
 
@@ -86,16 +88,21 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
                 if (distances[vertOrigem] != -INF && distances[vertOrigem] + weight > distances[vertDestino]){
                     caminhoEdge[vertDestino] = vertOrigem;
                     distances[vertDestino] = distances[vertOrigem] + weight;
+                    houveAlteracao = true;
                 }
 
             }
         }
     }
 
-    /* for (int i = 0; i < distances.size(); ++i)
-        printf("%d \t %d\n", i, distances[i]);
-    
+//    clock_t end = clock();
+//    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+//    cout << elapsed_secs << endl;
 
+   /*  for (int i = 0; i < distances.size(); ++i)
+        printf("%d \t %d\n", i, distances[i]);
+     */
+/*
     cout << "CAMINHO" << endl;
     for(int i=0 ; i<caminhoEdge.size(); i++){
         cout << i << ": " << caminhoEdge[i] << endl;
@@ -123,6 +130,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
             cout << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << endl;
         }
         cout << "END" << endl;  */
+
 
     return criticalPath;
 }

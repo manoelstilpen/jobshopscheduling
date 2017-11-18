@@ -55,7 +55,6 @@ Solution VariableNeighborhoodSearch::apply(){
 
             iterAtual++;
             print_progress();
-  //          cout << atraso << endl;
         }
     }
 

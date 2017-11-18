@@ -2,7 +2,7 @@ ifndef VERBOSE
 .SILENT:
 endif
 
-COMPILER = g++ -std=c++11 -Wall -g -O3
+COMPILER = g++ -std=c++11 -Wall -g -O3 -Ofast
 EXEC_PROG = app
 BINARIES = $(EXEC_PROG)
 LIBS = -lboost_system -lboost_filesystem -lboost_program_options
