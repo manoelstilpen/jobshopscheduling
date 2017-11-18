@@ -2,7 +2,7 @@
 #include "ProblemInstance.hpp"
 #include "Constructives/Constructives.hpp"
 #include "Movements/VariableNeighborhoodSearch.hpp"
-//#include "Movements/Movements.hpp"
+#include "Movements/SimulatedAnnealing.hpp"
 #include "Evaluator.hpp"
 
 #include <iostream>
@@ -107,7 +107,7 @@ clock_t begin = clock();
 
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
-	VariableNeighborhoodSearch vns(s);
+	SimulatedAnnealing vns(s);
 	s = vns.apply();
 
 	Evaluator eval(instance);

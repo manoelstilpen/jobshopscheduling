@@ -34,17 +34,13 @@ Solution ConstructiveGraph::apply(){
     initialSolution.setGraph(graph);
 //    initialSolution.setSolution(initialSolution);
 
-//  Evaluator eval(instance);
+  Evaluator eval(instance);
 //    cout << eval.evaluate_by_graph(initialSolution) << " ";
 
     initialSolution = dispatch_rule->refinement(initialSolution);
 
-//    cout << eval.evaluate_by_graph(initialSolution) << endl;
+    cout << eval.evaluate_by_graph(initialSolution) << endl;
     
-//    initialSolution.print_solution();
-//	initialSolution.getGraph().printGraph();
-//	initialSolution.getGraph().bellmanFord();
-
     return initialSolution;
 }
 
