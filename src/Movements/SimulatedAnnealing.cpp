@@ -62,6 +62,7 @@ Solution SimulatedAnnealing::apply(){
   //                  cout << "TROCADO " << couldMove[randomEdge].source.index << "-" << couldMove[randomEdge].destination.index << endl;
 //                    cout << "OTIMO LOCAL " << atraso << endl;
                     melhorAtraso = atraso;
+
                     bestSolution.setSolution(graph.generate_gantt());
                     bestSolution.setGraph(graph);
                 }
