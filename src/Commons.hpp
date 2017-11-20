@@ -82,6 +82,14 @@ namespace twtjssp{
 			return ss.str();
 		}
 
+		bool operator==(const Node& n1){
+    		return (job == n1.job && operation == n1.operation);
+		}
+
+		bool operator!=(const Node& n1){
+    		return !(job == n1.job && operation == n1.operation);
+		}
+
 	};
 
 	struct EdgeData{

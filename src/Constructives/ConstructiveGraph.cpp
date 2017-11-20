@@ -24,8 +24,6 @@ Solution ConstructiveGraph::apply(){
     // priority rule
     Grasp* dispatch_rule = new Grasp(instance, alpha);
     Solution initialSolution = dispatch_rule->apply();
-    
-    initialSolution.print_solution(); 
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 

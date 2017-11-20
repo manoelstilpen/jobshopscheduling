@@ -36,6 +36,10 @@ public:
     int getWeight(int, int);
     int getVertexId(int, int);
     int getVertexId(Node);
+    Node getVertex(int);
+    Node getVertex(int, int);
+
+    map<int, vector<Node > > getAdjacencyList();
 
     void printGraph();
     

@@ -53,6 +53,9 @@ bool Graph::invert(Node src, Node dest){
     if(it == edges[idSrc].end()){
         cout << "INVERSAO INVALIDA" << endl;
         return false;
+    } else if(src.job == dest.job){
+        cout << "INVERSAO INVALIDA" << endl;
+        return false;
     }
 
     // invertendo
@@ -343,6 +346,18 @@ int Graph::getVertexId(int job, int op){
 
 int Graph::getVertexId(Node n){
     return getVertexId(n.job, n.operation);
+}
+
+Node Graph::getVertex(int id){
+    return vertexList[id];
+}
+
+Node Graph::getVertex(int job, int op){
+    return vertexList[getVertexId(job, op)];
+}
+
+map<int, vector<Node > > Graph::getAdjacencyList(){
+    return edges;
 }
 
 void Graph::printGraph(){
