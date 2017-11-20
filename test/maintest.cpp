@@ -46,6 +46,31 @@ bool unit_grafo_inversao(){
     return true;
 }
 
+bool unit_grafo_ciclo(){
+
+    ConstructiveGraph constructive(instance, 0);
+	Solution s = constructive.apply();
+    Graph graph = s.getGraph();
+    
+    // testando inversao de aresta
+    Node src = graph.getVertex(1);
+    Node dest = graph.getVertex(18);
+    assert(graph.invert(src, dest) == true);
+
+    // aresta invertida causa ciclo no grafo, tornando inviavel a solucao
+    assert(graph.isFeasible() == false);
+    assert(graph.invert(dest, src) == true);
+
+    src = graph.getVertex(8);
+    dest = graph.getVertex(13);
+    assert(graph.invert(src, dest) == true);
+
+    // aresta passivel de inversao, nao pode causar infeasibility
+    assert(graph.isFeasible() == true);
+
+    return true;
+}
+
 int main(){
 
 	instance.set_name_file("Instances/bierwirth.txt");
@@ -54,5 +79,6 @@ int main(){
 	}
 
     unit_grafo_inversao();
+    unit_grafo_ciclo();
 
 }
