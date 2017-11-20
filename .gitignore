@@ -1,4 +1,6 @@
 *.o
+debug
+app
 *.json
 *.txt
 *.png
