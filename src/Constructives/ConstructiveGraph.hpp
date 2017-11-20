@@ -4,13 +4,13 @@
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 #include "Grasp.hpp"
-#include "GraspPriority.hpp"
-#include "Constructives.hpp"
+#include "Constructive.hpp"
+#include "Constructives.hpp" 
 
 // CONJUNCAO => e
 // DISJUNCAO => ou
 
-class ConstructiveGraph : public Constructive{
+class ConstructiveGraph : public Constructive {
     
     public:
         ConstructiveGraph();

@@ -1,7 +1,8 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
-#include "Constructives/Constructives.hpp"
-#include "Movements/Movements.hpp"
+#include "Constructives/ConstructiveGraph.hpp"
+/* #include "Constructives/Constructives.hpp"
+#include "Movements/Movements.hpp" */
 #include "Evaluator.hpp"
 
 #include <iostream>
@@ -104,7 +105,11 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	if(movement.compare("sprt") == 0){
+	ConstructiveGraph constructive(instance, alpha_grasp);
+	Solution s = constructive.apply();
+	
+
+	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
 		solution = grasp.apply();
@@ -128,7 +133,7 @@ clock_t begin = clock();
 	} else if(movement.compare("vns") == 0){
 
 		ConstructiveGraph constructive(instance, alpha_grasp);
-		Solution s = constructive.apply();
+		Solution s = constructive.apply(); */
 
 
 		/*Solution sol(instance);
@@ -146,7 +151,7 @@ clock_t begin = clock();
 		solution = vns.apply();
 		vns.print();
 */	
-	}
+//	}
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

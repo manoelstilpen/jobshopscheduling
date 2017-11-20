@@ -16,38 +16,33 @@ void ConstructiveGraph::print_method_informations(){
 Solution ConstructiveGraph::apply(){
 
     Graph graph(instance);
-    graph = graph.construct_conjuctive_graph();
+    graph = graph.construct_conjunctive_graph();
 
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
-    Grasp* dispatch_rule = new GraspPriority(instance, alpha);
+
+    // priority rule
+    Grasp* dispatch_rule = new Grasp(instance, alpha);
     Solution initialSolution = dispatch_rule->apply();
+    
+    initialSolution.print_solution(); 
 
-    graph = graph.construct_disjuntive_graph(initialSolution.getSolution());
-
-//    graph.bellmanFord();
-//    graph.printCriticalPath();
-//    graph.printEdges();
+    graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 
     initialSolution.setGraph(graph);
 
-  /*   Evaluator eval(instance);
-    cout << eval.evaluate_by_graph(initialSolution) << " "; 
-*/
+//    Evaluator eval(instance);
+//    cout << eval.evaluate_by_graph(initialSolution) << " ";
 
     initialSolution = dispatch_rule->refinement(initialSolution);
 
 //    cout << eval.evaluate_by_graph(initialSolution) << endl;
-    
+
     return initialSolution;
 }
 
 void ConstructiveGraph::print(){
-    for(int i=0 ; i<graph.size() ; i++){
-        std::cout << "(" << graph[i].source.job << "-" << graph[i].source.operation << ", " << 
-        graph[i].destination.job << "-" << graph[i].destination.operation << ", " << 
-        graph[i].weight << ")" << endl;
-    }
+   
 }
 
 void ConstructiveGraph::print_gantt(){

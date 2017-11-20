@@ -4,55 +4,60 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
 
+#include <map>
+#include <queue>
+#include <list>
+#include <limits.h>
+
 using namespace twtjssp;
 
 class Graph{
 
 public:
-
-    Edge operator[](const int& i){
-        return (edges[i]);
-    }
-
     Graph();
     Graph(ProblemInstance);
 
-    vector< vector<Edge> > bellmanFord();
-
-    void add(Edge);
-    void invert(int);
-
-    void printDistances();
-    void printCriticalPath();
-    void printEdges();
-
-    Graph construct_conjuctive_graph();
-    Graph construct_disjuntive_graph(GanttRepresentation);
-
-    GanttRepresentation generate_gantt();
-    Graph generate_graph(GanttRepresentation);
-
-    int size();
-
-    void setNVertex(int);
     void set_instance(ProblemInstance);
 
-    int getVertexPerJob();
-    vector<int> getDistances();
-    int getDistanceFrom(int, int);
+    bool invert(int, int);
+    bool invert(Node, Node);
 
+    vector< pair<Node, Node> > bellmanFord();
     bool isFeasible();
 
+    Graph construct_conjunctive_graph();
+    Graph construct_disjunctive_graph(GanttRepresentation);
 
+    GanttRepresentation generate_gantt();
+
+    int getNEdges();
+    int getVertexPerJob();
+    int getDistanceFrom(int);
+    int getWeight(int, int);
+    int getVertexId(int, int);
+    int getVertexId(Node);
+
+    void printGraph();
+    
 private:
+
+    void add(Node);
+    void add(Node, Node);
+    void add(int, int);
+
+    bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
+
     ProblemInstance instance;
+
     int vertexPerJob;
     int nVertex;
     int nEdges;
 
-    vector<Edge> edges;
+    map<int, vector<Node > > edges;
+    map<int, Node> vertexList;
+
     vector<int> distances;
-    vector< vector<Edge> > criticalPath;
+
 };
 
 #endif

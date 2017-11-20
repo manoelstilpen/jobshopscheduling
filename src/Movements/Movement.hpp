@@ -34,90 +34,67 @@ public:
     virtual Solution apply() = 0;
 
     virtual void updateCouldMove() {
-
         // atualiza o caminho critico e as arestas passiveis de troca
         criticalPath = graph.bellmanFord();
 
-        couldMove.clear();
-        //graph.printCriticalPath();
+        criticalBlocks.clear();
         
         bool bloco = false;
         int blocoAtual = -1;
         for(int i=0 ; i<criticalPath.size() ; i++){
 
-            for(int j=0 ; j<criticalPath[i].size()-1 ; j++){
-
-                if(criticalPath[i][j].isCritical()){
-                    if(!bloco){
-                        couldMove.push_back(vector<Edge>());
-                        blocoAtual++;
-                    }
-                    couldMove[blocoAtual].push_back(criticalPath[i][j]);
-                    bloco = true;
-
-                } else if(bloco == true) {
-                    bloco = false;
+            if(isCritical(criticalPath[i])){
+                if(!bloco){
+                    criticalBlocks.push_back(vector<pair<Node, Node> >());
+                    blocoAtual++;
                 }
+
+                criticalBlocks[blocoAtual].push_back(criticalPath[i]);
+                bloco = true;
+
+            } else if(bloco == true) {
+                bloco = false;
             }
+
         }
 
-        sort(couldMove.begin(), couldMove.end(), [&](const vector<Edge> a,
-                                                            const vector<Edge> b){
+        sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<pair<Node, Node>> a,
+                                                            const vector<pair<Node, Node>> b){
             return a.size() > b.size();
         });
-/*
-        for(int i=0 ; i<criticalPath.size() ; i++)
-        {
-            if(criticalPath[i].size() > 1)
-            {
-                for(int j=0 ; j<criticalPath[i].size() ; j++)
-                {
-                    if(criticalPath[i][j].isCritical())
-                    {
-                        if(std::find_if(couldMove.begin(), couldMove.end(), [&](const Edge& a){
-                                return a.source.job == criticalPath[i][j].source.job &&
-                                        a.destination.job == criticalPath[i][j].destination.job &&
-                                        a.source.operation == criticalPath[i][j].source.operation &&
-                                        a.destination.operation == criticalPath[i][j].destination.operation; 
-                            
-                            }) == couldMove.end()) {
 
-                                // v does not contains x 
-                                couldMove.push_back(criticalPath[i][j]);
-                        } 
-                    }
-                }
-            }
-        }
-       */ 
-        //printCouldMove();
+//        printCouldMove();
     }
 
-    void invert(int edge_index){
-        graph.invert(edge_index);
-        lastMovements.push_back(edge_index);
+    bool isCritical(pair<Node, Node> edge){
+        return (edge.first.job != edge.second.job) && 
+                edge.first.job != -1 && edge.second.job != -1;
+    }
+
+    void invert(pair<Node, Node> edge){
+        graph.invert(edge.first, edge.second);
+        lastMovements.push_back(edge);
     }
 
     void undo_movements(){
-
-        for(int i=0 ; i<lastMovements.size() ; i++){
+        cout << "IMPLEMENTAR" << endl;
+        /* for(int i=0 ; i<lastMovements.size() ; i++){
             graph.invert(lastMovements[i]);
         }
 
-        lastMovements.clear();
+        lastMovements.clear(); */
     }
 
     void undo_last_movement(){
-        graph.invert(lastMovements.back());
+        graph.invert(lastMovements.back().second, lastMovements.back().first);
         lastMovements.pop_back();
     }
 
     void printCouldMove(){
         cout << "ARESTAS QUE PODEM MOVER: " << endl;
-        for(int i=0 ; i<couldMove.size() ; i++)
-        {
-            for(int j=0 ; j<couldMove[i].size() ; j++){
-                cout << "(" << couldMove[i][j].source.index << " " << couldMove[i][j].destination.index << "), ";
+        for(int i=0 ; i<criticalBlocks.size() ; i++){
+            for(int j=0 ; j<criticalBlocks[i].size() ; j++){
+                cout << "(" << criticalBlocks[i][j].first.index << " " << criticalBlocks[i][j].second.index << "), ";
             }
             cout << endl;
         }
@@ -185,10 +162,10 @@ protected:
 
     float timeTotal;
 
-    vector<int> lastMovements;
+    vector<pair<Node, Node> > lastMovements;
 
-    vector< vector<Edge> > criticalPath;
-    vector< vector<Edge> > couldMove;
+    vector< pair<Node, Node > > criticalPath;
+    vector< vector< pair<Node, Node > > > criticalBlocks;
 
 
 };

@@ -137,8 +137,8 @@ GanttRepresentation Solution::extract_solution_from_file(string filename){
 
     file.close();
 
-    graph.construct_conjuctive_graph();
-    graph.construct_disjuntive_graph(solution);
+//    graph.construct_conjuctive_graph();
+//    graph.construct_disjuntive_graph(solution);
 
     return solution;
 }

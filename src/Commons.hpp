@@ -18,7 +18,6 @@ using namespace std;
 //Total Weighted Tardiness Job-Shop Scheduling Problem
 namespace twtjssp{
 
-	enum NodeType{GHOST, BEGIN, INTERNO};
 	enum EdgeType{CONJUNTIVO, DISJUNTIVO};
 	
 	// CONJUNCAO => e
@@ -63,18 +62,18 @@ namespace twtjssp{
 	struct Node{
 		int job;
 		int operation;
+		int weight;
 		int index;
-		NodeType type;
 
 		Node(){
 			job = operation = -1;
 		}
 
-		Node(int j, int o, int i, NodeType tp){
-			this->job = j;
-			this->index = i;
-			this->operation = o;
-			this->type = tp;
+		Node(int job, int op, int id, int weight){
+			this->job = job;
+			this->index = id;
+			this->operation = op;
+			this->weight = weight;
 		}
 
 		string toString(){
@@ -85,26 +84,43 @@ namespace twtjssp{
 
 	};
 
+	struct EdgeData{
+		int weight;
+		bool critical;
+
+		EdgeData(){
+			weight = -1;
+			critical = false;
+		}
+
+		EdgeData(int w, bool c){
+			weight = w;
+			critical = c;
+		}
+
+		bool isCritical(){
+			return critical;
+		}
+	};
+
 	struct Edge{
 		Node source;
 		Node destination;
-		int weight;
+		EdgeData data;
 		int index;
-		bool critical;
 
 		Edge(){
-			weight = -1;
-			critical = false;
+			
 		}
 
 		Edge(Node src, Node dest, int wght){
 			this->source = src;
 			this->destination = dest;
-			this->weight = wght;
+			/* this->weight = wght;
 			this->critical = [&]() {
 				if(source.job != destination.job && source.job != -1 && destination.job != -1) return true;
 				return false;
-			}();
+			}(); */
 		}
 
 		void invertWay(){
@@ -113,13 +129,9 @@ namespace twtjssp{
 			source = aux;
 		}
 
-		bool isCritical(){
-			return this->critical;
-		}
-
 		string toString(){
 			stringstream ss;
-			ss << source.toString() << " -> " << destination.toString() << " - " << weight << " " << index;
+			//ss << source.toString() << " -> " << destination.toString() << " - " << weight << " " << index;
 			return ss.str();
 		}
 

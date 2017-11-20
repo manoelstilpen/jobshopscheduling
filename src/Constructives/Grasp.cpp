@@ -92,30 +92,46 @@ Solution Grasp::refinement(Solution s){
 }
 
 int Grasp::choose_schedule(){
-	// escolhe aleatoriamente um indice na lista restrita de operacoes
-	return rand() % restricts.size();
+	int menor = 0;
+    if(restricts.size() > 1){
+        /* 
+         * Se considerar o menor tempo de processamento como criterio de desempate,
+         * o atraso da solucao fica muito alto.
+         * A melhor opcao é considerar a tarefa que implica no menor tempo acumulado em sua maquina.
+         */
+
+        vector<int> acumulatedTimes;
+        for(int j=0 ; j<restricts.size() ; j++){
+            // Retorna o tempo acumulado da maquina caso a tarefa fosse inserida
+			int tempoAcumulado = solution.time_can_be_alocated(jobs_temp[restricts[j]][0]) + jobs_temp[restricts[j]][0].time_execution;
+            acumulatedTimes.push_back(tempoAcumulado);
+        }
+
+        // Procura pelo menor
+        for(int j=0 ; j<acumulatedTimes.size() ; j++){
+            if(acumulatedTimes[j] < acumulatedTimes[menor]){
+                menor = j;
+            }
+        }
+
+    }
+    
+    return menor;	
 }
 
 float Grasp::define_priority(Schedule op){
-	// defines the function for mod rule
+	 /* Retorna o tempo de folga ou atraso da operacao */
 
-	// max (t+p(i,j), d(i,j))
-	int mod;
-	int quant_tarefas = solution[op.machine].size();
-	int processTime = this->instance[op.job][op.task].time_execution;
-	int due_date = this->instance.get_due_times()[op.job];
+	// tempo de conclusao da operacao caso fosse inserida
+	int remainingTime = solution.time_can_be_alocated(op) + op.time_execution;
+	
+	// subtrai da data de entrega do job
+	remainingTime -= instance.get_due_times()[op.job];
+	
+	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
+	if(remainingTime < 0) remainingTime = 0;
 
-	if(quant_tarefas == 0){
-		mod = processTime;
-	} else {
-		mod = processTime + solution[op.machine][quant_tarefas-1].time_execution;
-	}
-
-	if(due_date > mod){
-		mod = due_date;
-	}
-
-	return mod;
+	return remainingTime;
 }
 
 void Grasp::remove_choosed_schedule(int index){
