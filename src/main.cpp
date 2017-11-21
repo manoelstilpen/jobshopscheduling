@@ -105,16 +105,17 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
+	Evaluator eval(instance);
+
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
-	SimulatedAnnealing vns(s);
-	s = vns.apply();
+	cout << "Constructive: " << eval.evaluate_by_graph(s) << endl;
 
-	Evaluator eval(instance);
-	cout << eval.evaluate_by_graph(s) << endl;
-/* 	s.print_solution();
-	s.getGraph().printGraph();
-	s.getGraph().bellmanFord(); */
+	VariableNeighborhoodSearch vns(s);
+	s = vns.apply();
+	cout << endl << "VNS: " << eval.evaluate_by_graph(s) << endl;
+// 	s.print_solution();
+
 
 	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
@@ -163,7 +164,7 @@ clock_t begin = clock();
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-//cout << elapsed_secs << endl;
+cout << elapsed_secs << endl;
 
 	return 0;
 }

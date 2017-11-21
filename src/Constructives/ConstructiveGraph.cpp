@@ -39,7 +39,7 @@ Solution ConstructiveGraph::apply(){
 
     initialSolution = dispatch_rule->refinement(initialSolution);
 
-    cout << eval.evaluate_by_graph(initialSolution) << endl;
+    //cout << eval.evaluate_by_graph(initialSolution) << endl;
     
     return initialSolution;
 }
