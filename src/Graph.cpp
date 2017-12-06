@@ -7,7 +7,7 @@ Graph::Graph(){
 Graph::Graph(ProblemInstance p){
     nEdges = 0;
     set_instance(p);
-}   
+}
 
 void Graph::set_instance(ProblemInstance p){
     instance = p;
@@ -43,7 +43,7 @@ bool Graph::invert(Node src, Node dest){
 
     int idSrc = src.index;
     int idDest = dest.index;
-    
+
     // verifica se existe aresta entre src e dest
     auto it = std::find_if(edges[idSrc].begin(), edges[idSrc].end(), [&](const Node& n1){
         return n1.job == dest.job && n1.operation == dest.operation;
@@ -71,12 +71,12 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     distances.clear();
     distances.resize(nVertex, -INF);
     distances[0] = 0;
-        
+
     vector<int> caminhoEdge;
     caminhoEdge.resize(nVertex);
 
-	// Step 2: Relax all edges |nVertex|-1 times. A simple longest 
-	// path from src to any other vertex can have at-most |V| - 1 
+	// Step 2: Relax all edges |nVertex|-1 times. A simple longest
+	// path from src to any other vertex can have at-most |V| - 1
     // edges
     bool houveAlteracao = true;
 	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
@@ -113,7 +113,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     cout << endl; */
 
     vector< pair<Node, Node> > criticalPath;
-    
+
     //if(isFeasible(distances)){
 
         for(int job = 0 ; job < instance.get_num_jobs() ; job++){
@@ -121,7 +121,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
             int i = (job+1)*vertexPerJob;
             int tamanho = 0;
 
-            while(i != 0 && tamanho < nVertex-1){   
+            while(i != 0 && tamanho < nVertex-1){
                 criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
                 i = caminhoEdge[i];
                 tamanho++;
@@ -143,11 +143,11 @@ bool Graph::isFeasible(){
     // marca todos os vertices como nao visitados e nao participantes da pilha de recursao
     vector<bool> visited(nVertex, false);
     vector<bool> recStack(nVertex, false);
- 
+
     for(int i = 0; i < nVertex; i++)
         if (isFeasibleRec(vertexList[i], visited, recStack))
             return false;
- 
+
     return true;
 }
 
@@ -158,8 +158,8 @@ bool Graph::isFeasibleRec(Node v, vector<bool>& visited, vector<bool>& recStack)
         // Mark the current node as visited and part of recursion stack
         visited[v.index] = true;
         recStack[v.index] = true;
- 
-        // Recur for all the vertices adjacent to this vertex   
+
+        // Recur for all the vertices adjacent to this vertex
         for(auto it : edges[v.index])
         {
             if ( !visited[it.index] && isFeasibleRec(it, visited, recStack) )
@@ -167,16 +167,16 @@ bool Graph::isFeasibleRec(Node v, vector<bool>& visited, vector<bool>& recStack)
             else if (recStack[it.index])
                 return true;
         }
- 
+
     }
-    
+
     recStack[v.index] = false;  // remove the vertex from recursion stack
 
     return false;
 }
 
 Graph Graph::construct_conjunctive_graph(){
-    
+
     int nJobs = instance.get_num_jobs();
     int nOperations = instance.get_num_operations();
 
@@ -197,7 +197,7 @@ Graph Graph::construct_conjunctive_graph(){
             // vertice Bj
             add(Node(jobAtual, opAtual, vertexAtual, -instance.get_due_times(jobAtual)));
             opAtual++;
-        } 
+        }
         else if(opAtual == vertexPerJob-1)
         {
             // vertice final do job
@@ -234,7 +234,7 @@ Graph Graph::construct_conjunctive_graph(){
 
             destination = vertexList[getVertexId(jobAtual, vertexPerJob-1)];
             opAtual++;
-        } 
+        }
         else if (opAtual == vertexPerJob-2)
         {
             // adiciona aresta Bj para Fj
@@ -242,8 +242,8 @@ Graph Graph::construct_conjunctive_graph(){
             destination = vertexList[getVertexId(jobAtual, opAtual+1)];
             jobAtual++;
             opAtual = -1;
-        } 
-        else 
+        }
+        else
         {
             // adiciona aresta entre operacoes do job
             source = vertexList[getVertexId(jobAtual, opAtual)];
@@ -296,21 +296,21 @@ GanttRepresentation Graph::generate_gantt(){
 
     GanttRepresentation solution;
     solution.resize(instance.get_num_machines());
-    
+
     // gera o grafico com base no grafo
     for(int i=0 ; i<instance.get_num_jobs() ; i++){
         for(int j=0 ; j<instance.get_num_operations() ; j++){
             Schedule atual = instance[i][j];
             solution[atual.machine].push_back(atual);
-            solution[atual.machine].back().time_execution = getDistanceFrom(vertexPerJob*atual.job+atual.operation+1) + instance[atual.job][atual.operation].time_execution; 
+            solution[atual.machine].back().time_execution = getDistanceFrom(vertexPerJob*atual.job+atual.operation+1) + instance[atual.job][atual.operation].time_execution;
         }
     }
 
     // ordena as operacoes
     for(int i=0 ; i<solution.size() ; i++){
         sort(solution[i].begin(), solution[i].end(),
-            [](const Schedule &a, const Schedule &b) -> bool{ 
-                return a.time_execution < b.time_execution; 
+            [](const Schedule &a, const Schedule &b) -> bool{
+                return a.time_execution < b.time_execution;
             }
         );
     }
@@ -364,7 +364,7 @@ void Graph::printGraph(){
     for(auto m : edges){
         cout << m.first << " - ";
         for(auto i : m.second){
-            cout << "(" << i.job << " " << i.operation << " " << i.index << " " << i.weight << ") "; 
+            cout << "(" << i.job << " " << i.operation << " " << i.index << " " << i.weight << ") ";
         }
         cout << endl;
     }

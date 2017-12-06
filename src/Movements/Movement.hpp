@@ -7,7 +7,7 @@
 
 class Movement{
 
-public: 
+public:
 
     Movement(Solution sol){
         this->solution = sol;
@@ -28,7 +28,7 @@ public:
     }
 
     virtual ~Movement(){
-        
+
     }
 
     virtual Solution apply() = 0;
@@ -38,7 +38,7 @@ public:
         criticalPath = graph.bellmanFord();
 
         criticalBlocks.clear();
-        
+
         bool bloco = false;
         int blocoAtual = -1;
         for(int i=0 ; i<criticalPath.size() ; i++){
@@ -67,7 +67,7 @@ public:
     }
 
     bool isCritical(pair<Node, Node> edge){
-        return (edge.first.job != edge.second.job) && 
+        return (edge.first.job != edge.second.job) &&
                 edge.first.job != -1 && edge.second.job != -1;
     }
 
@@ -115,7 +115,7 @@ public:
     void print_progress(){
         float progress = float(iterAtual)/float(iterTotal);
         int barWidth = 100;
-                                            
+
         std::cout << "[";
         int pos = barWidth * progress;
 
@@ -123,12 +123,12 @@ public:
             if (i <= pos) std::cout << "\033[1;32m#\033[0m";
 //            else if (i == pos) std::cout << "\033[1;31m>\033[0m";
             else std::cout << ".";
-        }                                                                                                     
+        }
 
         std::cout << "] " << int(progress * 100.0) << " %\r";
         std::cout.flush();
 
-//        std::cout << std::endl; 
+//        std::cout << std::endl;
     }
 
     void print_method_informations(){
