@@ -45,16 +45,19 @@ public:
     void printGraph();
 
     vector< pair<Node, Node> > topologicalSort();
+
+    void printGraph();
     
 private:
 
     void add(Node);
+
     void add(Node, Node);
     void add(int, int);
 
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
     void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
-
+  
     ProblemInstance instance;
 
     int vertexPerJob;
@@ -62,6 +65,7 @@ private:
     int nEdges;
 
     map<int, vector<Node > > edges;
+
     map<int, Node> vertexList;
 
     vector<int> distances;

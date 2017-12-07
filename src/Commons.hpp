@@ -17,8 +17,6 @@ using namespace std;
 
 //Total Weighted Tardiness Job-Shop Scheduling Problem
 namespace twtjssp{
-
-	enum EdgeType{CONJUNTIVO, DISJUNTIVO};
 	
 	// CONJUNCAO => e
 	// DISJUNCAO => ou

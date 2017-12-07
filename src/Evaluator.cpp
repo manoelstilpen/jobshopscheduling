@@ -13,7 +13,6 @@ int Evaluator::evaluate_solution(Solution solution){
 	// data de conclusão é quando terminou
 	// data de entrega é fornecido pela instancia
 
-	this->solution = solution;
 	int nMachines = this->instance.get_num_machines();
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
@@ -46,32 +45,21 @@ int Evaluator::evaluate_solution(Solution solution){
 	return total_atraso;
 }
 
-int Evaluator::evaluate_by_graph(Graph graph){
-
-	/* int soma_atraso = 0;
-	int v_per_job = graph.getVertexPerJob();
-	graph.bellmanFord();
-	
-	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
-		soma_atraso += (graph.getDistances()[v_per_job*i] * instance.get_vec_priorities()[i-1]);
-	}
-
-	return soma_atraso; */
-}
-
-int Evaluator::evaluate_by_graph(Solution s){
-/* 	Graph graph = s.getGraph();
+int Evaluator::evaluate_by_graph(Graph _graph){
 
 	int soma_atraso = 0;
-	int v_per_job = graph.getVertexPerJob();
-	
-	graph.bellmanFord();
+	int v_per_job = _graph.getVertexPerJob();
+	_graph.bellmanFord();
 	
 	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
-		soma_atraso += (graph.getDistances()[v_per_job*i] * instance.get_vec_priorities()[i-1]);
+		soma_atraso += (_graph.getDistanceFrom(v_per_job*i) * instance.get_vec_priorities()[i-1]);
 	}
 
-	return soma_atraso; */
+	return soma_atraso;
+}
+
+int Evaluator::evaluate_by_graph(Solution _s){
+ 	return evaluate_by_graph(_s.getGraph());
 }
 
 bool Evaluator::testa_solucao(Solution solution){
@@ -108,10 +96,6 @@ bool Evaluator::testa_solucao(Solution solution){
 
 void Evaluator::set_instance(ProblemInstance p){
 	this->instance = p;
-}
-
-void Evaluator::set_solution(Solution s){
-	this->solution = s;
 }
 
 void Evaluator::print(){

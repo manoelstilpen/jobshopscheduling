@@ -115,7 +115,7 @@ public:
     void print_progress(){
         float progress = float(iterAtual)/float(iterTotal);
         int barWidth = 100;
-
+      
         std::cout << "[";
         int pos = barWidth * progress;
 
@@ -123,12 +123,9 @@ public:
             if (i <= pos) std::cout << "\033[1;32m#\033[0m";
 //            else if (i == pos) std::cout << "\033[1;31m>\033[0m";
             else std::cout << ".";
-        }
 
         std::cout << "] " << int(progress * 100.0) << " %\r";
         std::cout.flush();
-
-//        std::cout << std::endl;
     }
 
     void print_method_informations(){

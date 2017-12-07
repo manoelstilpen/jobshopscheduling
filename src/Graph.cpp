@@ -29,7 +29,6 @@ void Graph::add(Node src, Node dest){
 
 void Graph::add(int src, int dest){
     //add edge by it's id
-
 }
 
 // TODO: inverter uma aresta recebendo os indices dos vertices como parametro
@@ -143,10 +142,9 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     caminhoEdge.resize(nVertex);
 
 	// Step 2: Relax all edges |nVertex|-1 times. A simple longest
-	// path from src to any other vertex can have at-most |V| - 1
-    // edges
+	// path from src to any other vertex can have at-most |V| - 1 edges
     bool houveAlteracao = true;
-	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
+    for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
         houveAlteracao = false;
         for(int j=0 ; j<edges.size() ; j++){
 		    for (int k = 0; k < edges[j].size(); k++){
@@ -180,7 +178,6 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     cout << endl; */
 
     vector< pair<Node, Node> > criticalPath;
-
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
         int i = (job+1)*vertexPerJob;
@@ -322,7 +319,6 @@ Graph Graph::construct_conjunctive_graph(){
 }
 
 Graph Graph::construct_disjunctive_graph(GanttRepresentation initialSolution){
-
     // criando grafo disjuntivo atraves do sequenciamento gerado pelo metodo construtivo
     for(int i=0 ; i<initialSolution.size() ; i++)
     {
@@ -346,7 +342,6 @@ Graph Graph::construct_disjunctive_graph(GanttRepresentation initialSolution){
     }  
 
     //printGraph();
-
     return *this;
 }
 
@@ -354,7 +349,7 @@ GanttRepresentation Graph::generate_gantt(){
 
     GanttRepresentation solution;
     solution.resize(instance.get_num_machines());
-
+  
     // gera o grafico com base no grafo
     for(int i=0 ; i<instance.get_num_jobs() ; i++){
         for(int j=0 ; j<instance.get_num_operations() ; j++){
