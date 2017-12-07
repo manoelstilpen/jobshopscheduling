@@ -29,7 +29,6 @@ void Graph::add(Node src, Node dest){
 
 void Graph::add(int src, int dest){
     //add edge by it's id
-
 }
 
 // TODO: inverter uma aresta recebendo os indices dos vertices como parametro
@@ -143,8 +142,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     caminhoEdge.resize(nVertex);
 
 	// Step 2: Relax all edges |nVertex|-1 times. A simple longest
-	// path from src to any other vertex can have at-most |V| - 1
-    // edges
+	// path from src to any other vertex can have at-most |V| - 1 edges
     bool houveAlteracao = true;
 	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
         houveAlteracao = false;
@@ -154,7 +152,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
                 int vertOrigem = j;
                 int vertDestino = edges[j][k].index;
                 int weight = edges[j][k].weight;
-
+          
                 if (distances[vertOrigem] != -INF && distances[vertOrigem] + weight > distances[vertDestino]){
                     caminhoEdge[vertDestino] = vertOrigem;
                     distances[vertDestino] = distances[vertOrigem] + weight;
@@ -334,7 +332,6 @@ Graph Graph::construct_disjunctive_graph(GanttRepresentation initialSolution){
 
             for(int k=j+1 ; k<initialSolution[i].size() ; k++)
             {
-
                 dest = initialSolution[i][k];
 
                 Node src = vertexList[getVertexId(source.job, source.operation)];
@@ -361,6 +358,7 @@ GanttRepresentation Graph::generate_gantt(){
             Schedule atual = instance[i][j];
             solution[atual.machine].push_back(atual);
             solution[atual.machine].back().time_execution = getDistanceFrom(vertexPerJob*atual.job+atual.operation+1) + instance[atual.job][atual.operation].time_execution;
+
         }
     }
 

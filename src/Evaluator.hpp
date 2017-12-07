@@ -17,13 +17,11 @@ public:
 	bool testa_solucao(Solution);
 
 	void set_instance(ProblemInstance);
-	void set_solution(Solution);
 
 	void print();
 
 private:
 	ProblemInstance instance;
-	Solution solution;
 
 	vector<int> realTimes;
 	vector<int> expectedTimes;

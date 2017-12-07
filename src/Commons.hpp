@@ -17,8 +17,6 @@ using namespace std;
 
 //Total Weighted Tardiness Job-Shop Scheduling Problem
 namespace twtjssp{
-
-	enum EdgeType{CONJUNTIVO, DISJUNTIVO};
 	
 	// CONJUNCAO => e
 	// DISJUNCAO => ou
@@ -88,79 +86,6 @@ namespace twtjssp{
 
 		bool operator!=(const Node& n1){
     		return !(job == n1.job && operation == n1.operation);
-		}
-
-	};
-
-	struct EdgeData{
-		int weight;
-		bool critical;
-
-		EdgeData(){
-			weight = -1;
-			critical = false;
-		}
-
-		EdgeData(int w, bool c){
-			weight = w;
-			critical = c;
-		}
-
-		bool isCritical(){
-			return critical;
-		}
-	};
-
-	struct Edge{
-		Node source;
-		Node destination;
-		EdgeData data;
-		int index;
-
-		Edge(){
-			
-		}
-
-		Edge(Node src, Node dest, int wght){
-			this->source = src;
-			this->destination = dest;
-			/* this->weight = wght;
-			this->critical = [&]() {
-				if(source.job != destination.job && source.job != -1 && destination.job != -1) return true;
-				return false;
-			}(); */
-		}
-
-		void invertWay(){
-			Node aux = destination;
-			destination = source;
-			source = aux;
-		}
-
-		string toString(){
-			stringstream ss;
-			//ss << source.toString() << " -> " << destination.toString() << " - " << weight << " " << index;
-			return ss.str();
-		}
-
-	};
-
-	struct JobTask{
-		int job;	// as first
-		int task;	// as second
-
-		JobTask(int j, int t){
-			this->job = j;
-			this->task = t;
-		}
-
-		JobTask(){
-			job = task = -1;
-		}
-
-		void print(){
-			cout << "JobTask: Job: " << job;
-			cout << " Task: " << task << endl;
 		}
 	};
 

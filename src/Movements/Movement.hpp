@@ -115,7 +115,6 @@ public:
     void print_progress(){
         float progress = float(iterAtual)/float(iterTotal);
         int barWidth = 100;
-
         std::cout << "[";
         int pos = barWidth * progress;
 

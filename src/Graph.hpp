@@ -54,7 +54,7 @@ private:
 
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
     void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
-
+  
     ProblemInstance instance;
 
     int vertexPerJob;
