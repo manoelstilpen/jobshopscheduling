@@ -3,6 +3,7 @@
 #include "Constructives/ConstructiveGraph.hpp"
 /* #include "Constructives/Constructives.hpp"
 #include "Movements/Movements.hpp" */
+//#include "Movements/VariableNeighborhoodSearch.hpp"
 #include "Evaluator.hpp"
 
 #include <iostream>
@@ -107,7 +108,14 @@ clock_t begin = clock();
 
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
-	
+	s.print_solution();
+//	s.getGraph().printGraph();
+	s.getGraph().topologicalSort();
+	s.getGraph().bellmanFord();
+
+	/* VariableNeighborhoodSearch vns(solution);
+	solution = vns.apply();
+	vns.print(); */
 
 	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);

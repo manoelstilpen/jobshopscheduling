@@ -6,6 +6,7 @@
 
 #include <map>
 #include <queue>
+#include <stack>
 #include <list>
 #include <limits.h>
 
@@ -42,6 +43,9 @@ public:
     map<int, vector<Node > > getAdjacencyList();
 
     void printGraph();
+
+    void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
+    vector< pair<Node, Node> > topologicalSort();
     
 private:
 

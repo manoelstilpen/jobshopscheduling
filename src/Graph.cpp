@@ -65,6 +65,73 @@ bool Graph::invert(Node src, Node dest){
     return true;
 }
 
+// A recursive function used by topologicalSort
+void Graph::topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack){
+    // Mark the current node as visited.
+    visited[v] = true;
+ 
+    // Recur for all the vertices adjacent to this vertex
+    for (Node i: edges[v])
+        if (!visited[i.index])
+            topologicalSortUtil(i.index, visited, stack);
+ 
+    // Push current vertex to stack which stores result
+    stack.push(v);
+}
+ 
+vector< pair<Node, Node> > Graph::topologicalSort(){
+    stack<int> stack;
+
+    distances.clear();
+    distances.resize(nVertex, -INF);
+    distances[0] = 0;
+
+    // Mark all the vertices as not visited
+    vector<bool> visited(nVertex, false);
+    vector<int> caminhoEdge(nVertex);
+
+    // Call the recursive helper function to store Topological
+    // Sort starting from all vertices one by one
+    for (int i = 0; i < nVertex; i++)
+        if (visited[i] == false)
+            topologicalSortUtil(i, visited, stack);
+
+    // Process vertices in topological order
+    while (stack.empty() == false){
+        // Get the next vertex from topological order
+        int u = stack.top();
+        stack.pop();
+ 
+        // Update distances of all adjacent vertices
+        if (distances[u] != -INF){
+            for (Node i: edges[u]){
+                if (distances[i.index] < distances[u] + vertexList[u].weight){
+                    distances[i.index] = distances[u] + vertexList[u].weight;
+                    caminhoEdge[i.index] = u;
+                }
+            }
+        }
+    }
+
+    vector< pair<Node, Node> > criticalPath;
+    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
+
+        int i = (job+1)*vertexPerJob;
+        int tamanho = 0;
+
+        while(i != 0 && tamanho < nVertex-1){
+            criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
+            i = caminhoEdge[i];
+            tamanho++;
+        }
+    }
+ 
+    for (int i = 0; i < distances.size(); ++i)
+        printf("%d \t %d\n", i, distances[i]);
+    
+    return criticalPath;
+}
+
 vector< pair<Node, Node> > Graph::bellmanFord(){
 
     // Step 1: Initialize distances from src to all other vertices as -INFINITE
@@ -114,26 +181,17 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
 
     vector< pair<Node, Node> > criticalPath;
 
-    //if(isFeasible(distances)){
+    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
-        for(int job = 0 ; job < instance.get_num_jobs() ; job++){
+        int i = (job+1)*vertexPerJob;
+        int tamanho = 0;
 
-            int i = (job+1)*vertexPerJob;
-            int tamanho = 0;
-
-            while(i != 0 && tamanho < nVertex-1){
-                criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
-                i = caminhoEdge[i];
-                tamanho++;
-            }
+        while(i != 0 && tamanho < nVertex-1){
+            criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
+            i = caminhoEdge[i];
+            tamanho++;
         }
-
-        /* cout << "CAMINHOS CRITICOS GRAFO: " << endl;
-        for(int i=0 ; i<criticalPath.size() ; i++){
-            cout << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << endl;
-        }
-        cout << "END" << endl;  */
-
+    }
 
     return criticalPath;
 }
@@ -142,35 +200,35 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
 bool Graph::isFeasible(){
     // marca todos os vertices como nao visitados e nao participantes da pilha de recursao
     vector<bool> visited(nVertex, false);
-    vector<bool> recStack(nVertex, false);
+    vector<bool> recstack(nVertex, false);
 
     for(int i = 0; i < nVertex; i++)
-        if (isFeasibleRec(vertexList[i], visited, recStack))
+        if (isFeasibleRec(vertexList[i], visited, recstack))
             return false;
 
     return true;
 }
 
-bool Graph::isFeasibleRec(Node v, vector<bool>& visited, vector<bool>& recStack)
+bool Graph::isFeasibleRec(Node v, vector<bool>& visited, vector<bool>& recstack)
 {
     if(visited[v.index] == false)
     {
         // Mark the current node as visited and part of recursion stack
         visited[v.index] = true;
-        recStack[v.index] = true;
+        recstack[v.index] = true;
 
         // Recur for all the vertices adjacent to this vertex
         for(auto it : edges[v.index])
         {
-            if ( !visited[it.index] && isFeasibleRec(it, visited, recStack) )
+            if ( !visited[it.index] && isFeasibleRec(it, visited, recstack) )
                 return true;
-            else if (recStack[it.index])
+            else if (recstack[it.index])
                 return true;
         }
 
     }
 
-    recStack[v.index] = false;  // remove the vertex from recursion stack
+    recstack[v.index] = false;  // remove the vertex from recursion stack
 
     return false;
 }
@@ -281,7 +339,7 @@ Graph Graph::construct_disjunctive_graph(GanttRepresentation initialSolution){
 
                 Node src = vertexList[getVertexId(source.job, source.operation)];
                 Node destination = vertexList[getVertexId(dest.job, dest.operation)];
-                
+
                 add(src, destination);
             }
         }
