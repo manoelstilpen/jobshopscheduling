@@ -1,0 +1,27 @@
+ifndef VERBOSE
+.SILENT:
+endif
+
+COMPILER = g++ -std=c++11 -Wall -g -O3
+EXEC_PROG = debug
+LIBS = -lboost_system -lboost_filesystem -lboost_program_options
+
+SOURCES := $(shell find -name '*.cpp' ! -path "./src/main.cpp")
+
+OBJECTS = $(SOURCES:.cpp=.o)
+
+all: message_compiling $(EXEC_PROG)
+	@echo Successful
+
+%.o: %.cpp
+	$(COMPILER) -c $(LIBS) -o $@ $< -w
+
+$(EXEC_PROG): $(OBJECTS)
+	$(COMPILER) -o $(EXEC_PROG) $(OBJECTS) $(LIBS)
+
+.PHONY : clean
+clean:
+	rm -rf $(EXEC_PROG) $(OBJECTS)
+
+message_compiling:
+	@echo Compiling Job Shop Scheduling Debug...

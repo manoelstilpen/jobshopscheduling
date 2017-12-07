@@ -5,6 +5,10 @@
 #include "ProblemInstance.hpp"
 
 #include <map>
+#include <queue>
+#include <stack>
+#include <list>
+#include <limits.h>
 
 using namespace twtjssp;
 
@@ -16,36 +20,48 @@ public:
 
     void set_instance(ProblemInstance);
 
-    void invert(int, int);
-    void invert(Node, Node);
+    bool invert(int, int);
+    bool invert(Node, Node);
 
     vector< pair<Node, Node> > bellmanFord();
-    bool isFeasible(vector<int>);
+    bool isFeasible();
 
-    Graph construct_conjuctive_graph();
-    Graph construct_disjuntive_graph(GanttRepresentation);
+    Graph construct_conjunctive_graph();
+    Graph construct_disjunctive_graph(GanttRepresentation);
 
     GanttRepresentation generate_gantt();
 
     int getNEdges();
     int getVertexPerJob();
     int getDistanceFrom(int);
+    int getWeight(int, int);
+    int getVertexId(int, int);
+    int getVertexId(Node);
+    Node getVertex(int);
+    Node getVertex(int, int);
+
+    map<int, vector<Node > > getAdjacencyList();
 
     void printGraph();
+
+    vector< pair<Node, Node> > topologicalSort();
     
 private:
 
     void add(Node);
-    void add(Node, Node, EdgeData);
+    void add(Node, Node);
     void add(int, int);
 
+    bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
+    void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
+  
     ProblemInstance instance;
 
     int vertexPerJob;
     int nVertex;
     int nEdges;
 
-    map<int, vector< pair<Node, EdgeData> > > edges;
+    map<int, vector<Node > > edges;
     map<int, Node> vertexList;
 
     vector<int> distances;

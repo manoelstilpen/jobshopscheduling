@@ -16,7 +16,7 @@ void ConstructiveGraph::print_method_informations(){
 Solution ConstructiveGraph::apply(){
 
     Graph graph(instance);
-    graph = graph.construct_conjuctive_graph();
+    graph = graph.construct_conjunctive_graph();
 
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
@@ -25,22 +25,17 @@ Solution ConstructiveGraph::apply(){
     Grasp* dispatch_rule = new Grasp(instance, alpha);
     Solution initialSolution = dispatch_rule->apply();
 
-    graph = graph.construct_disjuntive_graph(initialSolution.getSolution()); 
-
-//    graph.bellmanFord();
-//    graph.printCriticalPath();
-//    graph.printGraph();
+    graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 
     initialSolution.setGraph(graph);
-//    initialSolution.setSolution(initialSolution);
 
-  Evaluator eval(instance);
+//    Evaluator eval(instance);
 //    cout << eval.evaluate_by_graph(initialSolution) << " ";
 
     initialSolution = dispatch_rule->refinement(initialSolution);
 
-    //cout << eval.evaluate_by_graph(initialSolution) << endl;
-    
+//    cout << eval.evaluate_by_graph(initialSolution) << endl;
+
     return initialSolution;
 }
 
