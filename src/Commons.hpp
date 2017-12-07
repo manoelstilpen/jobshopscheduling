@@ -17,9 +17,6 @@ using namespace std;
 
 //Total Weighted Tardiness Job-Shop Scheduling Problem
 namespace twtjssp{
-
-	enum NodeType{GHOST, BEGIN, INTERNO};
-	enum EdgeType{CONJUNTIVO, DISJUNTIVO};
 	
 	// CONJUNCAO => e
 	// DISJUNCAO => ou
@@ -63,24 +60,32 @@ namespace twtjssp{
 	struct Node{
 		int job;
 		int operation;
+		int weight;
 		int index;
-		NodeType type;
 
 		Node(){
 			job = operation = -1;
 		}
 
-		Node(int job, int op, int id, NodeType tp){
+		Node(int job, int op, int id, int weight){
 			this->job = job;
 			this->index = id;
 			this->operation = op;
-			this->type = tp;
+			this->weight = weight;
 		}
 
 		string toString(){
 			stringstream ss;
 			ss << "(" << job << "-" << operation << ": " << index << ")";
 			return ss.str();
+		}
+
+		bool operator==(const Node& n1){
+    		return (job == n1.job && operation == n1.operation);
+		}
+
+		bool operator!=(const Node& n1){
+    		return !(job == n1.job && operation == n1.operation);
 		}
 
 	};

@@ -1,8 +1,9 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
-#include "Constructives/Constructives.hpp"
-#include "Movements/VariableNeighborhoodSearch.hpp"
-#include "Movements/SimulatedAnnealing.hpp"
+#include "Constructives/ConstructiveGraph.hpp"
+/* #include "Constructives/Constructives.hpp"
+#include "Movements/Movements.hpp" */
+//#include "Movements/VariableNeighborhoodSearch.hpp"
 #include "Evaluator.hpp"
 
 #include <iostream>
@@ -105,18 +106,17 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	Evaluator eval(instance);
-
 	ConstructiveGraph constructive(instance, alpha_grasp);
 	Solution s = constructive.apply();
-	cout << "Constructive: " << eval.evaluate_by_graph(s) << endl;
+	s.print_solution();
+//	s.getGraph().printGraph();
+	s.getGraph().topologicalSort();
+	s.getGraph().bellmanFord();
 
-	VariableNeighborhoodSearch vns(s);
-	s = vns.apply();
-	cout << endl << "VNS: " << eval.evaluate_by_graph(s) << endl;
-// 	s.print_solution();
-
-
+	/* VariableNeighborhoodSearch vns(solution);
+	solution = vns.apply();
+	vns.print(); */
+  
 	/* if(movement.compare("sprt") == 0){
 		GraspSPRT grasp(instance, alpha_grasp);
 		grasp.set_repeat(repeat);
@@ -163,8 +163,7 @@ clock_t begin = clock();
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-
-cout << elapsed_secs << endl;
+//cout << elapsed_secs << endl;
 
 	return 0;
 }
