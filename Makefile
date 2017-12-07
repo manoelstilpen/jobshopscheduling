@@ -1,24 +1,11 @@
-COMPILER = g++ -std=c++11 -Wall -g -O2
-EXEC_PROG = app
-BINARIES = $(EXEC_PROG)
+all: 
+	$(MAKE) $@ -f Makefile.src
 
-SOURCES := $(shell find -name '*.cpp')
+.PHONY : debug
+debug:
+	$(MAKE) $@ -f Makefile.debug
 
-OBJECTS = $(SOURCES:.cpp=.o)
-all: $(EXEC_PROG)
-	@echo Build Completed
-
-%.o: %.cpp
-	$(COMPILER) -c $(LIBS) -o $@ $< -w
-
-$(EXEC_PROG): $(OBJECTS)
-	$(COMPILER) -o $(EXEC_PROG) $(OBJECTS) $(LIBS)
-
-# prevents make from getting confused
-.PHONY : run
-run:
-	./$(EXEC_PROG)
-
-.PHONY : clean 
+.PHONY : clean
 clean:
-	rm -rf $(EXEC_PROG) $(OBJECTS) *.txt
+	make clean -f Makefile.src
+	make clean -f Makefile.debug

@@ -1,5 +1,8 @@
 *.o
+debug
+app
 *.json
+*.txt
 *.png
 GPATH
 GRTAGS
