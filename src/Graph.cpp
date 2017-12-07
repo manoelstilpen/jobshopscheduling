@@ -63,8 +63,22 @@ bool Graph::invert(Node src, Node dest){
 
     return true;
 }
+ 
+vector<int> Graph::topologicalSort(){
+    stack<int> stack;
 
-// A recursive function used by topologicalSort
+    vector<bool> visited(nVertex, false);
+    // Call the recursive helper function to store Topological
+    // Sort starting from all vertices one by one
+    for (int i = 0; i < nVertex; i++)
+        if (visited[i] == false)
+            topologicalSortUtil(i, visited, stack);
+
+    updateDistancesFromTopOrder(stack);
+
+    return stack_to_vector(stack);
+}
+
 void Graph::topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack){
     // Mark the current node as visited.
     visited[v] = true;
@@ -77,50 +91,47 @@ void Graph::topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack)
     // Push current vertex to stack which stores result
     stack.push(v);
 }
- 
-vector< pair<Node, Node> > Graph::topologicalSort(){
-    stack<int> stack;
+
+void Graph::updateDistancesFromTopOrder(stack<int> order){
 
     distances.clear();
     distances.resize(nVertex, -INF);
     distances[0] = 0;
 
-    // Mark all the vertices as not visited
-    vector<bool> visited(nVertex, false);
-    vector<int> caminhoEdge(nVertex);
-
-    // Call the recursive helper function to store Topological
-    // Sort starting from all vertices one by one
-    for (int i = 0; i < nVertex; i++)
-        if (visited[i] == false)
-            topologicalSortUtil(i, visited, stack);
+    path.clear();
+    path.resize(nVertex);
 
     // Process vertices in topological order
-    while (stack.empty() == false){
+    while (order.empty() == false){
         // Get the next vertex from topological order
-        int u = stack.top();
-        stack.pop();
+        int u = order.top();
+        order.pop();
  
         // Update distances of all adjacent vertices
         if (distances[u] != -INF){
             for (Node i: edges[u]){
                 if (distances[i.index] < distances[u] + vertexList[u].weight){
                     distances[i.index] = distances[u] + vertexList[u].weight;
-                    caminhoEdge[i.index] = u;
+                    path[i.index] = u;
                 }
             }
         }
     }
+}
 
-    vector< pair<Node, Node> > criticalPath;
+vector< pair<Node, Node> > Graph::getCriticalPath(){
+
+    topologicalSort();
+
+    criticalPath.clear();
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
         int i = (job+1)*vertexPerJob;
         int tamanho = 0;
 
         while(i != 0 && tamanho < nVertex-1){
-            criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
-            i = caminhoEdge[i];
+            criticalPath.push_back(make_pair(vertexList[path[i]], vertexList[i]));
+            i = path[i];
             tamanho++;
         }
     }
@@ -128,69 +139,6 @@ vector< pair<Node, Node> > Graph::topologicalSort(){
     //for (int i = 0; i < distances.size(); ++i)
     //    printf("%d \t %d\n", i, distances[i]);
     
-    return criticalPath;
-}
-
-vector< pair<Node, Node> > Graph::bellmanFord(){
-
-    // Step 1: Initialize distances from src to all other vertices as -INFINITE
-    distances.clear();
-    distances.resize(nVertex, -INF);
-    distances[0] = 0;
-
-    vector<int> caminhoEdge;
-    caminhoEdge.resize(nVertex);
-
-	// Step 2: Relax all edges |nVertex|-1 times. A simple longest
-	// path from src to any other vertex can have at-most |V| - 1 edges
-    bool houveAlteracao = true;
-	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
-        houveAlteracao = false;
-        for(int j=0 ; j<edges.size() ; j++){
-		    for (int k = 0; k < edges[j].size(); k++){
-
-                int vertOrigem = j;
-                int vertDestino = edges[j][k].index;
-                int weight = edges[j][k].weight;
-          
-                if (distances[vertOrigem] != -INF && distances[vertOrigem] + weight > distances[vertDestino]){
-                    caminhoEdge[vertDestino] = vertOrigem;
-                    distances[vertDestino] = distances[vertOrigem] + weight;
-                    houveAlteracao = true;
-                }
-
-            }
-        }
-    }
-
-//    clock_t end = clock();
-//    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-//    cout << elapsed_secs << endl;
-
-   /*  for (int i = 0; i < distances.size(); ++i)
-        printf("%d \t %d\n", i, distances[i]);
-     */
-/*
-    cout << "CAMINHO" << endl;
-    for(int i=0 ; i<caminhoEdge.size(); i++){
-        cout << i << ": " << caminhoEdge[i] << endl;
-    }
-    cout << endl; */
-
-    vector< pair<Node, Node> > criticalPath;
-
-    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
-
-        int i = (job+1)*vertexPerJob;
-        int tamanho = 0;
-
-        while(i != 0 && tamanho < nVertex-1){
-            criticalPath.push_back(make_pair(vertexList[caminhoEdge[i]], vertexList[i]));
-            i = caminhoEdge[i];
-            tamanho++;
-        }
-    }
-
     return criticalPath;
 }
 
@@ -424,4 +372,71 @@ void Graph::printGraph(){
         }
         cout << endl;
     }
+}
+
+void Graph::printCriticalPath(){
+    cout << "TODO" << endl;
+}
+
+vector< pair<Node, Node> > Graph::bellmanFord(){
+
+    // Step 1: Initialize distances from src to all other vertices as -INFINITE
+    distances.clear();
+    distances.resize(nVertex, -INF);
+    distances[0] = 0;
+
+    vector<int> path;
+    path.resize(nVertex);
+
+	// Step 2: Relax all edges |nVertex|-1 times. A simple longest
+	// path from src to any other vertex can have at-most |V| - 1 edges
+    bool houveAlteracao = true;
+	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
+        houveAlteracao = false;
+        for(int j=0 ; j<edges.size() ; j++){
+		    for (int k = 0; k < edges[j].size(); k++){
+
+                int vertOrigem = j;
+                int vertDestino = edges[j][k].index;
+                int weight = edges[j][k].weight;
+          
+                if (distances[vertOrigem] != -INF && distances[vertOrigem] + weight > distances[vertDestino]){
+                    path[vertDestino] = vertOrigem;
+                    distances[vertDestino] = distances[vertOrigem] + weight;
+                    houveAlteracao = true;
+                }
+
+            }
+        }
+    }
+
+//    clock_t end = clock();
+//    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+//    cout << elapsed_secs << endl;
+
+   /*  for (int i = 0; i < distances.size(); ++i)
+        printf("%d \t %d\n", i, distances[i]);
+     */
+/*
+    cout << "CAMINHO" << endl;
+    for(int i=0 ; i<path.size(); i++){
+        cout << i << ": " << path[i] << endl;
+    }
+    cout << endl; */
+
+    vector< pair<Node, Node> > criticalPath;
+
+    for(int job = 0 ; job < instance.get_num_jobs() ; job++){
+
+        int i = (job+1)*vertexPerJob;
+        int tamanho = 0;
+
+        while(i != 0 && tamanho < nVertex-1){
+            criticalPath.push_back(make_pair(vertexList[path[i]], vertexList[i]));
+            i = path[i];
+            tamanho++;
+        }
+    }
+
+    return criticalPath;
 }

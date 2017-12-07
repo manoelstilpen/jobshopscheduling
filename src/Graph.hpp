@@ -24,6 +24,7 @@ public:
     bool invert(Node, Node);
 
     vector< pair<Node, Node> > bellmanFord();
+    vector<int> topologicalSort();
     bool isFeasible();
 
     Graph construct_conjunctive_graph();
@@ -41,10 +42,10 @@ public:
     Node getVertex(int, int);
 
     map<int, vector<Node > > getAdjacencyList();
+    vector< pair<Node, Node> > getCriticalPath();
 
     void printGraph();
-
-    vector< pair<Node, Node> > topologicalSort();
+    void printCriticalPath();
     
 private:
 
@@ -54,6 +55,7 @@ private:
 
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
     void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
+    void updateDistancesFromTopOrder(stack<int>);
   
     ProblemInstance instance;
 
@@ -64,7 +66,9 @@ private:
     map<int, vector<Node > > edges;
     map<int, Node> vertexList;
 
+    vector< pair<Node, Node> > criticalPath;
     vector<int> distances;
+    vector<int> path;
 
 };
 

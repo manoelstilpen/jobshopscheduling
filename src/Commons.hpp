@@ -10,6 +10,7 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <stack>
 #include <ctime>
 #include <functional>
 
@@ -112,6 +113,16 @@ namespace twtjssp{
 		if(src.job != dest.job && src.job != -1 && dest.job != -1) return true;
 
 		return false;
+	}
+
+	inline vector<int> stack_to_vector(stack<int> stack){
+		int* end   = &stack.top() + 1;
+    	int* begin = end - stack.size();
+
+    	std::vector<int> stack_contents(begin, end);
+    	std::reverse(stack_contents.begin(), stack_contents.end());
+
+		return stack_contents;
 	}
 }
 
