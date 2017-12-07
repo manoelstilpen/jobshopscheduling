@@ -126,8 +126,8 @@ vector< pair<Node, Node> > Graph::topologicalSort(){
         }
     }
  
-    for (int i = 0; i < distances.size(); ++i)
-        printf("%d \t %d\n", i, distances[i]);
+    //for (int i = 0; i < distances.size(); ++i)
+    //    printf("%d \t %d\n", i, distances[i]);
     
     return criticalPath;
 }

@@ -44,7 +44,6 @@ public:
 
     void printGraph();
 
-    void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
     vector< pair<Node, Node> > topologicalSort();
     
 private:
@@ -54,6 +53,7 @@ private:
     void add(int, int);
 
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
+    void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
 
     ProblemInstance instance;
 
