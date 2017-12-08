@@ -5,11 +5,11 @@
 #include "../Solution.hpp"
 #include "../Evaluator.hpp"
 
-class Movement{
+class Metaheuristic{
 
 public:
 
-    Movement(Solution sol){
+    Metaheuristic(Solution sol){
         this->solution = sol;
         this->graph = sol.getGraph();
         this->instance = sol.getInstance();
@@ -23,11 +23,11 @@ public:
         this->iterTotal = 0;
     }
 
-    Movement(){
+    Metaheuristic(){
 
     }
 
-    virtual ~Movement(){
+    virtual ~Metaheuristic(){
 
     }
 

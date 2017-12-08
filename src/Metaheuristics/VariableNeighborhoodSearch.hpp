@@ -3,13 +3,13 @@
 
 #include "../Commons.hpp"
 
-#include "FirstImprovement.hpp"
-#include "ShakeK.hpp"
-#include "Movement.hpp"
+#include "../LocalSearches/FirstImprovement.hpp"
+#include "../LocalSearches/ShakeK.hpp"
+#include "Metaheuristic.hpp"
 
 using namespace twtjssp;
 
-class VariableNeighborhoodSearch : public Movement {
+class VariableNeighborhoodSearch : public Metaheuristic {
 
 public:
     VariableNeighborhoodSearch();
@@ -20,7 +20,7 @@ public:
 
 private:
 
-    vector<Movement*> vizinhancas;
+    vector<Metaheuristic*> vizinhancas;
     
 };
 

@@ -1,10 +1,10 @@
 #include "VariableNeighborhoodSearch.hpp"
 
-VariableNeighborhoodSearch::VariableNeighborhoodSearch() : Movement(){
+VariableNeighborhoodSearch::VariableNeighborhoodSearch() : Metaheuristic(){
 
 }
 
-VariableNeighborhoodSearch::VariableNeighborhoodSearch(Solution s) : Movement(s){
+VariableNeighborhoodSearch::VariableNeighborhoodSearch(Solution s) : Metaheuristic(s){
 
 }
 

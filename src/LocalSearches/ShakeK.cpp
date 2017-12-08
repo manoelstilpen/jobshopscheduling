@@ -1,10 +1,10 @@
 #include "ShakeK.hpp"
 
-ShakeK::ShakeK() : Movement(){
+ShakeK::ShakeK() : Metaheuristic(){
     k_moves = 1;
 }
 
-ShakeK::ShakeK(Solution s, int k) : Movement(s){
+ShakeK::ShakeK(Solution s, int k) : Metaheuristic(s){
     k_moves = k;
 }
 

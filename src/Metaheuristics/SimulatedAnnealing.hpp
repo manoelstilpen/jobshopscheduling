@@ -2,11 +2,11 @@
 #define SIMULATEDANNEALING_HPP
 
 #include <cmath>
-#include "Movement.hpp"
+#include "Metaheuristic.hpp"
 
 using namespace twtjssp;
 
-class SimulatedAnnealing : public Movement {
+class SimulatedAnnealing : public Metaheuristic {
 
 public:
     SimulatedAnnealing();

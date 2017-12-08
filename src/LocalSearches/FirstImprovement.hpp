@@ -1,11 +1,11 @@
 #ifndef FIRSTIMPROVEMENT_HPP
 #define FIRSTIMPROVEMENT_HPP
 
-#include "Movement.hpp"
+#include "../Metaheuristics/Metaheuristic.hpp"
 
 using namespace twtjssp;
 
-class FirstImprovement : public Movement {
+class FirstImprovement : public Metaheuristic {
 
 public:
 

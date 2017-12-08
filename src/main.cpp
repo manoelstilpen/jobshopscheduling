@@ -1,9 +1,8 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
-#include "Constructives/ConstructiveGraph.hpp"
-/* #include "Constructives/Constructives.hpp"
-#include "Movements/Movements.hpp" */
-//#include "Movements/VariableNeighborhoodSearch.hpp"
+#include "Constructives/Constructives.hpp"
+#include "LocalSearches/LocalSearches.hpp"
+#include "Metaheuristics/Metaheuristics.hpp"
 #include "Evaluator.hpp"
 
 #include <iostream>

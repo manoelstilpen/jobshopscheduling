@@ -1,11 +1,11 @@
 #ifndef GRASP_HPP
 #define GRASP_HPP
 
-#include "Constructive.hpp"
+#include "../Constructives/Constructive.hpp"
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
 
-#include "../Movements/FirstImprovement.hpp"
+#include "../LocalSearches/FirstImprovement.hpp"
 
 #include <functional>
 
@@ -19,7 +19,7 @@ class Grasp : public Constructive {
 
 public:
     Grasp();
-    Grasp(ProblemInstance instance, double _alpha = 0);
+    Grasp(ProblemInstance instance, double _alpha = 0, bool refine=true);
 
 	virtual Solution apply();	/*!< applies the grasp method */
 	virtual Solution refinement(Solution);
@@ -31,13 +31,14 @@ protected:
 	ScheduleMatrix jobs_temp; 	/*!< temporary variable */
 	vector<int> restricts; 		/*!< restricts operations */
 
-	Movement* local_search;
+	Metaheuristic* local_search;
 
     double alpha;   			/*!< defines how greedy will be your grasp  */
 	bool refine;				/*!< true if should apply a local search */
 
-	virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
-	virtual int choose_schedule();
+	virtual float define_priority(Schedule op) = 0; /*!< method used to evaluate a schedule */
+	virtual int choose_schedule() = 0;
+
     virtual float valor_grasp(float min, float max);  /*!< returns the value which defines the operation's restrict list */
 	void remove_choosed_schedule(int index);
 

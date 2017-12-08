@@ -3,8 +3,7 @@
 
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
-#include "Grasp.hpp"
-#include "Constructive.hpp"
+#include "../Metaheuristics/Grasp.hpp"
 #include "Constructives.hpp" 
 
 // CONJUNCAO => e

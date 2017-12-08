@@ -3,11 +3,11 @@
 
 #include "../Commons.hpp"
 
-#include "Movement.hpp"
+#include "../Metaheuristics/Metaheuristic.hpp"
 
 using namespace twtjssp;
 
-class ShakeK : public Movement {
+class ShakeK : public Metaheuristic {
 
 public:
 

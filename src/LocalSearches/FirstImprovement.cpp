@@ -1,6 +1,6 @@
 #include "FirstImprovement.hpp"
 
-FirstImprovement::FirstImprovement(Solution sol) : Movement(sol){
+FirstImprovement::FirstImprovement(Solution sol) : Metaheuristic(sol){
     
 }
 

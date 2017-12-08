@@ -57,7 +57,7 @@ class Constructive {
         Evaluator evaluator;
         ProblemInstance instance;
 
-	    int repeat;         /*!< defines how many times the methos will run */
+	    int repeat;         /*!< defines how many times the methods will execute */
 	    int media_atraso;   /*!< stores the medium value of tardiness between all solutions generated */
 
         int nMachines;
