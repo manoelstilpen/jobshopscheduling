@@ -16,16 +16,20 @@ Solution VariableNeighborhoodSearch::apply(){
     vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos  
     vizinhancas.push_back(new ShakeK(solution, 2));        // movimento mover 2 arcos
 
-    graph.bellmanFord();
+    graph.getCriticalPath();
+    
     melhorAtraso = evaluator.evaluate_by_graph(graph);
     atrasoInicial = melhorAtraso;
 
-    const int max_iter = 2500;
+    const int max_iter = 1500;
+    const int max_repeticoes = 5;
     const int r = vizinhancas.size();
 
-    iterAtual = 0;
-    iterTotal = max_iter * r;
+    int repeticao_atual = 0;
 
+    iterAtual = 0;
+    iterTotal = max_iter * r * max_repeticoes;
+    
     for(int i=0 ; i<max_iter ; i++){
 
         int vizinhanca_atual = 1;
@@ -44,17 +48,24 @@ Solution VariableNeighborhoodSearch::apply(){
             int atraso = evaluator.evaluate_by_graph(s2);
 
             if ( atraso < melhorAtraso ) {
+                // atualiza melhor solucao
                 solution = s2;
                 bestSolution = s2;
                 melhorAtraso = atraso;
                 vizinhanca_atual = 1;
-//                cout << "Melhor atraso: " << melhorAtraso << endl;
+                //repeticao_atual = 0;
+//                cout << melhorAtraso << endl;
             } else {
-                vizinhanca_atual++;
+                if(repeticao_atual < max_repeticoes){
+                    repeticao_atual++;
+                } else {
+                    vizinhanca_atual++;
+                    repeticao_atual = 0;
+                }
             }
 
             iterAtual++;
-            print_progress();
+//            print_progress();
         }
     }
 

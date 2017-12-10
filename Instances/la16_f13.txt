@@ -13,4 +13,4 @@ la16
 
 Melhor Lit: 1169
 Melhor TWTJSSP: 1185
-Melhor Meu: 1528
+Melhor Meu: 1250

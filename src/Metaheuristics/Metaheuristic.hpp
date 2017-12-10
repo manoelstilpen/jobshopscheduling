@@ -35,7 +35,7 @@ public:
 
     virtual void updateCouldMove() {
         // atualiza o caminho critico e as arestas passiveis de troca
-        criticalPath = graph.bellmanFord();
+        criticalPath = graph.getCriticalPath();
 
         criticalBlocks.clear();
 

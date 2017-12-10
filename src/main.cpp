@@ -106,58 +106,11 @@ int main(int argc, char** argv){
 clock_t begin = clock();
 
 	ConstructiveGraph constructive(instance, alpha_grasp);
-	Solution s = constructive.apply();
-	s.print_solution();
-	s.getGraph().printGraph();
-	s.getGraph().getCriticalPath();
+	solution = constructive.apply();
 
-	/* VariableNeighborhoodSearch vns(solution);
+	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
-	vns.print(); */
-
-	/* if(movement.compare("sprt") == 0){
-		GraspSPRT grasp(instance, alpha_grasp);
-		grasp.set_repeat(repeat);
-		solution = grasp.apply();
-
-		grasp.print_graphic();
-//		grasp.print();
-	} else if(movement.compare("priority") == 0){		
-		GraspPriority grasp(instance, alpha_grasp);
-		grasp.set_repeat(repeat);
-		solution = grasp.apply();
-
-		grasp.print_graphic();
-		//grasp.print();
-	} else if(movement.compare("mod") == 0){
-		Grasp grasp(instance, alpha_grasp);
-		grasp.set_repeat(repeat);
-		solution = grasp.apply();
-
-		grasp.print_graphic();
-		//grasp.print();
-	} else if(movement.compare("vns") == 0){
-
-		ConstructiveGraph constructive(instance, alpha_grasp);
-		Solution s = constructive.apply(); */
-
-
-		/*Solution sol(instance);
-		sol.extract_solution_from_file("Instances/solution-vitor-abz6.txt");
-		sol.print_solution();
-		Evaluator eval(instance);
-		cout << eval.evaluate_by_graph(sol) << endl;
-		VariableNeighborhoodSearch vns(sol);
-		vns.apply();
-		vns.print();*/
-/*
-		ConstructiveGraph constructive(instance);
-		Solution solution = constructive.apply();
-		VariableNeighborhoodSearch vns(solution);
-		solution = vns.apply();
-		vns.print();
-*/	
-//	}
+	vns.print_graphic();
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

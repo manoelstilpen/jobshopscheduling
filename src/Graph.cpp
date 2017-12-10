@@ -37,8 +37,6 @@ bool Graph::invert(int src, int dest){
 }
 
 bool Graph::invert(Node src, Node dest){
-    /* int idSrc = getVertexId(src);
-    int idDest = getVertexId(dest); */
 
     int idSrc = src.index;
     int idDest = dest.index;
@@ -49,10 +47,7 @@ bool Graph::invert(Node src, Node dest){
     });
 
     // nao existe aresta, retorna com erro
-    if(it == edges[idSrc].end()){
-        cout << "INVERSAO INVALIDA" << endl;
-        return false;
-    } else if(src.job == dest.job){
+    if(it == edges[idSrc].end() || src.job == dest.job){
         cout << "INVERSAO INVALIDA" << endl;
         return false;
     }
@@ -121,9 +116,9 @@ void Graph::updateDistancesFromTopOrder(stack<int> order){
 
 vector< pair<Node, Node> > Graph::getCriticalPath(){
 
+    criticalPath.clear();
     topologicalSort();
 
-    criticalPath.clear();
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 
         int i = (job+1)*vertexPerJob;
@@ -375,7 +370,10 @@ void Graph::printGraph(){
 }
 
 void Graph::printCriticalPath(){
-    cout << "TODO" << endl;
+    for(int i=0 ; i<criticalPath.size() ; i++){
+        cout << "(" << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << ") - ";
+    }
+    cout << endl;
 }
 
 vector< pair<Node, Node> > Graph::bellmanFord(){

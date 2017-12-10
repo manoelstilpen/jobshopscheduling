@@ -22,8 +22,8 @@ Solution ConstructiveGraph::apply(){
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
     // priority rule
-    Grasp* dispatch_rule = new ASPRT(instance, alpha);
-    Solution initialSolution = dispatch_rule->apply();
+    Grasp* grasp = new ASPRT(instance, alpha, true);
+    Solution initialSolution = grasp->apply();
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 
@@ -31,8 +31,6 @@ Solution ConstructiveGraph::apply(){
 
 //    Evaluator eval(instance);
 //    cout << eval.evaluate_by_graph(initialSolution) << " ";
-
-    initialSolution = dispatch_rule->refinement(initialSolution);
 
 //    cout << eval.evaluate_by_graph(initialSolution) << endl;
 

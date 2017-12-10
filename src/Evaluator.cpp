@@ -49,7 +49,7 @@ int Evaluator::evaluate_by_graph(Graph _graph){
 
 	int soma_atraso = 0;
 	int v_per_job = _graph.getVertexPerJob();
-	_graph.bellmanFord();
+	_graph.getCriticalPath();
 	
 	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
 		soma_atraso += (_graph.getDistanceFrom(v_per_job*i) * instance.get_vec_priorities()[i-1]);

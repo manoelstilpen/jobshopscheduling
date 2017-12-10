@@ -19,7 +19,7 @@ Solution FirstImprovement::apply(){
 
     bestSolution = solution;
 
-    graph.bellmanFord();
+    graph.getCriticalPath();
 
     melhorAtraso = evaluator.evaluate_by_graph(graph);  
     atrasoInicial = melhorAtraso;
@@ -48,7 +48,7 @@ Solution FirstImprovement::apply(){
                 // em caso de melhora aceita a solucao
                 melhorAtraso = atraso;
                 
-                graph.bellmanFord();
+                graph.getCriticalPath();
                 bestSolution.setSolution(graph.generate_gantt());
                 bestSolution.setGraph(graph);
 

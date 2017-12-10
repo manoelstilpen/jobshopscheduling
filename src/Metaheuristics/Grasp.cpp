@@ -66,8 +66,10 @@ Solution Grasp::apply(){
 			int index = choose_schedule();
 			solution.aloca_tarefa(jobs_temp[restricts[index]][0]);
 			remove_choosed_schedule(index);
-			
 		}
+
+		if(refine)
+			solution = refinement(solution);
 
 		// Acumula o atraso (util quando repeat > 1)
 		this->media_atraso += evaluator.evaluate_solution(solution);
