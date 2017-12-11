@@ -1,7 +1,11 @@
 #include "ASPRT.hpp"
 
-ASPRT::ASPRT(ProblemInstance instance, double _alpha, bool _refine) : 
-    Grasp(instance, _alpha, _refine) {
+ASPRT::ASPRT(ProblemInstance instance, double _alpha) : 
+    Constructive(instance, _alpha) {
+
+}
+
+void ASPRT::print_method_informations(){
 
 }
 
@@ -20,7 +24,7 @@ float ASPRT::define_priority(Schedule op){
 	return remainingTime;
 }
 
-int ASPRT::choose_schedule(){
+int ASPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
 	int menor = 0;
     if(restricts.size() > 1){
         /* 

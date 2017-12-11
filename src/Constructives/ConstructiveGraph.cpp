@@ -1,10 +1,10 @@
 #include "ConstructiveGraph.hpp"
 
-ConstructiveGraph::ConstructiveGraph() : Constructive(){
+ConstructiveGraph::ConstructiveGraph(){
 
 }
 
-ConstructiveGraph::ConstructiveGraph(ProblemInstance p, double _a) : Constructive(p), alpha(_a){
+ConstructiveGraph::ConstructiveGraph(ProblemInstance p, double _a) : alpha(_a), instance(p){
     graph.set_instance(p);
 }
 
@@ -22,7 +22,7 @@ Solution ConstructiveGraph::apply(){
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
     // priority rule
-    Grasp* grasp = new ASPRT(instance, alpha, true);
+    Constructive* grasp = new ASPRT(instance, alpha);
     Solution initialSolution = grasp->apply();
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 

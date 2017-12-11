@@ -3,13 +3,14 @@
 
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
-#include "../Metaheuristics/Grasp.hpp"
 #include "Constructives.hpp" 
+
+using namespace twtjssp;
 
 // CONJUNCAO => e
 // DISJUNCAO => ou
 
-class ConstructiveGraph : public Constructive {
+class ConstructiveGraph {
     
     public:
         ConstructiveGraph();
@@ -21,6 +22,7 @@ class ConstructiveGraph : public Constructive {
         void print_gantt();
 
     private:
+        ProblemInstance instance;
         Graph graph;
         double alpha;
 

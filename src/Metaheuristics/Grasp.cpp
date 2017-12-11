@@ -4,7 +4,6 @@ Grasp::Grasp() : Constructive(){
 }
 
 Grasp::Grasp(ProblemInstance instance, double _alpha, bool _refine) : 
-    Constructive(instance),
     alpha(_alpha), refine(_refine) {
 
 }
@@ -41,7 +40,7 @@ Solution Grasp::apply(){
 				);
 			}
 
-			// Analise de qual é o menor custo do grasp
+			// Analise de qual é o menor e maior prioridade
 			float menor = INF;
 			float maior = -INF;
 			for(int j=0 ; j<custos.size() ; j++){
@@ -72,7 +71,8 @@ Solution Grasp::apply(){
 			solution = refinement(solution);
 
 		// Acumula o atraso (util quando repeat > 1)
-		this->media_atraso += evaluator.evaluate_solution(solution);
+		int atraso = evaluator.evaluate_solution(solution);
+		this->media_atraso += atraso;
 	}
 
 	// Calcula a media de atraso

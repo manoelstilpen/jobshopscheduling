@@ -13,44 +13,24 @@ class Constructive {
 
     public:
 
-        virtual Solution apply() = 0;
+        Constructive();
+        Constructive(ProblemInstance p, double _alpha);
+        
+        virtual Solution apply();
         virtual void print_method_informations() = 0;
 
-        Constructive(){
-
-        }
-
-        Constructive(ProblemInstance p) : solution(p), evaluator(p) {
-            this->repeat = 1;
-            this->instance = p;
-            this->nMachines = p.get_num_machines();
-            this->nJobs = p.get_num_jobs();
-            this->nOperations = p.get_num_tasks();
-        }
 
         /**
          * Method which prints the solution generated so far
          */
-        void print(){
-            for(int i=0 ; i<solution.size() ; i++){
-                cout << "MACHINE " << i << ": ";
-                for(int j=0 ; j<solution[i].size() ; j++){
-                    cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
-                }
-                cout << endl;
-            }
+        void print();
 
-            evaluator.print();
-        }
+        virtual void print_graphic();
 
-        virtual void print_graphic(){
-            cout << this->media_atraso << endl;
-        }
+        void set_repeat(int t);
+        int get_atraso();
 
-        void set_repeat(int t){ this->repeat = t;}
-        int get_atraso(){ return this->media_atraso;}
-
-        void set_instance(ProblemInstance p) { this->instance = p; }
+        void set_instance(ProblemInstance p);
         
     protected:
         Solution solution;
@@ -63,6 +43,34 @@ class Constructive {
         int nMachines;
         int nJobs;
         int nOperations;
+
+        double alpha;   			/*!< defines how greedy will be your grasp  */
+
+        vector<int> restricts; 		/*!< restricts operations */
+
+        virtual float define_priority(Schedule op) = 0; /*!< method used to evaluate a schedule */
+        virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts) = 0;
+
+        virtual float valor_grasp(float min, float max);  /*!< returns the value which defines the operation's restrict list */
+	    void remove_choosed_schedule(ScheduleMatrix& jobs_temp, int index);
+
+        struct Custo{
+            int job;
+            int task;
+            int indice;
+            float custo;
+
+            Custo(){
+                job = task = indice = custo = 0;
+            }
+
+            Custo(int j, int t, int i, float c){
+                this->job = j;
+                this->task = t;
+                this->indice = i;
+                this->custo = c;
+            }
+	    };
 };
 
 #endif
