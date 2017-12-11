@@ -1,3 +1,6 @@
+#ifndef ASPRT_HPP
+#define ASPRT_HPP
+
 #include "../Commons.hpp"
 #include "../Metaheuristics/Grasp.hpp"
 
@@ -14,3 +17,5 @@ public:
     virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
 
 };
+
+#endif

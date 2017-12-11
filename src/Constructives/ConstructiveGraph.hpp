@@ -21,6 +21,8 @@ class ConstructiveGraph {
         virtual void print();
         void print_gantt();
 
+        void setAlpha(double);
+
     private:
         ProblemInstance instance;
         Graph graph;

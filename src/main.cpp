@@ -83,7 +83,7 @@ int main(int argc, char** argv){
 //	string instance_name = "abz6_f13.txt";
 //	string instance_name = "instance.txt";
 	string instance_name = "bierwirth.txt";
-	double alpha_grasp = 0;
+	double alpha_grasp = 0.4;
 	int repeat = 1;
 	string movement = "vns";
 	bool printGantt = false;
@@ -105,12 +105,16 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	ConstructiveGraph constructive(instance, alpha_grasp);
+	/* ConstructiveGraph constructive(instance, alpha_grasp);
 	solution = constructive.apply();
 
 	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
-	vns.print_graphic();
+	vns.print_graphic(); */
+
+    Grasp grasp(instance, alpha_grasp);
+    solution = grasp.apply();
+    grasp.print();
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

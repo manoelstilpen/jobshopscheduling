@@ -37,6 +37,10 @@ Solution ConstructiveGraph::apply(){
     return initialSolution;
 }
 
+void ConstructiveGraph::setAlpha(double _alpha){
+    alpha = _alpha;
+}
+
 void ConstructiveGraph::print(){
    
 }

@@ -1,65 +1,33 @@
 #ifndef GRASP_HPP
 #define GRASP_HPP
 
-#include "../Constructives/Constructive.hpp"
 #include "../Commons.hpp"
 #include "../ProblemInstance.hpp"
-
 #include "../LocalSearches/FirstImprovement.hpp"
+#include "../Constructives/Constructives.hpp"
+#include "Metaheuristic.hpp"
 
 #include <functional>
 
 using namespace twtjssp;
 
-/**
- * Class used to define a GRASP method, you can override his methods to create your own grasp
- */
-
-class Grasp : public Constructive {
+class Grasp : public Metaheuristic {
 
 public:
     Grasp();
-    Grasp(ProblemInstance instance, double _alpha = 0, bool refine=true);
+    Grasp(ProblemInstance instance, double _alpha = 0);
 
 	virtual Solution apply();	/*!< applies the grasp method */
-	virtual Solution refinement(Solution);
+	virtual Solution refinement(Solution&);
 	virtual void print_graphic();
 	virtual void print_method_informations();
 
 protected:
 
-	ScheduleMatrix jobs_temp; 	/*!< temporary variable */
-	vector<int> restricts; 		/*!< restricts operations */
-
 	Metaheuristic* local_search;
+	Constructive* constructive;
 
     double alpha;   			/*!< defines how greedy will be your grasp  */
-	bool refine;				/*!< true if should apply a local search */
-
-	virtual float define_priority(Schedule op) = 0; /*!< method used to evaluate a schedule */
-	virtual int choose_schedule() = 0;
-
-    virtual float valor_grasp(float min, float max);  /*!< returns the value which defines the operation's restrict list */
-	void remove_choosed_schedule(int index);
-
-
-    struct Custo{
-		int job;
-		int task;
-		int indice;
-		float custo;
-
-		Custo(){
-			job = task = indice = custo = 0;
-		}
-
-		Custo(int j, int t, int i, float c){
-			this->job = j;
-			this->task = t;
-			this->indice = i;
-			this->custo = c;
-		}
-	};
 
 };
 

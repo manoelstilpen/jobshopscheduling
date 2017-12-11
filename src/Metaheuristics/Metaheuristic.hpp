@@ -1,26 +1,25 @@
-#ifndef MOVEMENT_HPP
-#define MOVEMENT_HPP
+#ifndef METAHEURISTIC_HPP
+#define METAHEURISTIC_HPP
 
 #include "../Commons.hpp"
 #include "../Solution.hpp"
 #include "../Evaluator.hpp"
 
-class Metaheuristic{
+class Metaheuristic {
 
 public:
 
     Metaheuristic(Solution sol){
-        this->solution = sol;
-        this->graph = sol.getGraph();
-        this->instance = sol.getInstance();
-        this->evaluator.set_instance(this->instance);
-
-        this->timeTotal = 0;
-        this->atrasoInicial = 0;
-        this->melhorAtraso = 0;
-
-        this->iterAtual = 0;
-        this->iterTotal = 0;
+        solution = sol;
+        graph = sol.getGraph();
+        instance = sol.getInstance();
+        evaluator.set_instance(instance);
+        timeTotal = 0;
+        atrasoInicial = 0;
+        melhorAtraso = 0;
+        iterAtual = 0;
+        iterTotal = 0;
+        repeat=1;
     }
 
     Metaheuristic(){
@@ -63,7 +62,6 @@ public:
             return a.size() > b.size();
         });
 
-//        printCouldMove();
     }
 
     bool isCritical(pair<Node, Node> edge){
