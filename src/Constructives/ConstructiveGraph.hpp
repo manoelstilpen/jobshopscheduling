@@ -18,10 +18,7 @@ class ConstructiveGraph {
         virtual Solution apply();
         virtual void print_method_informations();
 
-        virtual void print();
-        void print_gantt();
-
-        void setAlpha(double);
+        void set_alpha(double);
 
     private:
         ProblemInstance instance;

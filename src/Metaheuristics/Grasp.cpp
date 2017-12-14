@@ -18,7 +18,7 @@ Solution Grasp::apply(){
 
 //	print_method_informations();
 
-	int maxIter = 1500;
+	int maxIter = 3000;
 	int atraso = 0;
 
 	iterTotal = maxIter;
@@ -34,15 +34,15 @@ Solution Grasp::apply(){
 		bestSolution = refinement(s0); // busca local na solucao inicial
 		melhorAtraso = atrasoInicial = evaluator.evaluate_by_graph(bestSolution);
 
-		constructive.setAlpha(0.4);
+		constructive.set_alpha(0.4);
 
 		while(iterAtual < maxIter){
 			solution = constructive.apply();
-			cout << "Inicial: " << evaluator.evaluate_by_graph(solution) << endl;
+			//cout << "Inicial: " << evaluator.evaluate_by_graph(solution) << endl;
 			solution = refinement(solution);
 
 			int atraso = evaluator.evaluate_by_graph(solution);
-			cout << "Refino: " << atraso << endl;
+			//cout << "Refino: " << atraso << endl;
 			if(atraso < melhorAtraso){
 				melhorAtraso = atraso;
 				bestSolution = solution;
@@ -62,6 +62,12 @@ Solution Grasp::refinement(Solution& s){
 	solution = local_search->apply();
 
 	return solution;
+}
+
+void Grasp::print(){
+	cout << endl;
+	cout << "MELHOR ATRASO: " << melhorAtraso << endl;
+	bestSolution.print_solution();
 }
 
 void Grasp::print_graphic(){

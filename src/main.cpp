@@ -101,7 +101,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-//	instance.print();
+	//instance.print();
 
 clock_t begin = clock();
 
@@ -115,6 +115,9 @@ clock_t begin = clock();
     Grasp grasp(instance, alpha_grasp);
     solution = grasp.apply();
     grasp.print();
+
+    /* Constructive* cons = new SPRT(instance, 0.4);
+    cons->apply(); */
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

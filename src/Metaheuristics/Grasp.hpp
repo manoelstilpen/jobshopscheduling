@@ -19,6 +19,7 @@ public:
 
 	virtual Solution apply();	/*!< applies the grasp method */
 	virtual Solution refinement(Solution&);
+	virtual void print();
 	virtual void print_graphic();
 	virtual void print_method_informations();
 

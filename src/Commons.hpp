@@ -56,6 +56,12 @@ namespace twtjssp{
 			machine = m;
 			time_execution = tm;
 		}
+
+		string toString(){
+			stringstream ss;
+			ss << "(" << job << "-" << operation << "-" << machine << "-" << time_execution << ")";
+			return ss.str();
+		}
 	};
 	
 	struct Node{

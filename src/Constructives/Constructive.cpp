@@ -1,7 +1,7 @@
 #include "Constructive.hpp"
 
 Constructive::Constructive(){
-
+    repeat = 1;
 }
 
 Constructive::Constructive(ProblemInstance p, double _alpha) : solution(p), evaluator(p), alpha(_alpha) {
@@ -34,27 +34,23 @@ Solution Constructive::apply(){
             for(int j=0 ; j<jobs_temp.size() ; j++){
                 // avalia a prioridade das operacoes candidatas
                 custos.push_back(
-                    Custo(jobs_temp[j][0].job, jobs_temp[j][0].operation, j, define_priority(jobs_temp[j][0]))
+                    Custo(j, define_priority(jobs_temp[j][0]))
                 );
             }
 
-            // Analise de qual é a menor e maior prioridade
-            float menor = INF;
-            float maior = -INF;
-            for(int j=0 ; j<custos.size() ; j++){
-                if(custos[j].custo < menor){
-                    menor = custos[j].custo;
-                }
-                if(custos[j].custo > maior){
-                    maior = custos[j].custo;
-                }
-            }
+            // ordena para extrair qual é a menor e a maior prioridade
+            std::sort(custos.begin(), custos.end(), [&](const Custo& a, const Custo& b){
+                return a.custo < b.custo; 
+            });
+
+            float menor = custos[0].custo;
+            float maior = custos.back().custo;
 
             float limite_grasp = valor_grasp(menor, maior);
 
             restricts.clear();
             for(int j=0 ; j<custos.size() ; j++){
-                if(custos[j].custo <= limite_grasp){
+                if(custos[j].custo >= limite_grasp){
                     restricts.push_back(custos[j].indice);
                 }
             }
@@ -66,20 +62,20 @@ Solution Constructive::apply(){
             remove_choosed_schedule(jobs_temp, restricts[index]);
         }
 
-        // Acumula o atraso (util quando repeat > 1)
         int atraso = evaluator.evaluate_solution(solution);
+//        cout << atraso << endl;
         this->media_atraso += atraso;
     }
 
-    // Calcula a media de atraso
+    // Calcula a media de atraso das solucoes geradas
     this->media_atraso /= this->repeat;
     return solution;
 
 }
 
 void Constructive::remove_choosed_schedule(ScheduleMatrix& jobs_temp, int jobId){
+    // remove a primeira operacao do jobId - foi a operacao inserida na solucao
 
-	// Remove a solucao ja alocada - remove a primeira posicao
 	jobs_temp[jobId].erase(jobs_temp[jobId].begin());
 	if(jobs_temp[jobId].size() == 0){
 		// Caso ja tenha alocado todas as tarefas do job, elimina o job da matriz
@@ -87,7 +83,7 @@ void Constructive::remove_choosed_schedule(ScheduleMatrix& jobs_temp, int jobId)
 	}
 }
 
-float Constructive::valor_grasp(float min, float max){
+float Constructive::valor_grasp(const float& min, const float& max){
 	// 0 -> Greedy
 	// 1 -> Random
     return (float) (min + alpha*(max-min));

@@ -51,22 +51,18 @@ class Constructive {
         virtual float define_priority(Schedule op) = 0; /*!< method used to evaluate a schedule */
         virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts) = 0;
 
-        virtual float valor_grasp(float min, float max);  /*!< returns the value which defines the operation's restrict list */
+        virtual float valor_grasp(const float& min, const float& max);  /*!< returns the value which defines the operation's restrict list */
 	    void remove_choosed_schedule(ScheduleMatrix& jobs_temp, int index);
 
         struct Custo{
-            int job;
-            int task;
             int indice;
             float custo;
 
             Custo(){
-                job = task = indice = custo = 0;
+                indice = custo = 0;
             }
 
-            Custo(int j, int t, int i, float c){
-                this->job = j;
-                this->task = t;
+            Custo(int i, float c){
                 this->indice = i;
                 this->custo = c;
             }
