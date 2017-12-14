@@ -107,10 +107,10 @@ clock_t begin = clock();
 
 	/* ConstructiveGraph constructive(instance, alpha_grasp);
 	solution = constructive.apply();
-
+ 
 	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
-	vns.print_graphic(); */
+	vns.print(); */
 
     Grasp grasp(instance, alpha_grasp);
     solution = grasp.apply();

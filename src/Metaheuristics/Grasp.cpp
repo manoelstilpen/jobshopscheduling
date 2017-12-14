@@ -15,7 +15,6 @@ void Grasp::print_method_informations(){
 }
 
 Solution Grasp::apply(){
-	srand(time(0));	
 
 //	print_method_informations();
 

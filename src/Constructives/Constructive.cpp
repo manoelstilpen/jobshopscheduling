@@ -20,8 +20,6 @@ Solution Constructive::apply(){
 
     this->media_atraso = 0;
 
-    srand(time(0));	
-
     for(int l = 0 ; l<repeat ; l++){
         
         // realiza copia para ser possivel remover schedules
