@@ -22,7 +22,7 @@ Solution ConstructiveGraph::apply(){
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
     // priority rule
-    Constructive* grasp = new ASPRT(instance, alpha);
+    Constructive* grasp = new SPRT(instance, alpha);
     Solution initialSolution = grasp->apply();
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 

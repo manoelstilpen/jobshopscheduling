@@ -10,14 +10,14 @@ Solution::Solution(ProblemInstance p){
 }
 
 void Solution::aloca_tarefa(Schedule tarefa){
-    /* Aloca a tarefa na solucao de Gantt */
+    // Aloca a tarefa na solucao de Gantt
 
     int machine = tarefa.machine;
-    int sizeMachine = this->solution[machine].size(); // quantidade de tasks alocadas na maquina
+    int sizeMachine = this->solution[machine].size(); // quantidade de operacoes alocadas na maquina
 
     // caso seja a primeira operacao do job
-    if(tarefa.task == 0){
-    
+    if(tarefa.operation == 0){
+        
         if(this->solution[machine].size() == 0){
             // Como nao tem outra tarefa alocada nessa maquina, apenas insere a tarefa
             this->solution[machine].push_back(tarefa);
@@ -36,7 +36,7 @@ void Solution::aloca_tarefa(Schedule tarefa){
          */
 
         // Maquina que executou a ultima tarefa do job
-        int lastMachine = instance[tarefa.job][tarefa.task-1].machine;
+        int lastMachine = instance[tarefa.job][tarefa.operation-1].machine;
 
         int timeLastTask = 0;
         // Procura pelo instante que a ultima operacao DO JOB foi finalizada
@@ -55,7 +55,7 @@ void Solution::aloca_tarefa(Schedule tarefa){
 
         if(timeMachine > timeLastTask){
             /* Se o tempo acumulado da maquina atual for MAIOR que o instante em que a ultima tarefa
-             * foi finalizada, pode-se inserir a tarefa atual imediatamente no fim da maquina.
+             * do JOB foi finalizada, pode-se inserir a tarefa atual imediatamente no fim da maquina.
              */
             tarefa.time_execution += this->solution[machine].back().time_execution;
             this->solution[machine].push_back(tarefa);
@@ -80,9 +80,9 @@ int Solution::time_can_be_alocated(Schedule op){
     
     // tempo de termino da ultima operacao 
     int lastOperation = [&]() {
-        if(op.task == 0) return 0;
+        if(op.operation == 0) return 0;
 
-        int lastMachine = instance[op.job][op.task-1].machine;
+        int lastMachine = instance[op.job][op.operation-1].machine;
         for(Schedule i : solution[lastMachine]){
             if(i.job == op.job){
                 return i.time_execution;
@@ -161,7 +161,7 @@ void Solution::print_solution(){
     for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
         for(int j=0 ; j<solution[i].size() ; j++){
-            cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
+            cout << "(" << solution[i][j].job << "," << solution[i][j].operation << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;
     }
@@ -197,7 +197,7 @@ void Solution::print_solution(GanttRepresentation solution){
     for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
         for(int j=0 ; j<solution[i].size() ; j++){
-            cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
+            cout << "(" << solution[i][j].job << "," << solution[i][j].operation << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;
     }

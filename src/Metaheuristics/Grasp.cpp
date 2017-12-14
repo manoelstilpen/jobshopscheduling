@@ -18,7 +18,7 @@ Solution Grasp::apply(){
 
 //	print_method_informations();
 
-	int maxIter = 3000;
+	int maxIter = 1500;
 	int atraso = 0;
 
 	iterTotal = maxIter;
@@ -38,9 +38,11 @@ Solution Grasp::apply(){
 
 		while(iterAtual < maxIter){
 			solution = constructive.apply();
+			cout << "Inicial: " << evaluator.evaluate_by_graph(solution) << endl;
 			solution = refinement(solution);
 
 			int atraso = evaluator.evaluate_by_graph(solution);
+			cout << "Refino: " << atraso << endl;
 			if(atraso < melhorAtraso){
 				melhorAtraso = atraso;
 				bestSolution = solution;
