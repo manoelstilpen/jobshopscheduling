@@ -62,9 +62,7 @@ Solution ShakeK::apply(){
         cout << "DEU MERDA PRA INVERTER" << endl;
         usleep(1000000);
     }
-
-    if(k_moves != to_shake.size()) cout << k_moves << " movido: " << to_shake.size() << endl;
-
+    
     solution.setGraph(graph);
     return solution;
 

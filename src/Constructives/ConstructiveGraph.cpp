@@ -21,7 +21,7 @@ Solution ConstructiveGraph::apply(){
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
-    Constructive* grasp = new ASPRT(instance, alpha);
+    Constructive* grasp = new WSPT(instance, alpha);
     Solution initialSolution = grasp->apply();
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 

@@ -111,13 +111,14 @@ clock_t begin = clock();
 	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
 	vns.print();
-
-    /* Grasp grasp(instance, alpha_grasp);
+/* 
+    Grasp grasp(instance, alpha_grasp);
     solution = grasp.apply();
-    grasp.print(); */
-
-    /* Constructive* cons = new SPRT(instance, 0.4);
-    cons->apply(); */
+    grasp.print();
+ */
+    /* Constructive* cons = new WSPT(instance, 0.4);
+    cons->apply();
+    cons->print_graphic(); */
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

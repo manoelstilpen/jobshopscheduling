@@ -49,5 +49,5 @@ int ASPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& r
 
     }
     
-    return menor; 
+    return rand() % restricts.size(); 
 }
