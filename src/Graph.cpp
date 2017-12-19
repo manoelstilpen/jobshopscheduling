@@ -114,7 +114,7 @@ void Graph::updateDistancesFromTopOrder(stack<int> order){
     }
 }
 
-vector< pair<Node, Node> > Graph::getCriticalPath(){
+vector<Edge> Graph::getCriticalPath(){
 
     criticalPath.clear();
     topologicalSort();
@@ -376,7 +376,7 @@ void Graph::printCriticalPath(){
     cout << endl;
 }
 
-vector< pair<Node, Node> > Graph::bellmanFord(){
+vector< Edge > Graph::bellmanFord(){
 
     // Step 1: Initialize distances from src to all other vertices as -INFINITE
     distances.clear();
@@ -422,7 +422,7 @@ vector< pair<Node, Node> > Graph::bellmanFord(){
     }
     cout << endl; */
 
-    vector< pair<Node, Node> > criticalPath;
+    vector<Edge> criticalPath;
 
     for(int job = 0 ; job < instance.get_num_jobs() ; job++){
 

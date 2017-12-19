@@ -87,38 +87,35 @@ namespace twtjssp{
 			return ss.str();
 		}
 
-		bool operator==(const Node& n1){
+		friend std::ostream& operator<< (std::ostream& stream, const Node& n){
+			stream << "(" << n.job << "-" << n.operation << ": " << n.index << ")";
+			return stream;
+		}
+
+		bool operator==(const Node& n1) const{
     		return (job == n1.job && operation == n1.operation);
 		}
 
-		bool operator!=(const Node& n1){
+		bool operator!=(const Node& n1) const{
     		return !(job == n1.job && operation == n1.operation);
+		}
+
+		bool operator<(const Node& n1) const{
+    		return job < n1.job;
 		}
 	};
 
 	typedef vector< vector<Schedule> > ScheduleMatrix;
 	typedef vector< vector<Schedule> > GanttRepresentation;
+	typedef pair<Node, Node> Edge;
 
-	static bool compara_tempo(Schedule p1, Schedule p2) {
-		return p1.time_execution < p2.time_execution;
-	}
-
-	static bool compara_task(Schedule p1, Schedule p2){
-		return p1.task < p2.task;
-	}
-
-	inline void print_schedule(Schedule s){
-		cout << "(" << s.job << "," << s.task << "," << s.machine << "," << s.time_execution << ") - ";
-	}
+    /* static inline std::ostream& operator<<(std::ostream& os, pair<Node, Node>& p) {
+        os << p.first;
+        return os;
+    } */
 
 	inline float percent_between(float a, float b){
 		return (((float)a/(float)b)-1)*100.f;
-	}
-
-	inline bool verify_critical(Schedule src, Schedule dest){
-		if(src.job != dest.job && src.job != -1 && dest.job != -1) return true;
-
-		return false;
 	}
 
 	inline vector<int> stack_to_vector(stack<int> stack){

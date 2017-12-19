@@ -34,9 +34,11 @@ public:
 
     virtual void updateCouldMove() {
         // atualiza o caminho critico e as arestas passiveis de troca
-        criticalPath = graph.getCriticalPath();
 
+        criticalPath = graph.getCriticalPath();
+        
         criticalBlocks.clear();
+        sizeCriticalBlocks = 0;
 
         bool bloco = false;
         int blocoAtual = -1;
@@ -44,7 +46,7 @@ public:
 
             if(isCritical(criticalPath[i])){
                 if(!bloco){
-                    criticalBlocks.push_back(vector<pair<Node, Node> >());
+                    criticalBlocks.push_back(vector<Edge>());
                     blocoAtual++;
                 }
 
@@ -57,19 +59,34 @@ public:
 
         }
 
-        sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<pair<Node, Node>> a,
-                                                            const vector<pair<Node, Node>> b){
+        // ordena os blocos criticos em relacao a quantidade de arestas
+        sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<Edge> a,
+                                                            const vector<Edge> b){
             return a.size() > b.size();
         });
 
+
+        // remove os blocos criticos repetidos
+        for(int i=0 ; i<criticalBlocks.size() ; i++){
+            int size = criticalBlocks[i].size();
+            sizeCriticalBlocks += size;
+            for(int j=i+1 ; j<criticalBlocks.size() && size == criticalBlocks[j].size() ; j++){
+                if(std::equal(criticalBlocks[i].begin(), criticalBlocks[i].end(), criticalBlocks[j].begin())){
+                    criticalBlocks.erase(criticalBlocks.begin()+j);
+                    j--;
+                }
+            }
+
+        }
+
     }
 
-    bool isCritical(pair<Node, Node> edge){
+    bool isCritical(Edge edge){
         return (edge.first.job != edge.second.job) &&
                 edge.first.job != -1 && edge.second.job != -1;
     }
 
-    void invert(pair<Node, Node> edge){
+    void invert(Edge edge){
         graph.invert(edge.first, edge.second);
         lastMovements.push_back(edge);
     }
@@ -156,13 +173,14 @@ protected:
     int iterTotal;
 
     int repeat;
+    int sizeCriticalBlocks;
 
     float timeTotal;
 
-    vector<pair<Node, Node> > lastMovements;
+    vector<Edge> lastMovements;
 
-    vector< pair<Node, Node > > criticalPath;
-    vector< vector< pair<Node, Node > > > criticalBlocks;
+    vector<Edge> criticalPath;
+    vector< vector<Edge> > criticalBlocks;
 
 
 };

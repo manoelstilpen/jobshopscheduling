@@ -105,16 +105,16 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-	/* ConstructiveGraph constructive(instance, alpha_grasp);
+	ConstructiveGraph constructive(instance, alpha_grasp);
 	solution = constructive.apply();
  
 	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
-	vns.print(); */
+	vns.print();
 
-    Grasp grasp(instance, alpha_grasp);
+    /* Grasp grasp(instance, alpha_grasp);
     solution = grasp.apply();
-    grasp.print();
+    grasp.print(); */
 
     /* Constructive* cons = new SPRT(instance, 0.4);
     cons->apply(); */

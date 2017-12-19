@@ -2,6 +2,7 @@
 #define SHAKE_HPP
 
 #include "../Commons.hpp"
+#include <unistd.h>
 
 #include "../Metaheuristics/Metaheuristic.hpp"
 

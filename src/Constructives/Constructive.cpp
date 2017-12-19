@@ -50,7 +50,7 @@ Solution Constructive::apply(){
 
             restricts.clear();
             for(int j=0 ; j<custos.size() ; j++){
-                if(custos[j].custo >= limite_grasp){
+                if(custos[j].custo <= limite_grasp){
                     restricts.push_back(custos[j].indice);
                 }
             }

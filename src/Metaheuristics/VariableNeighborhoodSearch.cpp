@@ -13,6 +13,7 @@ Solution VariableNeighborhoodSearch::apply(){
 //    print_method_informations();
 
     vizinhancas.push_back(new FirstImprovement(solution)); // busca local do vns
+    vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
     vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos  
     vizinhancas.push_back(new ShakeK(solution, 2));        // movimento mover 2 arcos
 
@@ -22,7 +23,7 @@ Solution VariableNeighborhoodSearch::apply(){
     atrasoInicial = melhorAtraso;
 
     const int max_iter = 600;
-    const int max_repeticoes = 5;
+    const int max_repeticoes = 4;
     const int r = vizinhancas.size();
 
     int iter_sem_melhora = 0;
@@ -31,7 +32,7 @@ Solution VariableNeighborhoodSearch::apply(){
 
     iterAtual = 0;
     iterTotal = max_iter * r * max_repeticoes;
-    
+    int cont = 0;
     while(iter_sem_melhora < max_iter){
         iter_sem_melhora += 1;
 
@@ -43,6 +44,8 @@ Solution VariableNeighborhoodSearch::apply(){
             // gerando um vizinho s' qualquer
             vizinhancas[vizinhanca_atual]->set_solution(solution);
             Solution s1 = vizinhancas[vizinhanca_atual]->apply();
+
+            if(!s1.getGraph().isFeasible()) cont++;
 
             // aplicando busca local em s1
             vizinhancas[0]->set_solution(s1);
@@ -72,6 +75,8 @@ Solution VariableNeighborhoodSearch::apply(){
             print_progress();
         }
     }
+
+    cout << "CONT " << cont << endl;
 
     for(int i=0 ; i<vizinhancas.size() ; i++){
         delete vizinhancas[i];

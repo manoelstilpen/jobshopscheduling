@@ -24,7 +24,7 @@ public:
     bool invert(int, int);
     bool invert(Node, Node);
 
-    vector< pair<Node, Node> > bellmanFord();
+    vector<Edge> bellmanFord();
     vector<int> topologicalSort();
     bool isFeasible();
 
@@ -43,7 +43,7 @@ public:
     Node getVertex(int, int);
 
     map<int, vector<Node > > getAdjacencyList();
-    vector< pair<Node, Node> > getCriticalPath();
+    vector<Edge> getCriticalPath();
 
     void printGraph();
     void printCriticalPath();
@@ -67,7 +67,7 @@ private:
     map<int, vector<Node > > edges;
     map<int, Node> vertexList;
 
-    vector< pair<Node, Node> > criticalPath;
+    vector<Edge> criticalPath;
     vector<int> distances;
     vector<int> path;
 
