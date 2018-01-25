@@ -16,6 +16,7 @@ public:
     virtual void print_method_informations();
     virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
     virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
+    virtual float valor_grasp(const float& min, const float& max); 
 
 private:
 

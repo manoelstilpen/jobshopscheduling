@@ -50,7 +50,7 @@ Solution FirstImprovement::apply(){
                 bestSolution.setGraph(graph);
                 houveMelhora = true;
                 break;
-                
+
             } else {
                 // no caso de piora, reverte o movimento
                 undo_last_movement();

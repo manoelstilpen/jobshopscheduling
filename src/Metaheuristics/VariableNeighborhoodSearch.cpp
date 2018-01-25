@@ -13,10 +13,10 @@ Solution VariableNeighborhoodSearch::apply(){
 //    print_method_informations();
 
     vizinhancas.push_back(new FirstImprovement(solution)); // busca local do vns
-    vizinhancas.push_back(new ShakeK(solution, 5));        // movimento mover 5 arcos
-    vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
-    vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos
     vizinhancas.push_back(new ShakeK(solution, 2));        // movimento mover 2 arcos
+    vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos
+    vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
+    vizinhancas.push_back(new ShakeK(solution, 5));        // movimento mover 5 arcos
 
     graph.getCriticalPath();
     
@@ -59,7 +59,6 @@ Solution VariableNeighborhoodSearch::apply(){
                 melhorAtraso = atraso;
                 vizinhanca_atual = 1;
                 iter_sem_melhora = 0;
-                //cout << melhorAtraso << endl;
                 repeticao_atual = 0;
             } else {
                 if(repeticao_atual < max_repeticoes){

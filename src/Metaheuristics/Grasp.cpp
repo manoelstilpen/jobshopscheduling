@@ -34,7 +34,7 @@ Solution Grasp::apply(){
 		bestSolution = refinement(s0); // busca local na solucao inicial
 		melhorAtraso = atrasoInicial = evaluator.evaluate_by_graph(bestSolution);
 
-		constructive.set_alpha(0.4);
+		constructive.set_alpha(0.3);
 
 		while(iterAtual < maxIter){
 			solution = constructive.apply();

@@ -332,6 +332,11 @@ int Graph::getVertexPerJob(){
 }
 
 int Graph::getDistanceFrom(int id){
+    if(id > distances.size()){
+        cout << "OUT OF BOUNDS" << endl;
+        return 0;
+    }
+    
     return distances[id];
 }
 

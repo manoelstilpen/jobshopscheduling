@@ -5,10 +5,10 @@ SimulatedAnnealing::SimulatedAnnealing(){
 }
 
 SimulatedAnnealing::SimulatedAnnealing(Solution sol) : Metaheuristic(sol){
-    maxIteracoes = instance.get_num_jobs()*instance.get_num_machines()*0.5;
-    alpha = 0.99;
-    temperaturaInicial = 70;
-    temperaturaFinal = 0.5;
+    maxIteracoes = 2*instance.get_num_jobs()*instance.get_num_machines();
+    alpha = 0.998;
+    temperaturaInicial = 30000;
+    temperaturaFinal = 0.01;
 }
 
 void SimulatedAnnealing::print_method_informations(){
@@ -45,9 +45,10 @@ Solution SimulatedAnnealing::apply(){
             iterT++;
             iterAtual++;
 
-            int randomEdge = rand() % criticalBlocks.size();
+            int randomBlock = rand() % criticalBlocks.size();
+            int randomEdge = rand() % criticalBlocks[randomBlock].size();
 
-            invert(criticalBlocks[randomEdge][0]);
+            invert(criticalBlocks[randomBlock][randomEdge]);
 
             int atraso = evaluator.evaluate_by_graph(graph);
 
@@ -63,7 +64,6 @@ Solution SimulatedAnnealing::apply(){
 //                    cout << "OTIMO LOCAL " << atraso << endl;
                     melhorAtraso = atraso;
 
-                    bestSolution.setSolution(graph.generate_gantt());
                     bestSolution.setGraph(graph);
                 }
 
@@ -80,7 +80,7 @@ Solution SimulatedAnnealing::apply(){
                     // rejeita o movimento, refazendo-o
                     undo_last_movement();
                 } else {
-  //                  cout << "ACEITOU PIORA " << x << " " << prob << endl;
+//                    cout << "ACEITOU PIORA " << x << " " << prob << " " << iterT << endl;
                     movimentoAceito = true;
                 }
             }
@@ -92,7 +92,7 @@ Solution SimulatedAnnealing::apply(){
 
         temperatura *= alpha;
         print_progress();
-  //      cout << temperatura << endl;
+        cout << temperatura << endl;
         iterT = 0;
     }
 

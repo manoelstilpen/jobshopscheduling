@@ -2,6 +2,7 @@
 #define SIMULATEDANNEALING_HPP
 
 #include <cmath>
+#include <unistd.h>
 #include "Metaheuristic.hpp"
 
 using namespace twtjssp;

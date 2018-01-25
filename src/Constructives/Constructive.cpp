@@ -54,7 +54,7 @@ Solution Constructive::apply(){
                     restricts.push_back(custos[j].indice);
                 }
             }
-            
+
             // escolhe a operacao(retornando o indice), aloca na solucao e remove do vetor 
             int index = choose_schedule(jobs_temp, restricts);
 
@@ -87,6 +87,7 @@ float Constructive::valor_grasp(const float& min, const float& max){
 	// 0 -> Greedy
 	// 1 -> Random
     return (float) (min + alpha*(max-min));
+    //return (float) (max + alpha*(min-max));
 }
 
 void Constructive::print(){

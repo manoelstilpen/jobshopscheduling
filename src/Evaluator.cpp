@@ -52,7 +52,7 @@ int Evaluator::evaluate_by_graph(Graph _graph){
 	_graph.getCriticalPath();
 	
 	for(int i=1 ; i<=instance.get_num_jobs() ; i++){
-		soma_atraso += (_graph.getDistanceFrom(v_per_job*i) * instance.get_vec_priorities()[i-1]);
+		soma_atraso += ((_graph.getDistanceFrom(v_per_job*i) * instance.get_vec_priorities()[i-1]));
 	}
 
 	return soma_atraso;

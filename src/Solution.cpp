@@ -95,6 +95,18 @@ int Solution::time_can_be_alocated(Schedule op){
     return max(timeMachine, lastOperation);
 }
 
+int Solution::makespan(){
+    int makespan = 0;
+
+    for(int i=0 ; i<solution.size() ; i++){
+        if(solution[i].size() > 0)
+            if(solution[i].back().time_execution > makespan)
+                makespan = solution[i].back().time_execution;
+    }   
+
+    return makespan;
+}
+
 // 4358 -> ATRASO DA SOLUCAO VIA OPTFRAME
 GanttRepresentation Solution::extract_solution_from_file(string filename){
 

@@ -24,21 +24,20 @@ Solution ShakeK::apply(){
 
         // escolhe bloco aleatorio
         int random_block = rand() % criticalBlocks.size();
+
         // escolhe entre uma aresta do inicio ou do fim do bloco critico
-        short int choice = rand() % 2;
-        if(choice == 0){
-            candidate = criticalBlocks[random_block][0];
-        } else if(choice == 1){
-            candidate = criticalBlocks[random_block].back();
-        }
+        int random_edge = rand() % criticalBlocks[random_block].size();
+        candidate = criticalBlocks[random_block][random_edge];
+
         // verifica se a aresta candidata ja nao foi escolhida antes
         auto it = std::find(to_shake.begin(), to_shake.end(), candidate);
         if(it == to_shake.end()){
             to_shake.push_back(candidate);
 
+            // verifica se as arestas escolhidas pertencem a blocos criticos diferentes
+            sort(to_shake.begin(), to_shake.end());
             for(int i=0 ; i<criticalBlocks.size() && to_shake.size() > 1; i++){
                 vector<Edge> c;
-                sort(to_shake.begin(), to_shake.end());
                 sort(criticalBlocks[i].begin(), criticalBlocks[i].end());
                 set_intersection(to_shake.begin(), to_shake.end(), criticalBlocks[i].begin(), criticalBlocks[i].end(), std::back_inserter(c));
 

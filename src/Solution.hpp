@@ -26,6 +26,7 @@ class Solution {
  
         void aloca_tarefa(Schedule tarefa);
         int time_can_be_alocated(Schedule); /*!< returm the instant the schedule can be allocated */
+        int makespan(); /*!< returns the atual solution makespan */
 
         int size();
         void clear();

@@ -19,19 +19,19 @@ float ASPRT::define_priority(Schedule op){
 	remainingTime -= instance.get_due_times()[op.job];
 	
 	// caso seja menor do que 0, significa que nao há atraso no job ate o momento
-	if(remainingTime < 0) remainingTime = 0;
+	if(remainingTime < 0) remainingTime = 0; 
 
 	return remainingTime;
 }
 
 int ASPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
-	int menor = 0;
+	/* int menor = 0;
     if(restricts.size() > 1){
-        /* 
-         * Se considerar o menor tempo de processamento como criterio de desempate,
-         * o atraso da solucao fica muito alto.
-         * A melhor opcao é considerar a tarefa que implica no menor tempo acumulado em sua maquina.
-         */
+        
+         // Se considerar o menor tempo de processamento como criterio de desempate,
+         // o atraso da solucao fica muito alto.
+        // A melhor opcao é considerar a tarefa que implica no menor tempo acumulado em sua maquina.
+         
 
         vector<int> acumulatedTimes;
         for(int j=0 ; j<restricts.size() ; j++){
@@ -47,7 +47,8 @@ int ASPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& r
             }
         }
 
-    }
+    } */
     
+    //return menor;
     return rand() % restricts.size(); 
 }

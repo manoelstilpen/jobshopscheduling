@@ -14,20 +14,16 @@ void SPRT::print_method_informations(){
     cout << "ALPHA: " << this->alpha << endl;
 }
 
-/*
- * GRASP CONSTRUCTIVE
- * Cria solucao considerando o custo das tarefas.
- * Aloca aquela que possuir o menor custo na solucao apos ser inserida
- * Em caso de empate de tarefas, opta-se por aquela que se inserida, deixa o menor tempo acumulado em sua maquina
- */
+
 float SPRT::define_priority(Schedule op){
     // priority = s / RPT
 	float s = instance.get_due_times()[op.job];
-	s -= solution.time_can_be_alocated(op);
+	s -= (solution.time_can_be_alocated(op));
+	//s -= solution.makespan();
 
 	float rpt = 0; // tempo de processamento restante 
-	for(int i=op.task ; i<instance[op.job].size() ; i++){
-		rpt += (solution.time_can_be_alocated(instance[op.job][i]) + instance[op.job][i].time_execution);
+	for(int i=op.operation ; i<instance[op.job].size() ; i++){
+		rpt += (instance[op.job][i].time_execution);
 	}
 
 	s -= rpt;

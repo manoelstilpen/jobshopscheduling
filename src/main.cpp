@@ -89,7 +89,10 @@ int main(int argc, char** argv){
 	bool printGantt = false;
 	bool printStats = false;
 
-	srand(time(NULL));
+    long seed = time(NULL);
+    //long seed = 1516644548;    
+    cout << "Seed = " << seed << endl;
+	srand(seed);
 
 	if(!argParse(argc, argv, &movement, &repeat, &instance_name, &printGantt, &printStats)){
 		exit(EXIT_FAILURE);
@@ -101,24 +104,39 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	//instance.print();
+	instance.print();
 
 clock_t begin = clock();
 
-	ConstructiveGraph constructive(instance, alpha_grasp);
+/* 
+    // teste vns
+    ConstructiveGraph constructive(instance, alpha_grasp);
 	solution = constructive.apply();
  
 	VariableNeighborhoodSearch vns(solution);
 	solution = vns.apply();
-	vns.print();
-/* 
+	vns.print(); */
+
+/*
+    // teste grasp
     Grasp grasp(instance, alpha_grasp);
     solution = grasp.apply();
     grasp.print();
  */
-    /* Constructive* cons = new WSPT(instance, 0.4);
-    cons->apply();
-    cons->print_graphic(); */
+
+    // teste construtivo
+  /*   Constructive* cons = new ASPRT(instance, 0.3);
+    Solution s = cons->apply();
+    cons->print(); */
+
+
+    // teste simulated annealing  
+    ConstructiveGraph cons(instance, 0.05);
+    Solution s = cons.apply();
+
+    SimulatedAnnealing sa(s);
+    solution = sa.apply();
+    sa.print();
 
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
