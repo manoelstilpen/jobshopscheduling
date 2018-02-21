@@ -18,7 +18,7 @@ Solution VariableNeighborhoodSearch::apply(){
     vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
     vizinhancas.push_back(new ShakeK(solution, 5));        // movimento mover 5 arcos
 
-    graph.getCriticalPath();
+    auto criticalBlocks = graph.getCriticalPath();
     
     melhorAtraso = evaluator.evaluate_by_graph(graph);
     atrasoInicial = melhorAtraso;
@@ -74,7 +74,7 @@ Solution VariableNeighborhoodSearch::apply(){
         }
     }
 
-    for(int i=0 ; i<vizinhancas.size() ; i++){
+    for(unsigned int i=0 ; i<vizinhancas.size() ; i++){
         delete vizinhancas[i];
     }
 

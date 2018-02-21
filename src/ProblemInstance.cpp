@@ -76,8 +76,8 @@ void ProblemInstance::print(){
 }
 
 void ProblemInstance::set_name_file(string name){
-	if(name.find("Instances/") != 0){
-		std::string aux("Instances/");
+	if(name.find("instances/") != 0){
+		std::string aux("instances/");
 		aux += name;
 		name = aux;
 	} 

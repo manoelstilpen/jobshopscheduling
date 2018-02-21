@@ -13,7 +13,7 @@ int Evaluator::evaluate_solution(Solution solution){
 	// data de conclusão é quando terminou
 	// data de entrega é fornecido pela instancia
 
-	int nMachines = this->instance.get_num_machines();
+	//int nMachines = this->instance.get_num_machines();
 	int nJobs = this->instance.get_num_jobs();
 	int nTasks = this->instance.get_num_tasks();
 	ScheduleMatrix jobs = this->instance.get_vec_schedules();
@@ -65,17 +65,17 @@ int Evaluator::evaluate_by_graph(Solution _s){
 bool Evaluator::testa_solucao(Solution solution){
 	ScheduleMatrix jobs = instance.get_vec_schedules();
 
-	for(int i=0 ; i<jobs.size() ; i++){
+	for(unsigned int i=0 ; i<jobs.size() ; i++){
 		int timeAtual = 0;
 		int timeLast = 0;
 
-		for(int j=0 ; j<jobs[i].size() ; j++){
+		for(unsigned int j=0 ; j<jobs[i].size() ; j++){
 			int machine = jobs[i][j].machine;
 			timeAtual = 0;
 
-			for(int k=0 ; k<solution[machine].size() ; k++){
+			for(unsigned int k=0 ; k<solution[machine].size() ; k++){
 
-				if(solution[machine][k].job == i){
+				if((unsigned)solution[machine][k].job == i){
 					int tempoInicio = solution[machine][k].time_execution - jobs[i][j].time_execution;
 
 					if(tempoInicio < timeLast || tempoInicio < timeAtual){

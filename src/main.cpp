@@ -104,7 +104,7 @@ int main(int argc, char** argv){
 	if(!instance.load_instance()){
 		exit(EXIT_FAILURE);
 	}
-	instance.print();
+	//instance.print();
 
 clock_t begin = clock();
 
@@ -123,15 +123,15 @@ clock_t begin = clock();
     solution = grasp.apply();
     grasp.print();
  */
-
+/*
     // teste construtivo
-  /*   Constructive* cons = new ASPRT(instance, 0.3);
+    Constructive* cons = new SPRT(instance, 0.05);
     Solution s = cons->apply();
-    cons->print(); */
+    cons->print();
+*/
 
-
-    // teste simulated annealing  
-    ConstructiveGraph cons(instance, 0.05);
+    // teste simulated annealing
+    ConstructiveGraph cons(instance, 0.1);
     Solution s = cons.apply();
 
     SimulatedAnnealing sa(s);
@@ -141,7 +141,7 @@ clock_t begin = clock();
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-//cout << elapsed_secs << endl;
+cout << "Tempo: " << elapsed_secs << endl << endl;
 
 	return 0;
 }

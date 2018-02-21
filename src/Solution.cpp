@@ -40,7 +40,7 @@ void Solution::aloca_tarefa(Schedule tarefa){
 
         int timeLastTask = 0;
         // Procura pelo instante que a ultima operacao DO JOB foi finalizada
-        for(int i=0 ; i<this->solution[lastMachine].size() ; i++){
+        for(unsigned int i=0 ; i<this->solution[lastMachine].size() ; i++){
             if(this->solution[lastMachine][i].job == tarefa.job){
                 timeLastTask = this->solution[lastMachine][i].time_execution;
                 break;
@@ -98,7 +98,7 @@ int Solution::time_can_be_alocated(Schedule op){
 int Solution::makespan(){
     int makespan = 0;
 
-    for(int i=0 ; i<solution.size() ; i++){
+    for(unsigned int i=0 ; i<solution.size() ; i++){
         if(solution[i].size() > 0)
             if(solution[i].back().time_execution > makespan)
                 makespan = solution[i].back().time_execution;
@@ -160,7 +160,7 @@ int Solution::size(){
 }
 
 void Solution::clear(){
-    for(int i=0 ; i<this->solution.size() ; i++){
+    for(unsigned int i=0 ; i<this->solution.size() ; i++){
         this->solution[i].clear();
     }
 }
@@ -170,9 +170,9 @@ void Solution::resize(int i){
 }
 
 void Solution::print_solution(){
-    for(int i=0 ; i<solution.size() ; i++){
+    for(unsigned int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
-        for(int j=0 ; j<solution[i].size() ; j++){
+        for(unsigned int j=0 ; j<solution[i].size() ; j++){
             cout << "(" << solution[i][j].job << "," << solution[i][j].operation << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;
@@ -206,9 +206,9 @@ ProblemInstance Solution::getInstance(){
 }
 
 void Solution::print_solution(GanttRepresentation solution){
-    for(int i=0 ; i<solution.size() ; i++){
+    for(unsigned int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
-        for(int j=0 ; j<solution[i].size() ; j++){
+        for(unsigned int j=0 ; j<solution[i].size() ; j++){
             cout << "(" << solution[i][j].job << "," << solution[i][j].operation << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;

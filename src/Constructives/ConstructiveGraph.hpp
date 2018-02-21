@@ -21,10 +21,9 @@ class ConstructiveGraph {
         void set_alpha(double);
 
     private:
-        ProblemInstance instance;
         Graph graph;
         double alpha;
-
+        ProblemInstance instance;
 };
 
 #endif

@@ -19,8 +19,6 @@ Solution FirstImprovement::apply(){
 
     bestSolution = solution;
 
-    graph.getCriticalPath();
-
     melhorAtraso = evaluator.evaluate_by_graph(graph);  
     atrasoInicial = melhorAtraso;
 
@@ -29,7 +27,7 @@ Solution FirstImprovement::apply(){
     
     do {
         
-        updateCouldMove();
+        auto criticalBlocks = graph.getCriticalBlocks();
 
         if(criticalBlocks.size() == 0) break;
 
@@ -37,7 +35,7 @@ Solution FirstImprovement::apply(){
         houveMelhora = false;
         atraso = INF;
 
-        for(int i=0 ; i<criticalBlocks.size() ; i++){
+        for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
 
             int randomEdge = rand() % criticalBlocks[randomBlock].size();
             invert(criticalBlocks[randomBlock][randomEdge]);
@@ -53,7 +51,7 @@ Solution FirstImprovement::apply(){
 
             } else {
                 // no caso de piora, reverte o movimento
-                undo_last_movement();
+                graph.undo_last_movement();
                 randomBlock++;
             }
 

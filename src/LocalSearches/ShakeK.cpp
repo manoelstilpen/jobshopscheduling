@@ -10,14 +10,13 @@ ShakeK::ShakeK(Solution s, int k) : Metaheuristic(s) {
 
 Solution ShakeK::apply(){
 
-    updateCouldMove();
-//    printCouldMove();
     vector<Edge> to_shake;
 
+    auto criticalBlocks = graph.getCriticalBlocks();
     int tries = 0;
     int max_tries = sizeCriticalBlocks;
 
-    while(to_shake.size() < k_moves && tries < max_tries){
+    while(to_shake.size() < (unsigned)k_moves && tries < max_tries){
 
         // aresta candidata a ser invertida
         Edge candidate;
@@ -36,7 +35,7 @@ Solution ShakeK::apply(){
 
             // verifica se as arestas escolhidas pertencem a blocos criticos diferentes
             sort(to_shake.begin(), to_shake.end());
-            for(int i=0 ; i<criticalBlocks.size() && to_shake.size() > 1; i++){
+            for(unsigned int i=0 ; i<criticalBlocks.size() && to_shake.size() > 1; i++){
                 vector<Edge> c;
                 sort(criticalBlocks[i].begin(), criticalBlocks[i].end());
                 set_intersection(to_shake.begin(), to_shake.end(), criticalBlocks[i].begin(), criticalBlocks[i].end(), std::back_inserter(c));
@@ -64,18 +63,6 @@ Solution ShakeK::apply(){
     
     solution.setGraph(graph);
     return solution;
-
-    /*  else if(choice == 2){
-            cout << "INVERTE DOIS " << random_block << endl;
-            invert(criticalBlocks[random_block][0]);
-            invert(criticalBlocks[random_block].back());
-
-            if(!graph.isFeasible()){
-                undo_last_movement();
-                undo_last_movement();
-                cout << "NAO PORRA" << endl;
-            }
-        } */
 }
 
 void ShakeK::setKMoves(int k){

@@ -14,6 +14,7 @@ public:
     SimulatedAnnealing(Solution);
 
     virtual Solution apply();
+    virtual float define_initial_temperature(Solution s0);
     virtual void print_method_informations();
 
 private:

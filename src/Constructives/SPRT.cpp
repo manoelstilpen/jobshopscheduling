@@ -18,11 +18,11 @@ void SPRT::print_method_informations(){
 float SPRT::define_priority(Schedule op){
     // priority = s / RPT
 	float s = instance.get_due_times()[op.job];
-	s -= (solution.time_can_be_alocated(op));
-	//s -= solution.makespan();
+	//s -= (solution.time_can_be_alocated(op));
+	s -= solution.makespan();
 
 	float rpt = 0; // tempo de processamento restante 
-	for(int i=op.operation ; i<instance[op.job].size() ; i++){
+	for(unsigned int i=op.operation ; i<instance[op.job].size() ; i++){
 		rpt += (instance[op.job][i].time_execution);
 	}
 

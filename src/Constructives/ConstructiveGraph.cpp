@@ -27,16 +27,8 @@ Solution ConstructiveGraph::apply(){
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 
     initialSolution.setGraph(graph);
-    initialSolution.print_solution();
-
-    graph.getCriticalPath();
-    for(int i=0 ; i<instance.get_num_jobs() ; i++){
-        for(int j=0 ; j<instance.get_num_operations() ; j++){
-            cout << graph.getDistanceFrom(i+1) << " ";
-        }
-        cout << endl;
-    }
-
+    grasp->print();
+    
     return initialSolution;
 }
 

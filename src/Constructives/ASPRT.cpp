@@ -6,7 +6,9 @@ ASPRT::ASPRT(ProblemInstance instance, double _alpha) :
 }
 
 void ASPRT::print_method_informations(){
-
+	cout << "=========================================================================================" << endl;
+	cout << " -> CONSTRUCTIVE ASPRT <-" << endl;
+	cout << "ALPHA: " << this->alpha << endl;
 }
 
 float ASPRT::define_priority(Schedule op){

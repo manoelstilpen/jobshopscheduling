@@ -21,8 +21,7 @@ public:
 
     void set_instance(ProblemInstance);
 
-    bool invert(int, int);
-    bool invert(Node, Node);
+    bool invert(Node, Node, bool store=true);
 
     vector<Edge> bellmanFord();
     vector<int> topologicalSort();
@@ -32,6 +31,8 @@ public:
     Graph construct_disjunctive_graph(GanttRepresentation);
 
     GanttRepresentation generate_gantt();
+
+    void undo_last_movement();
 
     int getNEdges();
     int getVertexPerJob();
@@ -44,6 +45,7 @@ public:
 
     map<int, vector<Node > > getAdjacencyList();
     vector<Edge> getCriticalPath();
+    vector< vector<Edge> > getCriticalBlocks();
 
     void printGraph();
     void printCriticalPath();
@@ -68,8 +70,11 @@ private:
     map<int, Node> vertexList;
 
     vector<Edge> criticalPath;
+    vector<Edge> lastMovements;
     vector<int> distances;
     vector<int> path;
+
+    vector< vector<Edge> > criticalBlocks;
 
 };
 

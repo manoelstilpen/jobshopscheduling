@@ -22,90 +22,17 @@ public:
         repeat=1;
     }
 
-    Metaheuristic(){
+    Metaheuristic(){}
 
-    }
-
-    virtual ~Metaheuristic(){
-
-    }
+    virtual ~Metaheuristic(){}
 
     virtual Solution apply() = 0;
 
-    virtual void updateCouldMove() {
-        // atualiza o caminho critico e as arestas passiveis de troca
-
-        criticalPath = graph.getCriticalPath();
-        
-        criticalBlocks.clear();
-        sizeCriticalBlocks = 0;
-
-        bool bloco = false;
-        int blocoAtual = -1;
-        for(int i=0 ; i<criticalPath.size() ; i++){
-
-            if(isCritical(criticalPath[i])){
-                if(!bloco){
-                    criticalBlocks.push_back(vector<Edge>());
-                    blocoAtual++;
-                }
-
-                criticalBlocks[blocoAtual].push_back(criticalPath[i]);
-                bloco = true;
-
-            } else if(bloco == true) {
-                bloco = false;
-            }
-
-        }
-
-        // ordena os blocos criticos em relacao a quantidade de arestas
-        sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<Edge> a,
-                                                            const vector<Edge> b){
-            return a.size() > b.size();
-        });
-
-
-        // remove os blocos criticos repetidos
-        for(int i=0 ; i<criticalBlocks.size() ; i++){
-            int size = criticalBlocks[i].size();
-            sizeCriticalBlocks += size;
-            for(int j=i+1 ; j<criticalBlocks.size() && size == criticalBlocks[j].size() ; j++){
-                if(std::equal(criticalBlocks[i].begin(), criticalBlocks[i].end(), criticalBlocks[j].begin())){
-                    criticalBlocks.erase(criticalBlocks.begin()+j);
-                    j--;
-                }
-            }
-
-        }
-
-    }
-
-    bool isCritical(Edge edge){
-        return (edge.first.job != edge.second.job) &&
-                edge.first.job != -1 && edge.second.job != -1;
-    }
-
     void invert(Edge edge){
         graph.invert(edge.first, edge.second);
-        lastMovements.push_back(edge);
     }
 
-    void undo_movements(){
-        cout << "IMPLEMENTAR" << endl;
-        /* for(int i=0 ; i<lastMovements.size() ; i++){
-            graph.invert(lastMovements[i]);
-        }
-
-        lastMovements.clear(); */
-    }
-
-    void undo_last_movement(){
-        graph.invert(lastMovements.back().second, lastMovements.back().first);
-        lastMovements.pop_back();
-    }
-
-    void printCouldMove(){
+/*     void printCouldMove(){
         cout << "ARESTAS QUE PODEM MOVER: " << endl;
         for(int i=0 ; i<criticalBlocks.size() ; i++){
             for(int j=0 ; j<criticalBlocks[i].size() ; j++){
@@ -113,7 +40,7 @@ public:
             }
             cout << endl;
         }
-    }
+    } */
 
     void print(){
         float perc = percent_between(atrasoInicial, melhorAtraso);
@@ -176,13 +103,6 @@ protected:
     int sizeCriticalBlocks;
 
     float timeTotal;
-
-    vector<Edge> lastMovements;
-
-    vector<Edge> criticalPath;
-    vector< vector<Edge> > criticalBlocks;
-
-
 };
 
 #endif

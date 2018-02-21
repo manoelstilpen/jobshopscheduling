@@ -14,7 +14,7 @@ Constructive::Constructive(ProblemInstance p, double _alpha) : solution(p), eval
 
 Solution Constructive::apply(){
 
-    //	print_method_informations();
+    print_method_informations();
 
     ScheduleMatrix jobs_temp;
 
@@ -31,7 +31,7 @@ Solution Constructive::apply(){
         for(int i=0 ; i<nJobs*nOperations ; i++){
 
             vector<Custo> custos;
-            for(int j=0 ; j<jobs_temp.size() ; j++){
+            for(unsigned int j=0 ; j<jobs_temp.size() ; j++){
                 // avalia a prioridade das operacoes candidatas
                 custos.push_back(
                     Custo(j, define_priority(jobs_temp[j][0]))
@@ -49,7 +49,7 @@ Solution Constructive::apply(){
             float limite_grasp = valor_grasp(menor, maior);
 
             restricts.clear();
-            for(int j=0 ; j<custos.size() ; j++){
+            for(unsigned int j=0 ; j<custos.size() ; j++){
                 if(custos[j].custo <= limite_grasp){
                     restricts.push_back(custos[j].indice);
                 }
@@ -93,7 +93,7 @@ float Constructive::valor_grasp(const float& min, const float& max){
 void Constructive::print(){
     for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
-        for(int j=0 ; j<solution[i].size() ; j++){
+        for(unsigned int j=0 ; j<solution[i].size() ; j++){
             cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;

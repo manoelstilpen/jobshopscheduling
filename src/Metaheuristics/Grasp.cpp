@@ -19,7 +19,6 @@ Solution Grasp::apply(){
 //	print_method_informations();
 
 	int maxIter = 3000;
-	int atraso = 0;
 
 	iterTotal = maxIter;
 	iterAtual = 0;

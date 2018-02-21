@@ -127,6 +127,11 @@ namespace twtjssp{
 
 		return stack_contents;
 	}
+
+	inline bool isCritical(Edge edge){
+        return (edge.first.job != edge.second.job) &&
+                edge.first.job != -1 && edge.second.job != -1;
+    }
 }
 
 #endif

@@ -27,16 +27,7 @@ void Graph::add(Node src, Node dest){
     nEdges++;
 }
 
-void Graph::add(int src, int dest){
-    //add edge by it's id
-}
-
-// TODO: inverter uma aresta recebendo os indices dos vertices como parametro
-bool Graph::invert(int src, int dest){
-    cout << "IMPLEMENTAR" << endl;
-}
-
-bool Graph::invert(Node src, Node dest){
+bool Graph::invert(Node src, Node dest, bool store){
 
     int idSrc = src.index;
     int idDest = dest.index;
@@ -55,6 +46,10 @@ bool Graph::invert(Node src, Node dest){
     // invertendo
     edges[idSrc].erase(it);
     edges[idDest].push_back(src);
+
+    if(store){
+        lastMovements.push_back(Edge(src, dest));
+    }
 
     return true;
 }
@@ -137,6 +132,60 @@ vector<Edge> Graph::getCriticalPath(){
     return criticalPath;
 }
 
+vector< vector<Edge> > Graph::getCriticalBlocks(){
+// atualiza o caminho critico e as arestas passiveis de inversao
+    getCriticalPath();
+
+    criticalBlocks.clear();
+//        sizeCriticalBlocks = 0;
+
+    bool bloco = false;
+    int blocoAtual = -1;
+    for(unsigned int i=0 ; i<criticalPath.size() ; i++){
+
+        if(isCritical(criticalPath[i])){
+            if(!bloco){
+                criticalBlocks.push_back(vector<Edge>());
+                blocoAtual++;
+            }
+
+            criticalBlocks[blocoAtual].push_back(criticalPath[i]);
+            bloco = true;
+
+        } else if(bloco == true) {
+            bloco = false;
+        }
+
+    }
+
+    // ordena os blocos criticos em relacao a quantidade de arestas
+    sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<Edge> a,
+                                                        const vector<Edge> b){
+        return a.size() > b.size();
+    });
+
+
+    // remove os blocos criticos repetidos
+    for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
+        unsigned int size = criticalBlocks[i].size();
+        // sizeCriticalBlocks += size;
+        for(unsigned int j=i+1 ; j<criticalBlocks.size() && size == criticalBlocks[j].size() ; j++){
+            if(std::equal(criticalBlocks[i].begin(), criticalBlocks[i].end(), criticalBlocks[j].begin())){
+                criticalBlocks.erase(criticalBlocks.begin()+j);
+                j--;
+            }
+        }
+
+    }
+
+    return criticalBlocks;
+}
+
+void Graph::undo_last_movement(){
+    invert(lastMovements.back().second, lastMovements.back().first, false);
+    lastMovements.pop_back();
+}
+
 // DFS
 bool Graph::isFeasible(){
     // marca todos os vertices como nao visitados e nao participantes da pilha de recursao
@@ -177,7 +226,6 @@ bool Graph::isFeasibleRec(Node v, vector<bool>& visited, vector<bool>& recstack)
 Graph Graph::construct_conjunctive_graph(){
 
     int nJobs = instance.get_num_jobs();
-    int nOperations = instance.get_num_operations();
 
     int jobAtual = 0;
     int opAtual = 0;
@@ -265,15 +313,15 @@ Graph Graph::construct_conjunctive_graph(){
 Graph Graph::construct_disjunctive_graph(GanttRepresentation initialSolution){
 
     // criando grafo disjuntivo atraves do sequenciamento gerado pelo metodo construtivo
-    for(int i=0 ; i<initialSolution.size() ; i++)
+    for(unsigned int i=0 ; i<initialSolution.size() ; i++)
     {
-        for(int j=0 ; j<initialSolution[i].size() ; j++)
+        for(unsigned int j=0 ; j<initialSolution[i].size() ; j++)
         {
 
             Schedule dest;
             Schedule source = initialSolution[i][j];
 
-            for(int k=j+1 ; k<initialSolution[i].size() ; k++)
+            for(unsigned int k=j+1 ; k<initialSolution[i].size() ; k++)
             {
                 dest = initialSolution[i][k];
 
@@ -306,7 +354,7 @@ GanttRepresentation Graph::generate_gantt(){
     }
 
     // ordena as operacoes
-    for(int i=0 ; i<solution.size() ; i++){
+    for(unsigned int i=0 ; i<solution.size() ; i++){
         sort(solution[i].begin(), solution[i].end(),
             [](const Schedule &a, const Schedule &b) -> bool{
                 return a.time_execution < b.time_execution;
@@ -332,7 +380,7 @@ int Graph::getVertexPerJob(){
 }
 
 int Graph::getDistanceFrom(int id){
-    if(id > distances.size()){
+    if((unsigned)id > distances.size()){
         cout << "OUT OF BOUNDS" << endl;
         return 0;
     }
@@ -375,7 +423,7 @@ void Graph::printGraph(){
 }
 
 void Graph::printCriticalPath(){
-    for(int i=0 ; i<criticalPath.size() ; i++){
+    for(unsigned int i=0 ; i<criticalPath.size() ; i++){
         cout << "(" << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << ") - ";
     }
     cout << endl;
@@ -396,8 +444,8 @@ vector< Edge > Graph::bellmanFord(){
     bool houveAlteracao = true;
 	for (int i = 1; i <= nVertex-1 && houveAlteracao ; i++){
         houveAlteracao = false;
-        for(int j=0 ; j<edges.size() ; j++){
-		    for (int k = 0; k < edges[j].size(); k++){
+        for(unsigned int j=0 ; j<edges.size() ; j++){
+		    for (unsigned int k = 0; k < edges[j].size(); k++){
 
                 int vertOrigem = j;
                 int vertDestino = edges[j][k].index;
