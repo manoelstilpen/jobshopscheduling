@@ -4,6 +4,8 @@ app
 *.json
 *.txt
 *.png
+.idea
+build/
 GPATH
 GRTAGS
 GSYMS
