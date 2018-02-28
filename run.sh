@@ -9,7 +9,7 @@ for arch in ${files}; do
 	for i in `seq 0 30`; do
 	    for mode in grasp vns; do
 		    #echo -n "mod " >> execucoes/${arch}
-		    ./app -i instances/${arch} -m ${mode} >> execucoes/${arch}
+		    ./app -i instances/${arch} -m ${mode} >> execucoes/${mode}_${arch}
 		done
 	done
 done
