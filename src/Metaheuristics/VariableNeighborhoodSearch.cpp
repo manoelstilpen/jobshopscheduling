@@ -10,7 +10,7 @@ VariableNeighborhoodSearch::VariableNeighborhoodSearch(Solution s) : Metaheurist
 
 Solution VariableNeighborhoodSearch::apply(){
     
-//    print_method_informations();
+    print_method_informations();
 
     vizinhancas.push_back(new FirstImprovement(solution)); // busca local do vns
     vizinhancas.push_back(new ShakeK(solution, 2));        // movimento mover 2 arcos
@@ -25,7 +25,7 @@ Solution VariableNeighborhoodSearch::apply(){
 
     const int max_iter = 600;
     const int max_repeticoes = 4;
-    const int r = vizinhancas.size();
+    const long r = vizinhancas.size();
 
     int iter_sem_melhora = 0;
 

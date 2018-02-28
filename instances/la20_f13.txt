@@ -13,4 +13,4 @@ la20
 
 Melhor Lit: 805
 Melhor TWTJSSP: 805
-Melhor Meu: 1152
+Melhor Meu: 1072

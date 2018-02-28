@@ -85,7 +85,7 @@ int main(int argc, char** argv){
 	string instance_name = "bierwirth.txt";
 	double alpha_grasp = 0.4;
 	int repeat = 1;
-	string movement = "vns";
+	string method = "vns";
 	bool printGantt = false;
 	bool printStats = false;
 
@@ -94,7 +94,7 @@ int main(int argc, char** argv){
     cout << "Seed = " << seed << endl;
 	srand(seed);
 
-	if(!argParse(argc, argv, &movement, &repeat, &instance_name, &printGantt, &printStats)){
+	if(!argParse(argc, argv, &method, &repeat, &instance_name, &printGantt, &printStats)){
 		exit(EXIT_FAILURE);
 	}
 
@@ -108,21 +108,23 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-/* 
-    // teste vns
-    ConstructiveGraph constructive(instance, alpha_grasp);
-	solution = constructive.apply();
- 
-	VariableNeighborhoodSearch vns(solution);
-	solution = vns.apply();
-	vns.print(); */
+    if(method.compare("vns") == 0){
+        // teste vns
+        ConstructiveGraph constructiveGraph(instance, alpha_grasp);
+        solution = constructiveGraph.apply();
 
-/*
-    // teste grasp
-    Grasp grasp(instance, alpha_grasp);
-    solution = grasp.apply();
-    grasp.print();
- */
+        VariableNeighborhoodSearch vns(solution);
+        solution = vns.apply();
+        vns.print();
+    }
+
+    if(method.compare("grasp") == 0){
+        // teste grasp
+        Grasp grasp(instance, alpha_grasp);
+        solution = grasp.apply();
+        grasp.print();
+    }
+
 /*
     // teste construtivo
     Constructive* cons = new SPRT(instance, 0.05);
@@ -131,13 +133,13 @@ clock_t begin = clock();
 */
 
     // teste simulated annealing
-    ConstructiveGraph cons(instance, 0.1);
+ /*   ConstructiveGraph cons(instance, 0.1);
     Solution s = cons.apply();
 
     SimulatedAnnealing sa(s);
     solution = sa.apply();
     sa.print();
-
+*/
 clock_t end = clock();
 double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 

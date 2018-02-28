@@ -16,7 +16,7 @@ void Grasp::print_method_informations(){
 
 Solution Grasp::apply(){
 
-//	print_method_informations();
+	print_method_informations();
 
 	int maxIter = 3000;
 
