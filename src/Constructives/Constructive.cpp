@@ -14,7 +14,7 @@ Constructive::Constructive(ProblemInstance p, double _alpha) : solution(p), eval
 
 Solution Constructive::apply(){
 
-    print_method_informations();
+//    print_method_informations();
 
     ScheduleMatrix jobs_temp;
 
