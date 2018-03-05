@@ -9,7 +9,7 @@ include_directories(src src/Constructives src/LocalSearches src/Metaheuristics)
 
 file(GLOB_RECURSE SRC src/*.cpp)
 
-ADD_EXECUTABLE(app ${SRC})
+ADD_EXECUTABLE(app ${SRC} src/Constructives/MOD.cpp src/Constructives/MOD.hpp)
 
 TARGET_LINK_LIBRARIES(app LINK_PUBLIC ${Boost_LIBRARIES})
 

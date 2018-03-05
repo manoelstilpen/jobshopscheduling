@@ -16,7 +16,6 @@ Solution VariableNeighborhoodSearch::apply(){
     vizinhancas.push_back(new ShakeK(solution, 2));        // movimento mover 2 arcos
     vizinhancas.push_back(new ShakeK(solution, 3));        // movimento mover 3 arcos
     vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
-    vizinhancas.push_back(new ShakeK(solution, 5));        // movimento mover 5 arcos
 
     auto criticalBlocks = graph.getCriticalPath();
     
