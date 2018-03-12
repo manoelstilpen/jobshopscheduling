@@ -16,7 +16,7 @@ bool ProblemInstance::load_instance(){
 	std::fstream file(this->instance_file_name);
 
 	if(!file.is_open()){
-		std::cout << "FILE NOT FOUND" << std::endl;
+		std::cout << "FILE NOT FOUND: " << instance_file_name << std::endl;
 		return false;
 	}
 
@@ -76,12 +76,7 @@ void ProblemInstance::print(){
 }
 
 void ProblemInstance::set_name_file(string name){
-	if(name.find("instances/") != 0){
-		std::string aux("instances/");
-		aux += name;
-		name = aux;
-	} 
-	
+
 	if(name.find(".txt") != name.size()-4){
 		name += ".txt";
 	}

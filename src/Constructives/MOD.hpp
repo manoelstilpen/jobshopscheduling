@@ -9,6 +9,7 @@
 
 class MOD : public Constructive {
 
+public:
     MOD(ProblemInstance instance, double alpha);
 
     virtual void print_method_informations();

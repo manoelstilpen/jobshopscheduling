@@ -11,6 +11,7 @@
 
 #include <stdlib.h>     /* atof */
 #include <unistd.h>		/* getopt */
+#include <Constructives/MOD.hpp>
 
 using namespace std;
 using namespace std::chrono;
@@ -24,19 +25,23 @@ void show_help(const po::options_description& desc, const std::string& topic = "
     exit(EXIT_SUCCESS);
 }
 
-bool argParse(int argc, char* argv[], string* method, int* repeat, string* path, bool* print, bool* printStats){
+bool argParse(int argc, char* argv[], string* method, int* repeat, double* alpha,
+              string* path, bool* print, bool* printStats){
+
     po::options_description desc("Usage");
     desc.add_options()
-        ("help,h", po::value< std::string >()->implicit_value("")->notifier(
-            [&desc](const std::string& topic) {
-                show_help(desc, topic);
-            }
-        ),"Show help.")
-        ("instance,i", po::value<string>(), "Instance path")
-        ("method,m", po::value<string>()->default_value("grasp"), "(Optional) Specify the constructive method to use")
-		("repeat,r", po::value<int>()->default_value(1), "(Optional) Specify how many times run the program")
-		("print,p", "(Optional) If enabled program will print Gantt graphic")
-		("stats,s", "(Optional) If enabled program will print execution stats");
+
+            ("help,h", po::value< std::string >()->implicit_value("")->notifier(
+                    [&desc](const std::string& topic) {
+                        show_help(desc, topic);
+                    }
+            ),"Show help.")
+            ("instance,i", po::value<string>(), "Instance path")
+            ("alpha,a", po::value<double>()->default_value(*alpha))
+            ("method,m", po::value<string>()->default_value("grasp"), "(Optional) Specify the constructive method to use")
+            ("repeat,r", po::value<int>()->default_value(1), "(Optional) Specify how many times run the program")
+            ("print,p", "(Optional) If enabled program will print Gantt graphic")
+            ("stats,s", "(Optional) If enabled program will print execution stats");
 
     if (argc == 1) {
         show_help(desc);
@@ -58,6 +63,10 @@ bool argParse(int argc, char* argv[], string* method, int* repeat, string* path,
 	if(args.count("repeat")){
 		*repeat = args["repeat"].as<int>();
 	}
+
+    if(args.count("alpha")){
+        *alpha = args["alpha"].as<double>();
+    }
 
     if(args.count("print")){
         *print = true;
@@ -83,7 +92,7 @@ int main(int argc, char** argv){
 //	string instance_name = "abz6_f13.txt";
 //	string instance_name = "instance.txt";
 	string instance_name = "bierwirth.txt";
-	double alpha_grasp = 0.4;
+	double alpha = 0.4;
 	int repeat = 1;
 	string method = "vns";
 	bool printGantt = false;
@@ -94,7 +103,7 @@ int main(int argc, char** argv){
     cout << "Seed = " << seed << endl;
 	srand(seed);
 
-	if(!argParse(argc, argv, &method, &repeat, &instance_name, &printGantt, &printStats)){
+	if(!argParse(argc, argv, &method, &repeat, &alpha, &instance_name, &printGantt, &printStats)){
 		exit(EXIT_FAILURE);
 	}
 
@@ -110,7 +119,7 @@ clock_t begin = clock();
 
     if(method.compare("vns") == 0){
         // teste vns
-        ConstructiveGraph constructiveGraph(instance, alpha_grasp);
+        ConstructiveGraph constructiveGraph(instance, alpha);
         solution = constructiveGraph.apply();
 
         VariableNeighborhoodSearch vns(solution);
@@ -120,17 +129,18 @@ clock_t begin = clock();
 
     if(method.compare("grasp") == 0){
         // teste grasp
-        Grasp grasp(instance, alpha_grasp);
+        Grasp grasp(instance, alpha);
         solution = grasp.apply();
         grasp.print();
     }
 
-/*
-    // teste construtivo
-    Constructive* cons = new SPRT(instance, 0.05);
-    Solution s = cons->apply();
-    cons->print();
-*/
+    if(method.compare("cons") == 0){
+        // teste construtivo
+        Constructive* cons = new ASPRT(instance, alpha);
+        Solution s = cons->apply();
+        cons->print();
+    }
+
 
     // teste simulated annealing
  /*   ConstructiveGraph cons(instance, 0.1);

@@ -49,7 +49,7 @@ Solution Grasp::apply(){
 
 			iterAtual++;
 
-			print_progress();
+//			print_progress();
 		}
 	}
 
