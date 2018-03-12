@@ -4,6 +4,7 @@
 #include "Constructive.hpp"
 #include "ASPRT.hpp"
 #include "SPRT.hpp"
+#include "MOD.hpp"
 #include "WSPT.hpp"
 #include "ConstructiveGraph.hpp"
 
