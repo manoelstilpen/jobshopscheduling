@@ -74,9 +74,9 @@ Solution SimulatedAnnealing::apply(){
                     //cout << melhorAtraso << endl;
                 }
             } else {
-                float x = (rand() % 100)/100.0;
+                double x = (rand() % 100)/100.0;
                 float expo = (float(-delta)/float(float(temperatura)));
-                float prob = pow(exp(1.0), expo);
+                double prob = pow(exp(1.0), expo);
 
                 if(x >= prob)
                 {

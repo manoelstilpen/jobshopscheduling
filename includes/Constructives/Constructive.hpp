@@ -1,9 +1,9 @@
 #ifndef CONSTRUCTIVE_HPP
 #define CONSTRUCTIVE_HPP
 
-#include "../Commons.hpp"
-#include "../ProblemInstance.hpp"
-#include "../Evaluator.hpp"
+#include "Commons.hpp"
+#include "ProblemInstance.hpp"
+#include "Evaluator.hpp"
 
 /**
  * Pure Virtual class to create a constructive method

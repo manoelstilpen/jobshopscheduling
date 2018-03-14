@@ -1,7 +1,7 @@
 #ifndef SPRT_HPP
 #define SPRT_HPP
 
-#include "../Commons.hpp"
+#include "Commons.hpp"
 #include "Constructives.hpp"
 
 using namespace twtjssp;

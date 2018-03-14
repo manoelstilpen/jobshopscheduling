@@ -1,10 +1,10 @@
 #ifndef VNS_HPP_
 #define VNS_HPP_
 
-#include "../Commons.hpp"
+#include "Commons.hpp"
 
-#include "../LocalSearches/FirstImprovement.hpp"
-#include "../LocalSearches/ShakeK.hpp"
+#include "FirstImprovement.hpp"
+#include "ShakeK.hpp"
 #include "Metaheuristic.hpp"
 
 using namespace twtjssp;

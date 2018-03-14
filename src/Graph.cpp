@@ -141,24 +141,24 @@ vector< vector<Edge> > Graph::getCriticalBlocks(){
 
     bool bloco = false;
     int blocoAtual = -1;
-    for(unsigned int i=0 ; i<criticalPath.size() ; i++){
+    for(Edge i : criticalPath){
 
-        if(isCritical(criticalPath[i])){
+        if(isCritical(i)){
             if(!bloco){
-                criticalBlocks.push_back(vector<Edge>());
+                criticalBlocks.emplace_back(vector<Edge>());
                 blocoAtual++;
             }
 
-            criticalBlocks[blocoAtual].push_back(criticalPath[i]);
+            criticalBlocks[blocoAtual].push_back(i);
             bloco = true;
 
-        } else if(bloco == true) {
+        } else if(bloco) {
             bloco = false;
         }
 
     }
 
-    // ordena os blocos criticos em relacao a quantidade de arestas
+    // ordena os blocos criticos com relacao a quantidade de arestas
     sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<Edge> a,
                                                         const vector<Edge> b){
         return a.size() > b.size();
@@ -167,7 +167,7 @@ vector< vector<Edge> > Graph::getCriticalBlocks(){
 
     // remove os blocos criticos repetidos
     for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
-        unsigned int size = criticalBlocks[i].size();
+        unsigned long size = criticalBlocks[i].size();
         // sizeCriticalBlocks += size;
         for(unsigned int j=i+1 ; j<criticalBlocks.size() && size == criticalBlocks[j].size() ; j++){
             if(std::equal(criticalBlocks[i].begin(), criticalBlocks[i].end(), criticalBlocks[j].begin())){

@@ -1,10 +1,9 @@
 #ifndef SHAKE_HPP
 #define SHAKE_HPP
 
-#include "../Commons.hpp"
+#include "Commons.hpp"
+#include "Metaheuristic.hpp"
 #include <unistd.h>
-
-#include "../Metaheuristics/Metaheuristic.hpp"
 
 using namespace twtjssp;
 

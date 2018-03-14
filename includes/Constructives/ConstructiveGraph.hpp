@@ -1,8 +1,8 @@
 #ifndef CONSTRUCTIVE_GRAPH_HPP
 #define CONSTRUCTIVE_GRAPH_HPP
 
-#include "../Commons.hpp"
-#include "../ProblemInstance.hpp"
+#include "Commons.hpp"
+#include "ProblemInstance.hpp"
 #include "Constructives.hpp" 
 
 using namespace twtjssp;

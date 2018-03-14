@@ -1,8 +1,8 @@
 #ifndef ASPRT_HPP
 #define ASPRT_HPP
 
-#include "../Commons.hpp"
-#include "../Metaheuristics/Grasp.hpp"
+#include "Commons.hpp"
+#include "Constructive.hpp"
 
 using namespace twtjssp;
 

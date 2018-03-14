@@ -28,6 +28,7 @@ Solution FirstImprovement::apply(){
     do {
 //        graph.printGraph();
         auto criticalBlocks = graph.getCriticalBlocks();
+//        graph.printCriticalPath();
 //        graph.printCriticalBlock();
 
         if(criticalBlocks.empty()) break;
@@ -50,7 +51,7 @@ Solution FirstImprovement::apply(){
                 break;
 
             } else {
-                // no caso de piora, reverte o movimento
+                // no caso de piora, reverte o movimento e avança para outro bloco critico
                 graph.undo_last_movement();
                 randomBlock++;
             }

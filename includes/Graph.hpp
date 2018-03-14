@@ -4,12 +4,7 @@
 #include "Commons.hpp"
 #include "ProblemInstance.hpp"
 
-// rever imports
 #include <map>
-#include <queue>
-#include <stack>
-#include <list>
-#include <limits.h>
 
 using namespace twtjssp;
 

@@ -1,9 +1,8 @@
 #ifndef WSPT_HPP_
 #define WSPT_HPP_
 
+#include "Commons.hpp"
 #include "Constructive.hpp"
-#include "../ProblemInstance.hpp"
-#include "../Commons.hpp"
 
 using namespace twtjssp;
 

@@ -1,9 +1,9 @@
 #ifndef METAHEURISTIC_HPP
 #define METAHEURISTIC_HPP
 
-#include "../Commons.hpp"
-#include "../Solution.hpp"
-#include "../Evaluator.hpp"
+#include "Commons.hpp"
+#include "Solution.hpp"
+#include "Evaluator.hpp"
 
 class Metaheuristic {
 

@@ -1,7 +1,7 @@
 #ifndef FIRSTIMPROVEMENT_HPP
 #define FIRSTIMPROVEMENT_HPP
 
-#include "../Metaheuristics/Metaheuristic.hpp"
+#include "Metaheuristic.hpp"
 
 using namespace twtjssp;
 

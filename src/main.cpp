@@ -89,11 +89,9 @@ bool argParse(int argc, char* argv[], string* method, int* repeat, double* alpha
 
 int main(int argc, char** argv){
 
-//	string instance_name = "abz6_f13.txt";
-//	string instance_name = "instance.txt";
-	string instance_name = "bierwirth.txt";
-	double alpha = 0.4;
-	int repeat = 1;
+    string instance_name = "bierwirth.txt";
+    double alpha = 0.4;
+    int repeat = 1;
 	string method = "vns";
 	bool printGantt = false;
 	bool printStats = false;
