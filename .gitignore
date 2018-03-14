@@ -6,6 +6,7 @@ app
 *.png
 .idea
 build/
+cmake-build-debug/
 GPATH
 GRTAGS
 GSYMS
