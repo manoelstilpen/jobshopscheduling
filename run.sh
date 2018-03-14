@@ -6,10 +6,10 @@ files=`ls instances/testes`
 echo -n "Script initialized at: " && date
 
 for arch in ${files}; do
-	for i in `seq 1 30`; do
+    for i in `seq 1 30`; do
         #echo -n "mod " >> execucoes/${arch}
-        build/app -i instances/${arch} -m cons >> ../execucoes/sprt_${arch}
-	done
+        build/app -i instances/${arch} -m grasp >> ../execucoes/sprt_${arch}
+    done
 done
 
 echo -n "Script ended at: " && date
