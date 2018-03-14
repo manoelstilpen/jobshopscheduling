@@ -48,7 +48,7 @@ bool Graph::invert(Node src, Node dest, bool store){
     edges[idDest].push_back(src);
 
     if(store){
-        lastMovements.push_back(Edge(src, dest));
+        lastMovements.emplace_back(Edge(src, dest));
     }
 
     return true;
@@ -82,7 +82,7 @@ void Graph::topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack)
     stack.push(v);
 }
 
-void Graph::updateDistancesFromTopOrder(stack<int> order){
+void Graph::updateDistancesFromTopOrder(std::stack<int> order){
 
     distances.clear();
     distances.resize(nVertex, -INF);
@@ -92,7 +92,7 @@ void Graph::updateDistancesFromTopOrder(stack<int> order){
     path.resize(nVertex);
 
     // Process vertices in topological order
-    while (order.empty() == false){
+    while (!order.empty()){
         // Get the next vertex from topological order
         int u = order.top();
         order.pop();
@@ -425,6 +425,18 @@ void Graph::printGraph(){
 void Graph::printCriticalPath(){
     for(unsigned int i=0 ; i<criticalPath.size() ; i++){
         cout << "(" << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << ") - ";
+    }
+    cout << endl;
+}
+
+void Graph::printCriticalBlock(){
+    cout << "BLOCOS CRITICOS:" << endl;
+    for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
+        cout << "BLOCO CRITICO " << i << ": ";
+        for(unsigned int j=0 ; j<criticalBlocks[i].size() ; j++){
+            cout << "(" << criticalBlocks[i][j].first << " " << criticalBlocks[i][j].second << ") - ";
+        }
+        cout << endl;
     }
     cout << endl;
 }

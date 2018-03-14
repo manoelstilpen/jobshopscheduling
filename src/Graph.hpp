@@ -49,17 +49,17 @@ public:
 
     void printGraph();
     void printCriticalPath();
+    void printCriticalBlock();
     
 private:
 
     void add(Node);
     void add(Node, Node);
-    void add(int, int);
 
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
     void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
-    void updateDistancesFromTopOrder(stack<int>);
-  
+    void updateDistancesFromTopOrder(std::stack<int> order);
+
     ProblemInstance instance;
 
     int vertexPerJob;

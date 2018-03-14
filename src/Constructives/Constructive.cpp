@@ -77,7 +77,7 @@ void Constructive::remove_choosed_schedule(ScheduleMatrix& jobs_temp, int jobId)
     // remove a primeira operacao do jobId - foi a operacao inserida na solucao
 
 	jobs_temp[jobId].erase(jobs_temp[jobId].begin());
-	if(jobs_temp[jobId].size() == 0){
+	if(jobs_temp[jobId].empty()){
 		// Caso ja tenha alocado todas as tarefas do job, elimina o job da matriz
 		jobs_temp.erase(jobs_temp.begin()+jobId);
 	}

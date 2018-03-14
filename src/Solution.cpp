@@ -18,7 +18,7 @@ void Solution::aloca_tarefa(Schedule tarefa){
     // caso seja a primeira operacao do job
     if(tarefa.operation == 0){
         
-        if(this->solution[machine].size() == 0){
+        if(this->solution[machine].empty()){
             // Como nao tem outra tarefa alocada nessa maquina, apenas insere a tarefa
             this->solution[machine].push_back(tarefa);
         } else {
@@ -74,7 +74,7 @@ int Solution::time_can_be_alocated(Schedule op){
     
     // tempo atual da maquina da operacao op
     int timeMachine = [&]() {
-        if(solution[op.machine].size() == 0) return 0;
+        if(solution[op.machine].empty()) return 0;
         else return solution[op.machine].back().time_execution;
     }();
     

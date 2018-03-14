@@ -23,21 +23,22 @@ Solution FirstImprovement::apply(){
     atrasoInicial = melhorAtraso;
 
     int atraso;
-    bool houveMelhora = false;
+    bool houveMelhora;
     
     do {
-        
+//        graph.printGraph();
         auto criticalBlocks = graph.getCriticalBlocks();
+//        graph.printCriticalBlock();
 
-        if(criticalBlocks.size() == 0) break;
+        if(criticalBlocks.empty()) break;
 
-        int randomBlock = 0;
+        uint randomBlock = 0;
+        uint randomEdge = 0;
         houveMelhora = false;
-        atraso = INF;
 
         for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
 
-            int randomEdge = rand() % criticalBlocks[randomBlock].size();
+            //ulong randomEdge = rand() % criticalBlocks[randomBlock].size();
             invert(criticalBlocks[randomBlock][randomEdge]);
 
             atraso = evaluator.evaluate_by_graph(graph);
@@ -53,7 +54,10 @@ Solution FirstImprovement::apply(){
                 // no caso de piora, reverte o movimento
                 graph.undo_last_movement();
                 randomBlock++;
+                randomEdge = 0;
             }
+
+//            graph.printGraph();
 
         }
 

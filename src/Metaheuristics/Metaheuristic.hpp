@@ -32,16 +32,6 @@ public:
         graph.invert(edge.first, edge.second);
     }
 
-/*     void printCouldMove(){
-        cout << "ARESTAS QUE PODEM MOVER: " << endl;
-        for(int i=0 ; i<criticalBlocks.size() ; i++){
-            for(int j=0 ; j<criticalBlocks[i].size() ; j++){
-                cout << "(" << criticalBlocks[i][j].first.index << " " << criticalBlocks[i][j].second.index << "), ";
-            }
-            cout << endl;
-        }
-    } */
-
     void print(){
         float perc = percent_between(atrasoInicial, melhorAtraso);
         cout << endl;
