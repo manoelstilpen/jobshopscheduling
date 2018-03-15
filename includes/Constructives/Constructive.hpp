@@ -14,7 +14,7 @@ class Constructive {
     public:
 
         Constructive();
-        Constructive(ProblemInstance p, double _alpha);
+        Constructive(double _alpha);
         
         virtual Solution apply();
         virtual void print_method_informations() = 0;
@@ -29,13 +29,10 @@ class Constructive {
 
         void set_repeat(int t);
         int get_atraso();
-
-        void set_instance(ProblemInstance p);
         
     protected:
         Solution solution;
         Evaluator evaluator;
-        ProblemInstance instance;
 
 	    int repeat;         /*!< defines how many times the methods will execute */
 	    int media_atraso;   /*!< stores the medium value of tardiness between all solutions generated */

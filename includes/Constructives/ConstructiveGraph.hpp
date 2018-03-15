@@ -14,7 +14,7 @@ class ConstructiveGraph {
     
     public:
         ConstructiveGraph();
-        ConstructiveGraph(ProblemInstance, double);
+        explicit ConstructiveGraph(double);
         virtual Solution apply();
         virtual void print_method_informations();
 
@@ -23,7 +23,6 @@ class ConstructiveGraph {
     private:
         Graph graph;
         double alpha;
-        ProblemInstance instance;
 };
 
 #endif

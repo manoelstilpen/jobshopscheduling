@@ -15,13 +15,14 @@ class Grasp : public Metaheuristic {
 
 public:
     Grasp();
-    Grasp(ProblemInstance instance, double _alpha = 0);
+    explicit Grasp(double _alpha = 0);
 
-	virtual Solution apply();	/*!< applies the grasp method */
-	virtual Solution refinement(Solution&);
-	virtual void print();
-	virtual void print_graphic();
-	virtual void print_method_informations();
+	Solution apply() override;	/*!< applies the grasp method */
+	void print() override;
+    void print_graphic() override;
+    void print_method_informations() override;
+
+    virtual Solution refinement(Solution&);
 
 protected:
 

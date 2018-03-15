@@ -4,8 +4,7 @@ ConstructiveGraph::ConstructiveGraph(){
 
 }
 
-ConstructiveGraph::ConstructiveGraph(ProblemInstance p, double _a) : alpha(_a), instance(p){
-    graph.set_instance(p);
+ConstructiveGraph::ConstructiveGraph( double _a) : alpha(_a){
 }
 
 void ConstructiveGraph::print_method_informations(){
@@ -15,13 +14,13 @@ void ConstructiveGraph::print_method_informations(){
 
 Solution ConstructiveGraph::apply(){
 
-    Graph graph(instance);
+    Graph graph;
     graph = graph.construct_conjunctive_graph();
 
     // gera o sequenciamento das operações nas maquinas atraves de alguma regra de despacho
     // depois gera o grafo disjuntivo com base no sequenciamento gerado
 
-    Constructive* constructive = new SPRT(instance, alpha);
+    Constructive* constructive = new SPRT(alpha);
     Solution initialSolution = constructive->apply();
 
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 

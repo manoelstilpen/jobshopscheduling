@@ -12,41 +12,41 @@ class ProblemInstance {
 
 public:
 
-	vector<Schedule> operator[](const int& i){
-		return vec_schedules[i];		
-	}
+//    ProblemInstance();
+//
+//	vector<Schedule> operator[](const int& i){
+//		return vec_schedules[i];
+//	}
 
-	ProblemInstance();
-	ProblemInstance(std::string);
+	static bool load_instance(string path);
 
-	bool load_instance();
-	void print();
+	static void print();
+    static int getNumMachines();
+    static int getNumJobs();
+	static int getNumOperations();
 
-	void set_name_file(string);
+    static int getPriorityFromJob(int job);
 
-	int get_num_machines();
-	int get_num_jobs();
-	int get_num_tasks(); // deprecated
-	int get_num_operations();
-	std::string get_name_file();
-	string get_instance_name();
-	std::vector<int> get_vec_priorities();
-	std::vector<int> get_due_times();
-	int get_due_times(int);
-	ScheduleMatrix get_vec_schedules();
-	Schedule get_vec_schedules(int job, int task);
+    static vector<Schedule> getOperationsFromJob(int job);
+    static vector<int> getVecPriorities();
+    static vector<int> getDueTimes();
 
+	static int getDueTimeFromJob(int);
+    static ScheduleMatrix getVecSchedules();
+
+	static Schedule getSchedule(int job, int task);
 
 private:
-	string instance_file_name;
-	std::string instance_name;
-	std::vector<int> vec_priorities;
-	std::vector<int> due_times;
-	ScheduleMatrix vec_schedules;
 
-	int num_machines;
-	int num_jobs;
-	int num_tasks;
+    static std::string instance_name;
+    static std::vector<int> vec_priorities;
+    static std::vector<int> due_times;
+    static ScheduleMatrix vec_schedules;
+
+	static int num_machines;
+	static int num_jobs;
+//	static int num_tasks;
+    static int num_operations;
 
 };
 

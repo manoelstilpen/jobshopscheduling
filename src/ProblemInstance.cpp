@@ -1,39 +1,37 @@
 #include "ProblemInstance.hpp"
 
-ProblemInstance::ProblemInstance(){
-	instance_name = "NULL";
-	num_tasks = -1;
-	num_jobs = -1;
-	num_machines = -1;
-}
+std::string ProblemInstance::instance_name;
+std::vector<int> ProblemInstance::vec_priorities;
+std::vector<int> ProblemInstance::due_times;
+ScheduleMatrix ProblemInstance::vec_schedules;
 
-ProblemInstance::ProblemInstance(string name){
-	set_name_file(name);
-}
+int ProblemInstance::num_machines;
+int ProblemInstance::num_jobs;
+int ProblemInstance::num_operations;
 
-bool ProblemInstance::load_instance(){
+bool ProblemInstance::load_instance(string path){
 
-	std::fstream file(this->instance_file_name);
+	std::fstream file(path);
 
 	if(!file.is_open()){
-		std::cout << "FILE NOT FOUND: " << instance_file_name << std::endl;
+		cerr << "FILE WITH PATH: " << path << " WHERE NOT FOUND" << endl;
 		return false;
 	}
 
-	file >> this->instance_name;
-	file >> this->num_jobs;
-	file >> this->num_tasks;	
+	file >> instance_name;
+	file >> num_jobs;
+	file >> num_operations;
 
-	this->num_machines = this->num_tasks;
+	num_machines = num_operations;
 
-	this->vec_schedules.resize(this->num_jobs);
-	this->vec_priorities.resize(this->num_jobs);
-	this->due_times.resize(this->num_jobs);
+	vec_schedules.resize(num_jobs);
+	vec_priorities.resize(num_jobs);
+	due_times.resize(num_jobs);
 
 	Schedule schedule;
 	int lixo;
-	for(int i=0 ; i<this->num_jobs ; i++){
-		for(int j=0 ; j<this->num_tasks ; j++){
+	for(int i=0 ; i<num_jobs ; i++){
+		for(int j=0 ; j<num_operations ; j++){
 
 			file >> schedule.machine;
 			file >> schedule.time_execution;
@@ -42,12 +40,12 @@ bool ProblemInstance::load_instance(){
 			schedule.task = j; // DEPRECATED
 			schedule.operation = j;
 			
-			this->vec_schedules[i].push_back(schedule);
+			vec_schedules[i].push_back(schedule);
 		}
 
-		file >> this->vec_priorities[i];
+		file >> vec_priorities[i];
 		file >> lixo;
-		file >> this->due_times[i];
+		file >> due_times[i];
 	}
 
 	file.close();
@@ -56,74 +54,62 @@ bool ProblemInstance::load_instance(){
 }
 
 void ProblemInstance::print(){
-	std::cout << this->instance_name << std::endl;
-	std::cout << "Machines: " << this->num_machines;
-	std::cout << " Jobs: " << this->num_jobs;
-	std::cout << " Tasks: " << this->num_tasks << std::endl;
+	std::cout << instance_name << std::endl;
+	std::cout << "Machines: " << num_machines;
+	std::cout << " Jobs: " << num_jobs;
+	std::cout << " Tasks: " << num_operations << std::endl;
 
-	for(int i=0 ; i<this->num_jobs ; i++){
+	for(int i=0 ; i<num_jobs ; i++){
 		std::cout << "Job " << i << ": ";
-		for(int j=0 ; j<this->num_tasks ; j++){
-			std::cout << "(" << this->vec_schedules[i][j].machine << " ";
-			std::cout << this->vec_schedules[i][j].time_execution << ") - ";
+		for(int j=0 ; j<num_operations ; j++){
+			std::cout << "(" << vec_schedules[i][j].machine << " ";
+			std::cout << vec_schedules[i][j].time_execution << ") - ";
 		}
 
-		std::cout << this->vec_priorities[i] << " ";
-		std::cout << this->due_times[i] << std::endl;
+		std::cout << vec_priorities[i] << " ";
+		std::cout << due_times[i] << std::endl;
 	}
 
 	std::cout << std::endl;
 }
 
-void ProblemInstance::set_name_file(string name){
 
-	if(name.find(".txt") != name.size()-4){
-		name += ".txt";
-	}
-
-	this->instance_file_name = name;
+int ProblemInstance::getNumMachines(){
+	return num_machines;
 }
 
-int ProblemInstance::get_num_machines(){
-	return this->num_machines;
+int ProblemInstance::getNumJobs(){
+	return num_jobs;
 }
 
-int ProblemInstance::get_num_jobs(){
-	return this->num_jobs;
+int ProblemInstance::getNumOperations(){
+	return num_operations;
 }
 
-int ProblemInstance::get_num_tasks(){
-	return this->num_tasks;
+int ProblemInstance::getPriorityFromJob(int job){
+    return vec_priorities[job];
 }
 
-int ProblemInstance::get_num_operations(){
-	return this->num_tasks;
+vector<Schedule> ProblemInstance::getOperationsFromJob(int job){
+    return vec_schedules[job];
 }
 
-string ProblemInstance::get_name_file(){
-	return this->instance_file_name;
+vector<int> ProblemInstance::getVecPriorities(){
+	return vec_priorities;
 }
 
-std::string ProblemInstance::get_instance_name(){
-	return this->instance_name;
+vector<int> ProblemInstance::getDueTimes(){
+	return due_times;
 }
 
-std::vector<int> ProblemInstance::get_vec_priorities(){
-	return this->vec_priorities;
+int ProblemInstance::getDueTimeFromJob(int job){
+	return due_times[job];
 }
 
-std::vector<int> ProblemInstance::get_due_times(){
-	return this->due_times;
+ScheduleMatrix ProblemInstance::getVecSchedules(){
+	return vec_schedules;
 }
 
-int ProblemInstance::get_due_times(int job){
-	return this->due_times[job];
-}
-
-ScheduleMatrix ProblemInstance::get_vec_schedules(){
-	return this->vec_schedules;
-}
-
-Schedule ProblemInstance::get_vec_schedules(int job, int task){
-	return vec_schedules[job][task];
+Schedule ProblemInstance::getSchedule(int job, int op){
+	return vec_schedules[job][op];
 }

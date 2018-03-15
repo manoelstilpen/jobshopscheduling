@@ -5,7 +5,7 @@ SimulatedAnnealing::SimulatedAnnealing(){
 }
 
 SimulatedAnnealing::SimulatedAnnealing(Solution sol) : Metaheuristic(sol){
-    maxIteracoes = instance.get_num_jobs()*instance.get_num_machines();
+    maxIteracoes = ProblemInstance::getNumJobs()*ProblemInstance::getNumMachines();
     alpha = 0.998;
 //    temperaturaInicial = 30000;
     temperaturaFinal = 0.01;

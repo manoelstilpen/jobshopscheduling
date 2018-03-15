@@ -10,11 +10,11 @@ class ASPRT : public Constructive {
 
 public:
 
-    ASPRT(ProblemInstance instance, double _alpha = 0);
+    explicit ASPRT(double _alpha = 0);
 
-    virtual void print_method_informations();
-    virtual float define_priority(Schedule op);
-    virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
+    void print_method_informations() override;
+    float define_priority(Schedule op) override;
+    int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts) override;
 
 };
 

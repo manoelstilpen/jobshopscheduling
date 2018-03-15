@@ -106,9 +106,7 @@ int main(int argc, char** argv){
 	}
 
 	Solution solution;
-	ProblemInstance instance;
-	instance.set_name_file(instance_name);
-	if(!instance.load_instance()){
+	if(!ProblemInstance::load_instance(instance_name)){
 		exit(EXIT_FAILURE);
 	}
 	//instance.print();
@@ -117,7 +115,7 @@ clock_t begin = clock();
 
     if(method.compare("vns") == 0){
         // teste vns
-        ConstructiveGraph constructiveGraph(instance, alpha);
+        ConstructiveGraph constructiveGraph(alpha);
         solution = constructiveGraph.apply();
 
         VariableNeighborhoodSearch vns(solution);
@@ -127,14 +125,14 @@ clock_t begin = clock();
 
     if(method.compare("grasp") == 0){
         // teste grasp
-        Grasp grasp(instance, alpha);
+        Grasp grasp(alpha);
         solution = grasp.apply();
         grasp.print();
     }
 
     if(method.compare("cons") == 0){
         // teste construtivo
-        Constructive* cons = new ASPRT(instance, alpha);
+        Constructive* cons = new ASPRT(alpha);
         Solution s = cons->apply();
         cons->print();
     }

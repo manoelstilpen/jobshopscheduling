@@ -4,7 +4,7 @@
 
 #include "MOD.hpp"
 
-MOD::MOD(ProblemInstance instance, double alpha) : Constructive(instance, alpha){
+MOD::MOD(double alpha) : Constructive(alpha){
 
 }
 
@@ -21,11 +21,11 @@ int MOD::choose_schedule(const ScheduleMatrix &jobs_temp, const vector<int> &res
 float MOD::define_priority(Schedule op) {
     // max (t+p(i,j), d(i,j))
 
-    int processTime = instance[op.job][op.task].time_execution;
+    int processTime = ProblemInstance::getSchedule(op.job, op.operation).time_execution;
     int t = solution.time_can_be_alocated(op);
     int mod = t + processTime;
 
-    int due_date = instance.get_due_times()[op.job];
+    int due_date = ProblemInstance::getDueTimeFromJob(op.job);
     if(due_date > mod){
         mod = due_date;
     }

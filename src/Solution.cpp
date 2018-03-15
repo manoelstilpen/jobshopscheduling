@@ -1,31 +1,24 @@
 #include "Solution.hpp"
 
 Solution::Solution(){
-
-}
-
-Solution::Solution(ProblemInstance p){
-    this->instance = p;
-    graph.set_instance(p);
 }
 
 void Solution::aloca_tarefa(Schedule tarefa){
     // Aloca a tarefa na solucao de Gantt
 
     int machine = tarefa.machine;
-    int sizeMachine = this->solution[machine].size(); // quantidade de operacoes alocadas na maquina
 
     // caso seja a primeira operacao do job
     if(tarefa.operation == 0){
         
-        if(this->solution[machine].empty()){
+        if(solution[machine].empty()){
             // Como nao tem outra tarefa alocada nessa maquina, apenas insere a tarefa
-            this->solution[machine].push_back(tarefa);
+            solution[machine].push_back(tarefa);
         } else {
             // Armazena o tempo acumulado da maquina e adiciona ao tempo da nova tarefa
-            int tempo = this->solution[machine].back().time_execution;
+            int tempo = solution[machine].back().time_execution;
             tarefa.time_execution += tempo; // adiciona o tempo acumulado
-            this->solution[machine].push_back(tarefa); // insere a tarefa na maquina
+            solution[machine].push_back(tarefa); // insere a tarefa na maquina
         }
 
     } else {
@@ -36,21 +29,21 @@ void Solution::aloca_tarefa(Schedule tarefa){
          */
 
         // Maquina que executou a ultima tarefa do job
-        int lastMachine = instance[tarefa.job][tarefa.operation-1].machine;
+        int lastMachine = ProblemInstance::getSchedule(tarefa.job, tarefa.operation-1).machine;
 
         int timeLastTask = 0;
         // Procura pelo instante que a ultima operacao DO JOB foi finalizada
-        for(unsigned int i=0 ; i<this->solution[lastMachine].size() ; i++){
-            if(this->solution[lastMachine][i].job == tarefa.job){
-                timeLastTask = this->solution[lastMachine][i].time_execution;
+        for(Schedule i : solution[lastMachine]){
+            if(i.job == tarefa.job){
+                timeLastTask = i.time_execution;
                 break;
             }
         }
 
         // Tempo acumulado da maquina que a tarefa deve ser inserida
         int timeMachine = 0;
-        if(sizeMachine != 0){
-            timeMachine = this->solution[machine].back().time_execution;
+        if(!solution[machine].empty()){
+            timeMachine = solution[machine].back().time_execution;
         }
 
         if(timeMachine > timeLastTask){
@@ -58,13 +51,13 @@ void Solution::aloca_tarefa(Schedule tarefa){
              * do JOB foi finalizada, pode-se inserir a tarefa atual imediatamente no fim da maquina.
              */
             tarefa.time_execution += this->solution[machine].back().time_execution;
-            this->solution[machine].push_back(tarefa);
+            solution[machine].push_back(tarefa);
         } else {
             /* Se o tempo acumulado da maquina atual for MENOR do que o instante em que a ultima tarefa
              * foi finalizada, cria-se uma janela na producao na maquina. 
              */
             tarefa.time_execution += timeLastTask;
-            this->solution[machine].push_back(tarefa);
+            solution[machine].push_back(tarefa);
         }
     }
 }
@@ -82,7 +75,7 @@ int Solution::time_can_be_alocated(Schedule op){
     int lastOperation = [&]() {
         if(op.operation == 0) return 0;
 
-        int lastMachine = instance[op.job][op.operation-1].machine;
+        int lastMachine = ProblemInstance::getSchedule(op.job,op.operation-1).machine;
         for(Schedule i : solution[lastMachine]){
             if(i.job == op.job){
                 return i.time_execution;
@@ -98,62 +91,62 @@ int Solution::time_can_be_alocated(Schedule op){
 int Solution::makespan(){
     int makespan = 0;
 
-    for(unsigned int i=0 ; i<solution.size() ; i++){
-        if(solution[i].size() > 0)
-            if(solution[i].back().time_execution > makespan)
-                makespan = solution[i].back().time_execution;
+    for(const auto job : solution){
+        if(job.size() > 0)
+            if(job.back().time_execution > makespan)
+                makespan = job.back().time_execution;
     }   
 
     return makespan;
 }
 
 // 4358 -> ATRASO DA SOLUCAO VIA OPTFRAME
-GanttRepresentation Solution::extract_solution_from_file(string filename){
-
-    std::fstream file(filename);
-
-    if(!file.is_open()){
-	    std::cout << "ERROR: FILE NOT FOUND" << std::endl;
-	}
-
-    string nome_instancia;
-    file >> nome_instancia; 
-
-    if(instance.get_instance_name().compare(nome_instancia) != 0){
-        cout << "SOLUCAO NAO CORRESPONDE COM A INSTANCIA CARREGADA" << endl;
-    }
-
-    solution.resize(instance.get_num_jobs());
-
-    int job, op;
-    for(int i=0 ; i<instance.get_num_jobs() ; i++){
-        for(int j=0 ; j<instance.get_num_operations() ; j++){
-            file >> job;
-            file >> op;
-
-            solution[i].push_back(Schedule(job, op, i));
-            
-        }
-    } 
-
-    int t1, t2;
-    for(int i=0 ; i<instance.get_num_jobs() ; i++){
-        for(int j=0 ; j<instance.get_num_operations() ; j++){
-
-            file >> t1;
-            file >> t2;
-
-            solution[i][j].time_execution = t2;
-        }
-    }
-
-    file.close();
-
-//    graph.construct_conjuctive_graph();
-//    graph.construct_disjuntive_graph(solution);
-
-    return solution;
-}
+//GanttRepresentation Solution::extract_solution_from_file(string filename){
+//
+//    std::fstream file(filename);
+//
+//    if(!file.is_open()){
+//	    std::cout << "ERROR: FILE NOT FOUND" << std::endl;
+//	}
+//
+//    string nome_instancia;
+//    file >> nome_instancia;
+//
+//    if(instance.get_instance_name().compare(nome_instancia) != 0){
+//        cout << "SOLUCAO NAO CORRESPONDE COM A INSTANCIA CARREGADA" << endl;
+//    }
+//
+//    solution.resize(instance.get_num_jobs());
+//
+//    int job, op;
+//    for(int i=0 ; i<instance.get_num_jobs() ; i++){
+//        for(int j=0 ; j<instance.get_num_operations() ; j++){
+//            file >> job;
+//            file >> op;
+//
+//            solution[i].push_back(Schedule(job, op, i));
+//
+//        }
+//    }
+//
+//    int t1, t2;
+//    for(int i=0 ; i<instance.get_num_jobs() ; i++){
+//        for(int j=0 ; j<instance.get_num_operations() ; j++){
+//
+//            file >> t1;
+//            file >> t2;
+//
+//            solution[i][j].time_execution = t2;
+//        }
+//    }
+//
+//    file.close();
+//
+////    graph.construct_conjuctive_graph();
+////    graph.construct_disjuntive_graph(solution);
+//
+//    return solution;
+//}
 
 int Solution::size(){
     return this->solution.size();
@@ -181,10 +174,6 @@ void Solution::print_solution(){
     cout << "==========================================================================================" << endl;
 }
 
-inline void Solution::print_graphic(){
-
-}
-
 void Solution::setGraph(Graph g){
     this->graph = g;
 }
@@ -199,10 +188,6 @@ GanttRepresentation Solution::getSolution(){
 
 Graph Solution::getGraph(){
     return this->graph;
-}
-
-ProblemInstance Solution::getInstance(){
-    return this->instance;
 }
 
 void Solution::print_solution(GanttRepresentation solution){

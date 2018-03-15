@@ -12,9 +12,6 @@ class Graph{
 
 public:
     Graph();
-    Graph(ProblemInstance);
-
-    void set_instance(ProblemInstance);
 
     bool invert(Node, Node, bool store=true);
 
@@ -54,8 +51,6 @@ private:
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
     void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
     void updateDistancesFromTopOrder(std::stack<int> order);
-
-    ProblemInstance instance;
 
     int vertexPerJob;
     int nVertex;

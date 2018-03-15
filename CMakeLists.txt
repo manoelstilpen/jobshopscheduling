@@ -9,7 +9,7 @@ include_directories(includes includes/Constructives includes/LocalSearches inclu
 
 file(GLOB_RECURSE SRC src/*.cpp)
 
-ADD_EXECUTABLE(app ${SRC})
+ADD_EXECUTABLE(app ${SRC} includes/GraphUtils/CriticalPath.hpp src/GraphUtils/BellmanFord.cpp includes/GraphUtils/BellmanFord.hpp)
 
 TARGET_LINK_LIBRARIES(app LINK_PUBLIC ${Boost_LIBRARIES})
 

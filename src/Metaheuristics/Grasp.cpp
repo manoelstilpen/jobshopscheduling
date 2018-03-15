@@ -3,9 +3,9 @@
 Grasp::Grasp() : Metaheuristic(){
 }
 
-Grasp::Grasp(ProblemInstance instance, double _alpha) : Metaheuristic(instance),
+Grasp::Grasp(double _alpha) : Metaheuristic(),
     alpha(_alpha) {
-
+	repeat = 1;
 }
 
 void Grasp::print_method_informations(){
@@ -27,7 +27,7 @@ Solution Grasp::apply(){
 
 	for(int l = 0 ; l<repeat ; l++){
 
-		ConstructiveGraph constructive(instance, 0); 
+		ConstructiveGraph constructive(0);
 		Solution s0 = constructive.apply(); // constroi solucao inicial gulosa
 
 		bestSolution = refinement(s0); // busca local na solucao inicial

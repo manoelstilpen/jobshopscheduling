@@ -1,10 +1,6 @@
 #include "WSPT.hpp"
 
-WSPT::WSPT(){
-
-}
-
-WSPT::WSPT(ProblemInstance p, double _alpha) : Constructive(p, _alpha) {
+WSPT::WSPT(double _alpha) : Constructive(_alpha) {
 
 }
 
@@ -15,11 +11,10 @@ void WSPT::print_method_informations(){
 }
 
 float WSPT::define_priority(Schedule op){
-    return (float) -(float(instance.get_vec_priorities()[op.job]) / float(op.time_execution));
+    return (float) -(float(ProblemInstance::getPriorityFromJob(op.job)) / float(op.time_execution));
 }
 
 int WSPT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
-    
     return rand() % restricts.size();
 }
 

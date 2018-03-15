@@ -12,8 +12,6 @@ public:
     Metaheuristic(Solution sol){
         solution = sol;
         graph = sol.getGraph();
-        instance = sol.getInstance();
-        evaluator.set_instance(instance);
         timeTotal = 0;
         atrasoInicial = 0;
         melhorAtraso = 0;
@@ -32,7 +30,7 @@ public:
         graph.invert(edge.first, edge.second);
     }
 
-    void print(){
+    virtual void print(){
         float perc = percent_between(atrasoInicial, melhorAtraso);
         cout << endl;
         cout << "ATRASO INICIAL: " << atrasoInicial << endl;
@@ -40,7 +38,7 @@ public:
         bestSolution.print_solution();
     }
 
-    void print_graphic(){
+    virtual void print_graphic(){
         cout << atrasoInicial << "\t" << melhorAtraso << "\t" << timeTotal << endl;
     }
 
@@ -62,7 +60,7 @@ public:
 //        std::cout << std::endl;
     }
 
-    void print_method_informations(){
+    virtual void print_method_informations(){
         cout << "==========================================================================================" << endl;
         cout << " -> METHOD <- " << endl;
     }
