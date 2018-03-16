@@ -17,8 +17,8 @@ class BellmanFord : public CriticalPath {
 public:
     BellmanFord();
 
-    vector<Edge> getCriticalPath(map<int, vector<Node> > graph,
-                                 map<int, Node> vertexList,
+    vector<Edge> getCriticalPath(map<int, vector<Node> >& graph,
+                                 map<int, Node>& vertexList,
                                  vector<int>& distances) override;
 
 };

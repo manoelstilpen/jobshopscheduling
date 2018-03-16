@@ -8,7 +8,7 @@ TopologicalSort::TopologicalSort() : CriticalPath(){
 
 }
 
-vector<Edge> TopologicalSort::getCriticalPath(map<int, vector<Node> > graph, map<int, Node> vertexList,
+vector<Edge> TopologicalSort::getCriticalPath(map<int, vector<Node> >& graph, map<int, Node>& vertexList,
                                               vector<int> &distances) {
 
     stack<int> sort = topologicalSort(graph, distances);
@@ -30,7 +30,7 @@ vector<Edge> TopologicalSort::getCriticalPath(map<int, vector<Node> > graph, map
     return criticalPath;
 }
 
-stack<int> TopologicalSort::topologicalSort(map<int, vector<Node> > graph,
+stack<int> TopologicalSort::topologicalSort(map<int, vector<Node> >& graph,
                                              vector<int> &distances){
 
     stack<int> stack;
@@ -46,7 +46,7 @@ stack<int> TopologicalSort::topologicalSort(map<int, vector<Node> > graph,
 }
 
 void TopologicalSort::topologicalSortUtil(int v, vector<bool>& visited,
-                                          stack<int>& stack, map<int, vector<Node> > graph){
+                                          stack<int>& stack, map<int, vector<Node> >& graph){
     // Mark the current node as visited.
     visited[v] = true;
 
@@ -59,10 +59,10 @@ void TopologicalSort::topologicalSortUtil(int v, vector<bool>& visited,
     stack.push(v);
 }
 
-vector<int> TopologicalSort::updateDistancesFromTopOrder(map<int, vector<Node> > graph,
-                                                  std::stack<int> order,
+vector<int> TopologicalSort::updateDistancesFromTopOrder(map<int, vector<Node> >& graph,
+                                                  std::stack<int>& order,
                                                   vector<int>& distances,
-                                                  map<int, Node> vertexList){
+                                                  map<int, Node>& vertexList){
 
     distances.clear();
     distances.resize(nVertex, -INF);

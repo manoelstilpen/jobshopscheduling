@@ -21,7 +21,7 @@ public:
         vertexPerJob = ProblemInstance::getNumOperations() + GHOSTNODES;
     }
 
-    virtual vector<Edge> getCriticalPath(map<int, vector<Node>>, map<int, Node>, vector<int>&) = 0;
+    virtual vector<Edge> getCriticalPath(map<int, vector<Node>>&, map<int, Node>&, vector<int>&) = 0;
 
 protected:
 

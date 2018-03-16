@@ -8,7 +8,7 @@ BellmanFord::BellmanFord() : CriticalPath(){
 
 }
 
-vector<Edge> BellmanFord::getCriticalPath(map<int, vector<Node> > graph, map<int, Node> vertexList, vector<int>& distances){
+vector<Edge> BellmanFord::getCriticalPath(map<int, vector<Node> >& graph, map<int, Node>& vertexList, vector<int>& distances){
 
     // Step 1: Initialize distances from src to all other vertices as -INFINITE
     distances.clear();
