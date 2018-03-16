@@ -44,91 +44,25 @@ bool Graph::invert(Node src, Node dest, bool store){
 
     return true;
 }
- 
-vector<int> Graph::topologicalSort(){
-    stack<int> stack;
-
-    vector<bool> visited(nVertex, false);
-    // Call the recursive helper function to store Topological
-    // Sort starting from all vertices one by one
-    for (int i = 0; i < nVertex; i++)
-        if (visited[i] == false)
-            topologicalSortUtil(i, visited, stack);
-
-    updateDistancesFromTopOrder(stack);
-
-    return stack_to_vector(stack);
-}
-
-void Graph::topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack){
-    // Mark the current node as visited.
-    visited[v] = true;
- 
-    // Recur for all the vertices adjacent to this vertex
-    for (Node i: edges[v])
-        if (!visited[i.index])
-            topologicalSortUtil(i.index, visited, stack);
- 
-    // Push current vertex to stack which stores result
-    stack.push(v);
-}
-
-void Graph::updateDistancesFromTopOrder(std::stack<int> order){
-
-    distances.clear();
-    distances.resize(nVertex, -INF);
-    distances[0] = 0;
-
-    path.clear();
-    path.resize(nVertex);
-
-    // Process vertices in topological order
-    while (!order.empty()){
-        // Get the next vertex from topological order
-        int u = order.top();
-        order.pop();
- 
-        // Update distances of all adjacent vertices
-        if (distances[u] != -INF){
-            for (Node i: edges[u]){
-                if (distances[i.index] < distances[u] + vertexList[u].weight){
-                    distances[i.index] = distances[u] + vertexList[u].weight;
-                    path[i.index] = u;
-                }
-            }
-        }
-    }
-}
 
 vector<Edge> Graph::getCriticalPath(){
 
-    criticalPath.clear();
-    topologicalSort();
+    criticalPathMethod = new TopologicalSort();
+    criticalPath = criticalPathMethod->getCriticalPath(edges, vertexList, distances);
 
-    for(int job = 0 ; job < ProblemInstance::getNumJobs() ; job++){
-
-        int i = (job+1)*vertexPerJob;
-        int tamanho = 0;
-
-        while(i != 0 && tamanho < nVertex-1){
-            criticalPath.push_back(make_pair(vertexList[path[i]], vertexList[i]));
-            i = path[i];
-            tamanho++;
-        }
-    }
- 
     //for (int i = 0; i < distances.size(); ++i)
     //    printf("%d \t %d\n", i, distances[i]);
-    
+
+    delete criticalPathMethod;
     return criticalPath;
 }
 
 vector< vector<Edge> > Graph::getCriticalBlocks(){
-// atualiza o caminho critico e as arestas passiveis de inversao
+// atualiza o caminho critico e as arestas passiveis de inversao (blocos criticos)
+
     getCriticalPath();
 
     criticalBlocks.clear();
-//        sizeCriticalBlocks = 0;
 
     bool bloco = false;
     int blocoAtual = -1;
@@ -430,9 +364,4 @@ void Graph::printCriticalBlock(){
         cout << endl;
     }
     cout << endl;
-}
-
-vector< Edge > Graph::bellmanFord(){
-
-
 }

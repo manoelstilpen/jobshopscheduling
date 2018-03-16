@@ -8,18 +8,25 @@
 #include <ProblemInstance.hpp>
 #include "Commons.hpp"
 
+#include <map>
+
 using namespace twtjssp;
 
 class CriticalPath {
 
 public:
 
-    virtual vector<Edge> getCriticalPath() = 0;
+    CriticalPath(){
+        nVertex = (ProblemInstance::getNumOperations()+GHOSTNODES)*ProblemInstance::getNumJobs()+ INITNODE;
+        vertexPerJob = ProblemInstance::getNumOperations() + GHOSTNODES;
+    }
+
+    virtual vector<Edge> getCriticalPath(map<int, vector<Node>>, map<int, Node>, vector<int>&) = 0;
 
 protected:
 
-    ProblemInstance instance;
-
+    int nVertex;
+    int vertexPerJob;
 };
 
 #endif //JOBSHOPSCHEDULING_CRITICALPATH_HPP

@@ -8,11 +8,18 @@
 #include "CriticalPath.hpp"
 #include "Commons.hpp"
 
+#include <map>
+
 using namespace twtjssp;
 
 class BellmanFord : public CriticalPath {
 
-    vector<Edge> getCriticalPath();
+public:
+    BellmanFord();
+
+    vector<Edge> getCriticalPath(map<int, vector<Node> > graph,
+                                 map<int, Node> vertexList,
+                                 vector<int>& distances) override;
 
 };
 
