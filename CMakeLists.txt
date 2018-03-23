@@ -5,7 +5,8 @@ SET(CMAKE_CXX_FLAGS "-g -Wall -std=c++14 -o3")
 
 FIND_PACKAGE(Boost 1.40 COMPONENTS program_options REQUIRED)
 
-include_directories(includes includes/Constructives
+include_directories(includes
+        includes/Constructives
         includes/LocalSearches
         includes/Metaheuristics
         includes/GraphUtils)

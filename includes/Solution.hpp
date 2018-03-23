@@ -21,7 +21,8 @@ class Solution {
             return this->solution[i];
         }
 
-        Solution();
+        Solution() = default;
+        Solution(const Solution&);
  
         void aloca_tarefa(Schedule tarefa);
         int time_can_be_alocated(Schedule); /*!< returm the instant the schedule can be allocated */

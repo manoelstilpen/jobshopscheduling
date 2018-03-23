@@ -1,6 +1,8 @@
 #include "Solution.hpp"
 
-Solution::Solution(){
+Solution::Solution(const Solution& s){
+    this->graph = s.graph;
+    this->solution = s.solution;
 }
 
 void Solution::aloca_tarefa(Schedule tarefa){

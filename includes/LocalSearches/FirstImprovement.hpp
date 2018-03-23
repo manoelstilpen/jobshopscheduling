@@ -9,11 +9,11 @@ class FirstImprovement : public Metaheuristic {
 
 public:
 
-    FirstImprovement(Solution);
-    FirstImprovement();
+    explicit FirstImprovement(Solution);
+    FirstImprovement() = default;
 
-    virtual Solution apply();
-    virtual void print_method_informations();
+    Solution apply() override;
+    void print_method_informations() override;
 };
 
 #endif

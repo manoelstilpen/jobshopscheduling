@@ -16,6 +16,7 @@ class Graph{
 public:
     Graph();
 
+
     bool invert(Node, Node, bool store=true);
 
     bool isFeasible();
@@ -43,16 +44,16 @@ public:
     void printGraph();
     void printCriticalPath();
     void printCriticalBlock();
-    
-private:
 
+private:
     void add(Node);
     void add(Node, Node);
-
+    void saveMovement(Edge);
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
 
     int vertexPerJob;
     int nVertex;
+
     int nEdges;
 
     CriticalPath* criticalPathMethod;

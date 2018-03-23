@@ -4,6 +4,8 @@ Graph::Graph(){
     nEdges = 0;
     nVertex = (ProblemInstance::getNumOperations()+GHOSTNODES)*ProblemInstance::getNumJobs()+ INITNODE;
     vertexPerJob = ProblemInstance::getNumOperations() + GHOSTNODES;
+
+//    criticalPathMethod = new TopologicalSort();
 }
 
 void Graph::add(Node node){
@@ -18,6 +20,16 @@ void Graph::add(Node src, Node dest){
     nEdges++;
 }
 
+void Graph::saveMovement(Edge e){
+
+    if(lastMovements.size() > 10){
+        // remove first position
+        lastMovements.erase(lastMovements.begin());
+    }
+
+    lastMovements.emplace_back(e);
+}
+
 bool Graph::invert(Node src, Node dest, bool store){
 
     int idSrc = src.index;
@@ -28,7 +40,7 @@ bool Graph::invert(Node src, Node dest, bool store){
         return n1.job == dest.job && n1.operation == dest.operation;
     });
 
-    // nao existe aresta, retorna com erro
+    // se nao existe aresta, retorna com erro
     if(it == edges[idSrc].end() || src.job == dest.job){
         cout << "INVERSAO INVALIDA" << endl;
         return false;
@@ -39,14 +51,13 @@ bool Graph::invert(Node src, Node dest, bool store){
     edges[idDest].push_back(src);
 
     if(store){
-        lastMovements.emplace_back(Edge(src, dest));
+        saveMovement(Edge(src, dest));
     }
 
     return true;
 }
 
 vector<Edge> Graph::getCriticalPath(){
-
     criticalPathMethod = new TopologicalSort();
     criticalPath = criticalPathMethod->getCriticalPath(edges, vertexList, distances);
 
@@ -348,6 +359,7 @@ void Graph::printGraph(){
 }
 
 void Graph::printCriticalPath(){
+    cout << "CAMINHOS CRITICOS: " << endl;
     for(unsigned int i=0 ; i<criticalPath.size() ; i++){
         cout << "(" << criticalPath[i].first.toString() << " " << criticalPath[i].second.toString() << ") - ";
     }

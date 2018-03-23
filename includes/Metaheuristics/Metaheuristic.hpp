@@ -9,7 +9,7 @@ class Metaheuristic {
 
 public:
 
-    Metaheuristic(Solution sol){
+    explicit Metaheuristic(Solution sol){
         solution = sol;
         graph = sol.getGraph();
         timeTotal = 0;
@@ -17,12 +17,12 @@ public:
         melhorAtraso = 0;
         iterAtual = 0;
         iterTotal = 0;
+        sizeCriticalBlocks = 0;
         repeat=1;
     }
 
-    Metaheuristic(){}
-
-    virtual ~Metaheuristic(){}
+    Metaheuristic() = default;
+    virtual ~Metaheuristic() = default;
 
     virtual Solution apply() = 0;
 

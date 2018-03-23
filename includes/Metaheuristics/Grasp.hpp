@@ -1,11 +1,11 @@
 #ifndef GRASP_HPP
 #define GRASP_HPP
 
-#include "Commons.hpp"
-#include "ProblemInstance.hpp"
-#include "FirstImprovement.hpp"
-#include "Constructives.hpp"
-#include "Metaheuristic.hpp"
+#include <Commons.hpp>
+#include <ProblemInstance.hpp>
+#include <LocalSearches/LocalSearches.hpp>
+#include <Constructives/Constructives.hpp>
+#include <Metaheuristic.hpp>
 
 #include <functional>
 

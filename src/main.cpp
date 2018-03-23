@@ -113,7 +113,7 @@ int main(int argc, char** argv){
 
 clock_t begin = clock();
 
-    if(method.compare("vns") == 0){
+    if(method == "vns"){
         // teste vns
         ConstructiveGraph constructiveGraph(alpha);
         solution = constructiveGraph.apply();
@@ -123,14 +123,14 @@ clock_t begin = clock();
         vns.print();
     }
 
-    if(method.compare("grasp") == 0){
+    if(method == "grasp"){
         // teste grasp
         Grasp grasp(alpha);
         solution = grasp.apply();
         grasp.print();
     }
 
-    if(method.compare("cons") == 0){
+    if(method == "cons"){
         // teste construtivo
         Constructive* cons = new ASPRT(alpha);
         Solution s = cons->apply();

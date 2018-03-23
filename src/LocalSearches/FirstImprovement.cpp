@@ -4,10 +4,6 @@ FirstImprovement::FirstImprovement(Solution sol) : Metaheuristic(sol){
     
 }
 
-FirstImprovement::FirstImprovement(){
-
-}
-
 void FirstImprovement::print_method_informations(){
     cout << "==========================================================================================" << endl;
     cout << " -> FIRST IMPROVEMENT <- " << endl;
@@ -24,7 +20,7 @@ Solution FirstImprovement::apply(){
 
     int atraso;
     bool houveMelhora;
-    
+
     do {
 //        graph.printGraph();
         auto criticalBlocks = graph.getCriticalBlocks();
@@ -61,6 +57,6 @@ Solution FirstImprovement::apply(){
         }
 
     } while(houveMelhora);
-    
+
     return bestSolution;
 }   
