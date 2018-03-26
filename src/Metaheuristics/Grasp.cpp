@@ -59,7 +59,7 @@ Solution Grasp::apply(){
 }
 
 Solution Grasp::refinement(Solution& s){
-	local_search = new BestImprovement(s);
+	local_search = new FirstImprovement(s);
 	solution = local_search->apply();
 
 	return solution;

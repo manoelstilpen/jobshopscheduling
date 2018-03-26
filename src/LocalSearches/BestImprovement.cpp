@@ -30,11 +30,14 @@ Solution BestImprovement::apply() {
 
             for (const auto &block : criticalBlocks) {
 
-                if (tentativas == 0)
+                if (tentativas == 0){
+                    // inverter a primeira aresta do bloco
                     invert(block[0]);
-                else if (tentativas == 1)
+                } else if (tentativas == 1){
+                    // inverter a ultima aresta do bloco
                     invert(block.back());
-                else {
+                } else {
+                    // escolher uma aresta aleatoria para mover
                     unsigned long random = rand() % block.size();
                     invert(block[random]);
                 }

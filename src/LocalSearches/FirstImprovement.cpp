@@ -21,42 +21,55 @@ Solution FirstImprovement::apply(){
     int atraso;
     bool houveMelhora;
 
-    do {
-//        graph.printGraph();
-        auto criticalBlocks = graph.getCriticalBlocks();
-//        graph.printCriticalPath();
-//        graph.printCriticalBlock();
+    for(int tentativas=0 ; tentativas < 3 ; tentativas++) {
 
-        if(criticalBlocks.empty()) break;
+        do {
+            //        graph.printGraph();
+            auto criticalBlocks = graph.getCriticalBlocks();
+            //        graph.printCriticalPath();
+            //        graph.printCriticalBlock();
 
-        uint randomBlock = 0;
-        houveMelhora = false;
+            if (criticalBlocks.empty()) break;
 
-        for(unsigned int i=0 ; i<criticalBlocks.size() ; i++){
+            uint randomBlock = 0;
+            houveMelhora = false;
 
-            ulong randomEdge = rand() % criticalBlocks[randomBlock].size();
-            invert(criticalBlocks[randomBlock][randomEdge]);
+            for (const auto& block : criticalBlocks) {
 
-            atraso = evaluator.evaluate_by_graph(graph);
+                if(tentativas == 0){
+                    // primeira tentativa: inverte a primeira aresta do bloco
+                    invert(block[0]);
+                } else if(tentativas == 1){
+                    // segunda tentativa: inverte a ultima aresta do bloco
+                    invert(block.back());
+                } else {
+                    // ultima tentativa: inverte uma aresta aleatoria do bloco
+                    ulong randomEdge = rand() % block.size();
+                    invert(block[randomEdge]);
+                }
 
-            if(atraso < melhorAtraso){
-                // em caso de melhora aceita a solucao
-                melhorAtraso = atraso;
-                bestSolution.setGraph(graph);
-                houveMelhora = true;
-                break;
 
-            } else {
-                // no caso de piora, reverte o movimento e avança para outro bloco critico
-                graph.undo_last_movement();
-                randomBlock++;
+                atraso = evaluator.evaluate_by_graph(graph);
+
+                if (atraso < melhorAtraso) {
+                    // em caso de melhora aceita a solucao
+                    melhorAtraso = atraso;
+                    bestSolution.setGraph(graph);
+                    houveMelhora = true;
+                    break;
+
+                } else {
+                    // no caso de piora, reverte o movimento e avança para outro bloco critico
+                    graph.undo_last_movement();
+                    randomBlock++;
+                }
+
+                //            graph.printGraph();
+
             }
 
-//            graph.printGraph();
-
-        }
-
-    } while(houveMelhora);
+        } while (houveMelhora);
+    }
 
     return bestSolution;
 }   
