@@ -8,7 +8,6 @@
 class Evaluator{
 public:
 	Evaluator();
-	Evaluator(ProblemInstance p);
 
 	int evaluate_solution(Solution);
 	int evaluate_by_graph(Graph);
@@ -16,12 +15,9 @@ public:
 
 	bool testa_solucao(Solution);
 
-	void set_instance(ProblemInstance);
-
 	void print();
 
 private:
-	ProblemInstance instance;
 
 	vector<int> realTimes;
 	vector<int> expectedTimes;

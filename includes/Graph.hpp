@@ -1,8 +1,11 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
-#include "Commons.hpp"
-#include "ProblemInstance.hpp"
+#include <Commons.hpp>
+#include <ProblemInstance.hpp>
+#include <GraphUtils/CriticalPath.hpp>
+#include <GraphUtils/BellmanFord.hpp>
+#include <GraphUtils/TopologicalSort.hpp>
 
 #include <map>
 
@@ -12,14 +15,10 @@ class Graph{
 
 public:
     Graph();
-    Graph(ProblemInstance);
 
-    void set_instance(ProblemInstance);
 
     bool invert(Node, Node, bool store=true);
 
-    vector<Edge> bellmanFord();
-    vector<int> topologicalSort();
     bool isFeasible();
 
     Graph construct_conjunctive_graph();
@@ -45,21 +44,19 @@ public:
     void printGraph();
     void printCriticalPath();
     void printCriticalBlock();
-    
-private:
 
+private:
     void add(Node);
     void add(Node, Node);
-
+    void saveMovement(Edge);
     bool isFeasibleRec(Node, vector<bool>&, vector<bool>&);
-    void topologicalSortUtil(int v, vector<bool>& visited, stack<int>& stack);
-    void updateDistancesFromTopOrder(std::stack<int> order);
-
-    ProblemInstance instance;
 
     int vertexPerJob;
     int nVertex;
+
     int nEdges;
+
+    CriticalPath* criticalPathMethod;
 
     map<int, vector<Node > > edges;
     map<int, Node> vertexList;

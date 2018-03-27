@@ -21,8 +21,8 @@ class Solution {
             return this->solution[i];
         }
 
-        Solution();
-        Solution(ProblemInstance);
+        Solution() = default;
+        Solution(const Solution&);
  
         void aloca_tarefa(Schedule tarefa);
         int time_can_be_alocated(Schedule); /*!< returm the instant the schedule can be allocated */
@@ -33,7 +33,6 @@ class Solution {
         void resize(int i);
 
         void print_solution();
-        inline void print_graphic();
 
         void setGraph(Graph);
         
@@ -44,13 +43,9 @@ class Solution {
 
         Graph getGraph();
 
-        ProblemInstance getInstance();
-
-
         static void print_solution(GanttRepresentation);
 
     private:
-        ProblemInstance instance;
         Graph graph; /*!< graph representation of solution */
         GanttRepresentation solution;
 

@@ -1,3 +1,4 @@
+#include <RandGen.hpp>
 #include "SimulatedAnnealing.hpp"
 
 SimulatedAnnealing::SimulatedAnnealing(){
@@ -5,7 +6,7 @@ SimulatedAnnealing::SimulatedAnnealing(){
 }
 
 SimulatedAnnealing::SimulatedAnnealing(Solution sol) : Metaheuristic(sol){
-    maxIteracoes = instance.get_num_jobs()*instance.get_num_machines();
+    maxIteracoes = ProblemInstance::getNumJobs()*ProblemInstance::getNumMachines();
     alpha = 0.998;
 //    temperaturaInicial = 30000;
     temperaturaFinal = 0.01;
@@ -55,8 +56,8 @@ Solution SimulatedAnnealing::apply(){
             }
             cout << endl;*/
 
-            ulong randomBlock = rand() % criticalBlocks.size();
-            ulong randomEdge = rand() % criticalBlocks[randomBlock].size();
+            int randomBlock = RandGen::randomInt((int)criticalBlocks.size());
+            int randomEdge = RandGen::randomInt((int)criticalBlocks[randomBlock].size());
 
             invert(criticalBlocks[randomBlock][randomEdge]);
 
@@ -74,7 +75,7 @@ Solution SimulatedAnnealing::apply(){
                     //cout << melhorAtraso << endl;
                 }
             } else {
-                double x = (rand() % 100)/100.0;
+                double x = (RandGen::randomInt(100))/100.0;
                 float expo = (float(-delta)/float(float(temperatura)));
                 double prob = pow(exp(1.0), expo);
 
@@ -115,8 +116,8 @@ float SimulatedAnnealing::define_initial_temperature(Solution s0){
 
         for(int iterT = 0; iterT < maxIteracoes ; iterT++){
 
-            int randomBlock = rand() % criticalBlocks.size();
-            int randomEdge = rand() % criticalBlocks[randomBlock].size();
+            int randomBlock = RandGen::randomInt((int)criticalBlocks.size());
+            int randomEdge = RandGen::randomInt((int)criticalBlocks[randomBlock].size());
 
             invert(criticalBlocks[randomBlock][randomEdge]);
 
@@ -126,7 +127,7 @@ float SimulatedAnnealing::define_initial_temperature(Solution s0){
             if(delta < 0){
                 aceitos += 1;
             } else {
-                float x = (rand() % 100)/100.0;
+                float x = (RandGen::randomInt(100))/100.0;
                 float expo = (float(-delta)/float(float(t)));
                 float prob = pow(exp(1.0), expo);
                 if(x <= prob)

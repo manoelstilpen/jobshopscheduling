@@ -1,9 +1,10 @@
 #ifndef CONSTRUCTIVE_HPP
 #define CONSTRUCTIVE_HPP
 
-#include "Commons.hpp"
-#include "ProblemInstance.hpp"
-#include "Evaluator.hpp"
+#include <Commons.hpp>
+#include <ProblemInstance.hpp>
+#include <RandGen.hpp>
+#include <Evaluator.hpp>
 
 /**
  * Pure Virtual class to create a constructive method
@@ -14,7 +15,7 @@ class Constructive {
     public:
 
         Constructive();
-        Constructive(ProblemInstance p, double _alpha);
+        explicit Constructive(double _alpha);
         
         virtual Solution apply();
         virtual void print_method_informations() = 0;
@@ -29,13 +30,10 @@ class Constructive {
 
         void set_repeat(int t);
         int get_atraso();
-
-        void set_instance(ProblemInstance p);
         
     protected:
         Solution solution;
         Evaluator evaluator;
-        ProblemInstance instance;
 
 	    int repeat;         /*!< defines how many times the methods will execute */
 	    int media_atraso;   /*!< stores the medium value of tardiness between all solutions generated */
@@ -49,7 +47,7 @@ class Constructive {
         vector<int> restricts; 		/*!< restricts operations */
 
         virtual float define_priority(Schedule op) = 0; /*!< method used to evaluate a schedule */
-        virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts) = 0;
+        virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
 
         virtual float valor_grasp(const float& min, const float& max);  /*!< returns the value which defines the operation's restrict list */
 	    void remove_choosed_schedule(ScheduleMatrix& jobs_temp, int index);

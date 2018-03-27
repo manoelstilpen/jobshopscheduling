@@ -1,11 +1,12 @@
+#include <LocalSearches/BestImprovement.hpp>
 #include "Grasp.hpp"
 
 Grasp::Grasp() : Metaheuristic(){
 }
 
-Grasp::Grasp(ProblemInstance instance, double _alpha) : Metaheuristic(instance),
+Grasp::Grasp(double _alpha) : Metaheuristic(),
     alpha(_alpha) {
-
+	repeat = 1;
 }
 
 void Grasp::print_method_informations(){
@@ -25,9 +26,10 @@ Solution Grasp::apply(){
 
 	melhorAtraso = 0;
 
+    // repeat é usado para repetir o método várias vezes. Por padrão seu valor é 1.
 	for(int l = 0 ; l<repeat ; l++){
 
-		ConstructiveGraph constructive(instance, 0); 
+		ConstructiveGraph constructive(0);
 		Solution s0 = constructive.apply(); // constroi solucao inicial gulosa
 
 		bestSolution = refinement(s0); // busca local na solucao inicial
@@ -37,11 +39,11 @@ Solution Grasp::apply(){
 
 		while(iterAtual < maxIter){
 			solution = constructive.apply();
-			cout << "Inicial: " << evaluator.evaluate_by_graph(solution) << endl;
+	//		cout << "Inicial: " << evaluator.evaluate_by_graph(solution) << endl;
 			solution = refinement(solution);
 
 			int atraso = evaluator.evaluate_by_graph(solution);
-			cout << "Refino: " << atraso << endl << endl;
+	//		cout << "Refino: " << atraso << endl << endl;
 			if(atraso < melhorAtraso){
 				melhorAtraso = atraso;
 				bestSolution = solution;
@@ -49,7 +51,7 @@ Solution Grasp::apply(){
 
 			iterAtual++;
 
-			print_progress();
+//			print_progress();
 		}
 	}
 

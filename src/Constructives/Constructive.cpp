@@ -4,12 +4,11 @@ Constructive::Constructive(){
     repeat = 1;
 }
 
-Constructive::Constructive(ProblemInstance p, double _alpha) : solution(p), evaluator(p), alpha(_alpha) {
+Constructive::Constructive(double _alpha) : alpha(_alpha) {
     this->repeat = 1;
-    this->instance = p;
-    this->nMachines = p.get_num_machines();
-    this->nJobs = p.get_num_jobs();
-    this->nOperations = p.get_num_tasks();
+    this->nMachines = ProblemInstance::getNumMachines();
+    this->nJobs = ProblemInstance::getNumJobs();
+    this->nOperations = ProblemInstance::getNumOperations();
 }
 
 Solution Constructive::apply(){
@@ -23,7 +22,7 @@ Solution Constructive::apply(){
     for(int l = 0 ; l<repeat ; l++){
         
         // realiza copia para ser possivel remover schedules
-        jobs_temp = instance.get_vec_schedules();
+        jobs_temp = ProblemInstance::getVecSchedules();
 
         solution.clear();
         solution.resize(nMachines);
@@ -83,6 +82,10 @@ void Constructive::remove_choosed_schedule(ScheduleMatrix& jobs_temp, int jobId)
 	}
 }
 
+int Constructive::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
+    return RandGen::randomInt((int)restricts.size());
+}
+
 float Constructive::valor_grasp(const float& min, const float& max){
 	// 0 -> Greedy
 	// 1 -> Random
@@ -94,7 +97,7 @@ void Constructive::print(){
     for(int i=0 ; i<solution.size() ; i++){
         cout << "MACHINE " << i << ": ";
         for(unsigned int j=0 ; j<solution[i].size() ; j++){
-            cout << "(" << solution[i][j].job << "," << solution[i][j].task << "," << solution[i][j].time_execution << ") - ";
+            cout << "(" << solution[i][j].job << "," << solution[i][j].operation << "," << solution[i][j].time_execution << ") - ";
         }
         cout << endl;
     }
@@ -108,10 +111,6 @@ void Constructive::print_graphic(){
 
 void Constructive::set_repeat(int t){ 
     this->repeat = t;
-}
-
-void Constructive::set_instance(ProblemInstance p) {
-    this->instance = p;
 }
 
 int Constructive::get_atraso(){ 

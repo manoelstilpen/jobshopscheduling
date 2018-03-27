@@ -10,11 +10,10 @@
 class MOD : public Constructive {
 
 public:
-    MOD(ProblemInstance instance, double alpha);
+    MOD(double alpha);
 
-    virtual void print_method_informations();
-    virtual float define_priority(Schedule op);
-    virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
+    void print_method_informations() override;
+    float define_priority(Schedule op) override;
 
 };
 

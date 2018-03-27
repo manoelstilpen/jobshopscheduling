@@ -9,12 +9,11 @@ using namespace twtjssp;
 class SPRT : public Constructive {
 
 public:
-    SPRT();
-    SPRT(ProblemInstance p, double _alpha);
 
-    virtual void print_method_informations();
-    virtual float define_priority(Schedule op); /*!< method used to evaluate a schedule */
-    virtual int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts);
+    explicit SPRT(double _alpha);
+
+    void print_method_informations() override;
+    float define_priority(Schedule op) override; /*!< method used to evaluate a schedule */
 };
 
 #endif

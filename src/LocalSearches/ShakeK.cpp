@@ -1,3 +1,4 @@
+#include <RandGen.hpp>
 #include "ShakeK.hpp"
 
 ShakeK::ShakeK() : Metaheuristic(){
@@ -22,10 +23,10 @@ Solution ShakeK::apply(){
         Edge candidate;
 
         // escolhe bloco aleatorio
-        int random_block = rand() % criticalBlocks.size();
+        int random_block = RandGen::randomInt((int)criticalBlocks.size());
 
         // escolhe entre uma aresta do inicio ou do fim do bloco critico
-        int random_edge = rand() % criticalBlocks[random_block].size();
+        int random_edge = RandGen::randomInt((int)criticalBlocks[random_block].size());
         candidate = criticalBlocks[random_block][random_edge];
 
         // verifica se a aresta candidata ja nao foi escolhida antes
