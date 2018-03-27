@@ -14,10 +14,6 @@ void MOD::print_method_informations() {
     cout << "ALPHA: " << this->alpha << endl;
 }
 
-int MOD::choose_schedule(const ScheduleMatrix &jobs_temp, const vector<int> &restricts) {
-    return rand() % restricts.size();
-}
-
 float MOD::define_priority(Schedule op) {
     // max (t+p(i,j), d(i,j))
 

@@ -82,6 +82,10 @@ void Constructive::remove_choosed_schedule(ScheduleMatrix& jobs_temp, int jobId)
 	}
 }
 
+int Constructive::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
+    return RandGen::randomInt((int)restricts.size());
+}
+
 float Constructive::valor_grasp(const float& min, const float& max){
 	// 0 -> Greedy
 	// 1 -> Random

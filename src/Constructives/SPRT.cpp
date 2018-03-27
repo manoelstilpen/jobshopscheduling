@@ -26,7 +26,3 @@ float SPRT::define_priority(Schedule op){
 
     return (float) (s / rpt); 
 }
-
-int SPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
-    return rand() % restricts.size();
-}

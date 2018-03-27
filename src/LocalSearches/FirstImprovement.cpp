@@ -1,3 +1,4 @@
+#include <RandGen.hpp>
 #include "FirstImprovement.hpp"
 
 FirstImprovement::FirstImprovement(Solution sol) : Metaheuristic(sol){
@@ -44,7 +45,7 @@ Solution FirstImprovement::apply(){
                     invert(block.back());
                 } else {
                     // ultima tentativa: inverte uma aresta aleatoria do bloco
-                    ulong randomEdge = rand() % block.size();
+                    int randomEdge = RandGen::randomInt((int)block.size());
                     invert(block[randomEdge]);
                 }
 

@@ -14,7 +14,6 @@ public:
 
     void print_method_informations() override;
     float define_priority(Schedule op) override;
-    int choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts) override;
 
 };
 

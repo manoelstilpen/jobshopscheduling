@@ -24,7 +24,3 @@ float ASPRT::define_priority(Schedule op){
 
 	return remainingTime;
 }
-
-int ASPRT::choose_schedule(const ScheduleMatrix& jobs_temp, const vector<int>& restricts){
-    return rand() % restricts.size(); 
-}

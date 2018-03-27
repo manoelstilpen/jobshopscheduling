@@ -38,7 +38,7 @@ Solution BestImprovement::apply() {
                     invert(block.back());
                 } else {
                     // escolher uma aresta aleatoria para mover
-                    unsigned long random = rand() % block.size();
+                    unsigned long random = RandGen::randomInt((int)block.size());
                     invert(block[random]);
                 }
 

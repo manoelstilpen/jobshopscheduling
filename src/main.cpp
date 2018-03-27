@@ -12,6 +12,7 @@
 #include <stdlib.h>     /* atof */
 #include <unistd.h>		/* getopt */
 #include <Constructives/MOD.hpp>
+#include <RandGen.hpp>
 
 using namespace std;
 using namespace std::chrono;
@@ -97,9 +98,8 @@ int main(int argc, char** argv){
 	bool printStats = false;
 
     long seed = time(NULL);
-    //long seed = 1516644548;    
-    cout << "Seed = " << seed << endl;
-	srand(seed);
+    RandGen::setSeed(seed);
+    RandGen::printSeed();
 
 	if(!argParse(argc, argv, &method, &repeat, &alpha, &instance_name, &printGantt, &printStats)){
 		exit(EXIT_FAILURE);
