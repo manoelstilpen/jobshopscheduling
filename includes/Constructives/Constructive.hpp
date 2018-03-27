@@ -14,7 +14,7 @@ class Constructive {
 
     public:
 
-        Constructive();
+        Constructive() = default;
         explicit Constructive(double _alpha);
         
         virtual Solution apply();
@@ -28,14 +28,12 @@ class Constructive {
 
         virtual void print_graphic();
 
-        void set_repeat(int t);
         int get_atraso();
         
     protected:
         Solution solution;
         Evaluator evaluator;
 
-	    int repeat;         /*!< defines how many times the methods will execute */
 	    int media_atraso;   /*!< stores the medium value of tardiness between all solutions generated */
 
         int nMachines;

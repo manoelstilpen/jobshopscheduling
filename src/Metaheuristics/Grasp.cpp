@@ -1,4 +1,5 @@
 #include <LocalSearches/BestImprovement.hpp>
+#include <Config.hpp>
 #include "Grasp.hpp"
 
 Grasp::Grasp() : Metaheuristic(){
@@ -6,7 +7,6 @@ Grasp::Grasp() : Metaheuristic(){
 
 Grasp::Grasp(double _alpha) : Metaheuristic(),
     alpha(_alpha) {
-	repeat = 1;
 }
 
 void Grasp::print_method_informations(){
@@ -27,7 +27,7 @@ Solution Grasp::apply(){
 	melhorAtraso = 0;
 
     // repeat é usado para repetir o método várias vezes. Por padrão seu valor é 1.
-	for(int l = 0 ; l<repeat ; l++){
+	for(int l = 0 ; l<Config::repeat ; l++){
 
 		ConstructiveGraph constructive(0);
 		Solution s0 = constructive.apply(); // constroi solucao inicial gulosa
@@ -51,7 +51,8 @@ Solution Grasp::apply(){
 
 			iterAtual++;
 
-//			print_progress();
+			if(Config::printProgress)
+				print_progress();
 		}
 	}
 

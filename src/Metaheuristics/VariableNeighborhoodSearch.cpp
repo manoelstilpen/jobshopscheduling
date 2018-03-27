@@ -1,3 +1,4 @@
+#include <Config.hpp>
 #include "VariableNeighborhoodSearch.hpp"
 
 VariableNeighborhoodSearch::VariableNeighborhoodSearch() : Metaheuristic(){
@@ -69,7 +70,9 @@ Solution VariableNeighborhoodSearch::apply(){
             }
 
             iterAtual++;
-            print_progress();
+
+            if(Config::printProgress)
+                print_progress();
         }
     }
 
