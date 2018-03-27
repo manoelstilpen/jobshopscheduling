@@ -11,8 +11,6 @@
 #include <iostream>
 
 #include <chrono>
-#include <stdlib.h>     /* atof */
-#include <unistd.h>		/* getopt */
 
 using namespace std;
 using namespace std::chrono;
@@ -32,7 +30,7 @@ int main(int argc, char** argv){
     RandGen::setSeed(Config::seed);
     RandGen::printSeed();
 
-clock_t begin = clock();
+auto start = steady_clock::now();
 
     if(Config::method == "vns"){
         // teste vns
@@ -54,22 +52,23 @@ clock_t begin = clock();
     if(Config::method == "cons"){
         // teste construtivo
         Constructive* cons = new ASPRT(Config::alpha);
-        Solution s = cons->apply();
+        solution = cons->apply();
         cons->print();
     }
 
-    // teste simulated annealing
- /*   ConstructiveGraph cons(instance, 0.1);
-    Solution s = cons.apply();
+    if(Config::method == "sa"){
+        ConstructiveGraph cons(Config::alpha);
+        solution = cons.apply();
 
-    SimulatedAnnealing sa(s);
-    solution = sa.apply();
-    sa.print();
-*/
-    clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        SimulatedAnnealing sa(solution);
+        solution = sa.apply();
+        sa.print();
+    }
 
-    cout << "Tempo: " << elapsed_secs << endl << endl;
+auto end = steady_clock::now();
 
+    auto elapsed_secs = duration_cast<milliseconds>(end - start).count();
+
+    cout << elapsed_secs << " ms" << endl;
 	return 0;
 }

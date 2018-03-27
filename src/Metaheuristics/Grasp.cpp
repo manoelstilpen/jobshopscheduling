@@ -1,9 +1,6 @@
 #include <LocalSearches/BestImprovement.hpp>
 #include <Config.hpp>
-#include "Grasp.hpp"
-
-Grasp::Grasp() : Metaheuristic(){
-}
+#include <Grasp.hpp>
 
 Grasp::Grasp(double _alpha) : Metaheuristic(),
     alpha(_alpha) {

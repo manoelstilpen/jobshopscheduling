@@ -14,7 +14,7 @@ using namespace twtjssp;
 class Grasp : public Metaheuristic {
 
 public:
-    Grasp();
+    Grasp() = default;
     explicit Grasp(double _alpha = 0);
 
 	Solution apply() override;	/*!< applies the grasp method */
