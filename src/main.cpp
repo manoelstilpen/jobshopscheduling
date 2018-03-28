@@ -17,11 +17,12 @@ using namespace std::chrono;
 
 int main(int argc, char** argv){
 
+    cout << "[BEGIN EXECUTION]" << endl;
+
     if(!Config::parseArguments(argc, argv)){
         exit(EXIT_FAILURE);
     }
 
-    Solution solution;
     if(!ProblemInstance::load_instance(Config::instancePath)){
         exit(EXIT_FAILURE);
     }
@@ -32,6 +33,7 @@ int main(int argc, char** argv){
 
 auto start = steady_clock::now();
 
+    Solution solution;
     if(Config::method == "vns"){
         // teste vns
         ConstructiveGraph constructiveGraph(Config::alpha);
@@ -67,8 +69,10 @@ auto start = steady_clock::now();
 
 auto end = steady_clock::now();
 
-    auto elapsed_secs = duration_cast<milliseconds>(end - start).count();
+    double elapsed_secs = duration_cast<milliseconds>(end - start).count();
 
-    cout << elapsed_secs << " ms" << endl;
+    cout << elapsed_secs << " ms => " << elapsed_secs/1000.f << " s" << endl;
+    cout << "[END EXECUTION]" << endl << endl;
+
 	return 0;
 }

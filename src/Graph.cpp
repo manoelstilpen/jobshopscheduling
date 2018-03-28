@@ -21,7 +21,7 @@ void Graph::add(Node src, Node dest){
 }
 
 void Graph::saveMovement(Edge e){
-
+    // store only the last ten moved edges
     if(lastMovements.size() > 10){
         // remove first position
         lastMovements.erase(lastMovements.begin());
@@ -68,8 +68,8 @@ vector<Edge> Graph::getCriticalPath(){
     return criticalPath;
 }
 
+// atualiza o caminho critico e os blocos criticos
 vector< vector<Edge> > Graph::getCriticalBlocks(){
-// atualiza o caminho critico e as arestas passiveis de inversao (blocos criticos)
 
     getCriticalPath();
 
@@ -77,6 +77,7 @@ vector< vector<Edge> > Graph::getCriticalBlocks(){
 
     bool bloco = false;
     int blocoAtual = -1;
+    // extraindo dos caminhos criticos os blocos criticos existentes
     for(Edge i : criticalPath){
 
         if(isCritical(i)){
@@ -94,7 +95,7 @@ vector< vector<Edge> > Graph::getCriticalBlocks(){
 
     }
 
-    // ordena os blocos criticos com relacao a quantidade de arestas
+    // ordena os blocos criticos em relacao a quantidade de arestas
     sort(criticalBlocks.begin(), criticalBlocks.end(), [&](const vector<Edge> a,
                                                         const vector<Edge> b){
         return a.size() > b.size();
