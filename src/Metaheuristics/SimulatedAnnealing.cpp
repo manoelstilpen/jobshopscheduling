@@ -1,4 +1,5 @@
 #include <RandGen.hpp>
+#include <Config.hpp>
 #include "SimulatedAnnealing.hpp"
 
 SimulatedAnnealing::SimulatedAnnealing(){
@@ -94,7 +95,9 @@ Solution SimulatedAnnealing::apply(){
         }
 
         temperatura *= alpha;
-        //print_progress();
+
+        if(Config::printProgress) print_progress();
+
         //cout << temperatura << endl;
         iterT = 0;
     }

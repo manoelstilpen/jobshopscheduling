@@ -1,11 +1,7 @@
+#include <Config.hpp>
 #include "Constructive.hpp"
 
-Constructive::Constructive(){
-    repeat = 1;
-}
-
 Constructive::Constructive(double _alpha) : alpha(_alpha) {
-    this->repeat = 1;
     this->nMachines = ProblemInstance::getNumMachines();
     this->nJobs = ProblemInstance::getNumJobs();
     this->nOperations = ProblemInstance::getNumOperations();
@@ -19,7 +15,7 @@ Solution Constructive::apply(){
 
     this->media_atraso = 0;
 
-    for(int l = 0 ; l<repeat ; l++){
+    for(int l = 0 ; l<Config::repeat ; l++){
         
         // realiza copia para ser possivel remover schedules
         jobs_temp = ProblemInstance::getVecSchedules();
@@ -67,7 +63,7 @@ Solution Constructive::apply(){
     }
 
     // Calcula a media de atraso das solucoes geradas
-    this->media_atraso /= this->repeat;
+    this->media_atraso /= Config::repeat;
     return solution;
 
 }
@@ -107,10 +103,6 @@ void Constructive::print(){
 
 void Constructive::print_graphic(){
     cout << this->media_atraso << endl;
-}
-
-void Constructive::set_repeat(int t){ 
-    this->repeat = t;
 }
 
 int Constructive::get_atraso(){ 
