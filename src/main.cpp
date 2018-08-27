@@ -53,9 +53,13 @@ auto start = steady_clock::now();
 
     if(Config::method == "cons"){
         // teste construtivo
-        Constructive* cons = new ASPRT(Config::alpha);
-        solution = cons->apply();
-        cons->print();
+//        Constructive* cons = new SPRT(Config::alpha);
+//        solution = cons->apply();
+//        cons->print();
+
+        ConstructiveGraph cons(Config::alpha);
+        Graph graph = cons.apply().getGraph();
+        graph.printGraph();
     }
 
     if(Config::method == "sa"){

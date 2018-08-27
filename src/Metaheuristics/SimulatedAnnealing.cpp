@@ -40,22 +40,15 @@ Solution SimulatedAnnealing::apply(){
     clock_t inicio = clock();
     while(temperatura > temperaturaFinal){
         auto criticalBlocks = graph.getCriticalBlocks();
+//        graph.printCriticalPath();
+//        graph.printCriticalBlock();
+//        cout << "=================+" << endl;
+//        sleep(1);
 
         while(iterT < maxIteracoes){
             movimentoAceito = false;
             iterT++;
             iterAtual++;
-
-           /* cout << "CRITICAL PATH:" << endl;
-            graph.printCriticalPath();
-
-            for(int i=0 ; i<criticalBlocks.size() ; i++){
-                for(int j=0 ; j<criticalBlocks[i].size() ; j++){
-                    cout << criticalBlocks[i][j].first << " " << criticalBlocks[i][j].second << " ; ";
-                }
-                cout << endl;
-            }
-            cout << endl;*/
 
             int randomBlock = RandGen::randomInt((int)criticalBlocks.size());
             int randomEdge = RandGen::randomInt((int)criticalBlocks[randomBlock].size());
@@ -91,6 +84,11 @@ Solution SimulatedAnnealing::apply(){
 
             if(movimentoAceito){
                 criticalBlocks = graph.getCriticalBlocks();
+//                cout << "ACEITOU" << endl;
+//                graph.printCriticalPath();
+//                graph.printCriticalBlock();
+//                cout << "=================+" << endl;
+
             }
         }
 

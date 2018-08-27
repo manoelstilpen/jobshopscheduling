@@ -1,16 +1,20 @@
+//
+// Created by manoel on 28/07/18.
+//
+
 #include <Config.hpp>
-#include "VariableNeighborhoodSearch.hpp"
+#include "SmartVariableNeighborhoodSearch.hpp"
 
-VariableNeighborhoodSearch::VariableNeighborhoodSearch() : Metaheuristic(){
-
-}
-
-VariableNeighborhoodSearch::VariableNeighborhoodSearch(Solution s) : Metaheuristic(s){
+SmartVariableNeighborhoodSearch::SmartVariableNeighborhoodSearch() : Metaheuristic(){
 
 }
 
-Solution VariableNeighborhoodSearch::apply(){
-    
+SmartVariableNeighborhoodSearch::SmartVariableNeighborhoodSearch(Solution s) : Metaheuristic(s) {
+
+}
+
+Solution SmartVariableNeighborhoodSearch::apply(){
+
     print_method_informations();
 
     vizinhancas.push_back(new FirstImprovement(solution)); // busca local do vns
@@ -19,7 +23,7 @@ Solution VariableNeighborhoodSearch::apply(){
     vizinhancas.push_back(new ShakeK(solution, 4));        // movimento mover 4 arcos
 
     auto criticalBlocks = graph.getCriticalPath();
-    
+
     melhorAtraso = evaluator.evaluate_by_graph(graph);
     atrasoInicial = melhorAtraso;
 
@@ -29,9 +33,11 @@ Solution VariableNeighborhoodSearch::apply(){
 
     int iter_sem_melhora = 0;
 
+    int repeticao_atual = 0;
+
     iterAtual = 0;
     iterTotal = max_iter * r * max_repeticoes;
-    
+
     while(iter_sem_melhora < max_iter){
         iter_sem_melhora += 1;
 
@@ -57,8 +63,14 @@ Solution VariableNeighborhoodSearch::apply(){
                 melhorAtraso = atraso;
                 vizinhanca_atual = 1;
                 iter_sem_melhora = 0;
+                repeticao_atual = 0;
             } else {
-                vizinhanca_atual++;
+                if(repeticao_atual < max_repeticoes){
+                    repeticao_atual++;
+                } else {
+                    vizinhanca_atual++;
+                    repeticao_atual = 0;
+                }
             }
 
             iterAtual++;
@@ -75,7 +87,7 @@ Solution VariableNeighborhoodSearch::apply(){
     return bestSolution;
 }
 
-void VariableNeighborhoodSearch::print_method_informations(){
+void SmartVariableNeighborhoodSearch::print_method_informations(){
     cout << "==========================================================================================" << endl;
     cout << " -> VARIABLE NEIGHBORHOOD SEARCH <- " << endl;
 }

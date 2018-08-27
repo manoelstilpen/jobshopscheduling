@@ -46,12 +46,38 @@ bool Graph::invert(Node src, Node dest, bool store){
         return false;
     }
 
-    // invertendo
-    edges[idSrc].erase(it);
+    if(store){
+        edgesBackup = edges;
+    }
+
+    vector<Node> srcEdges;
+    vector<Node> destEdges;
+
+    for(Node i : edges[idSrc]){
+        // se for uma aresta disjuntiva
+        if(i.job != src.job && i != dest){
+            srcEdges.push_back(i);
+        }
+    }
+
+    edges[idSrc].erase(edges[idSrc].begin()+1, edges[idSrc].end());
+
+    for(Node i : edges[idDest]){
+        // se for uma aresta disjuntiva
+        if(i.job != dest.job){
+            destEdges.push_back(i);
+//            edges[idDest].erase(std::remove(edges[idDest].begin(), edges[idDest].end(), i), edges[idDest].end());
+        }
+    }
+
+    edges[idDest].erase(edges[idDest].begin()+1, edges[idDest].end());
+
+    edges[idSrc].insert(edges[idSrc].end(), destEdges.begin(), destEdges.end());
+    edges[idDest].insert(edges[idDest].end(), srcEdges.begin(), srcEdges.end());
     edges[idDest].push_back(src);
 
-    if(store){
-        saveMovement(Edge(src, dest));
+    for(Node i : srcEdges){
+        std::replace(edges[i.index].begin(), edges[i.index].end(), dest, src);
     }
 
     return true;
@@ -60,9 +86,6 @@ bool Graph::invert(Node src, Node dest, bool store){
 vector<Edge> Graph::getCriticalPath(){
     criticalPathMethod = new TopologicalSort();
     criticalPath = criticalPathMethod->getCriticalPath(edges, vertexList, distances);
-
-    //for (int i = 0; i < distances.size(); ++i)
-    //    printf("%d \t %d\n", i, distances[i]);
 
     delete criticalPathMethod;
     return criticalPath;
@@ -119,8 +142,9 @@ vector< vector<Edge> > Graph::getCriticalBlocks(){
 }
 
 void Graph::undo_last_movement(){
-    invert(lastMovements.back().second, lastMovements.back().first, false);
-    lastMovements.pop_back();
+    //invert(lastMovements.back().second, lastMovements.back().first, false);
+    //lastMovements.pop_back();
+    edges = edgesBackup;
 }
 
 // DFS

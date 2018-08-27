@@ -59,6 +59,7 @@ private:
     CriticalPath* criticalPathMethod;
 
     map<int, vector<Node > > edges;
+    map<int, vector<Node > > edgesBackup;
     map<int, Node> vertexList;
 
     vector<Edge> criticalPath;

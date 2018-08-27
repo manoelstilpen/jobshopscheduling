@@ -1,8 +1,6 @@
 #include "ConstructiveGraph.hpp"
 
-ConstructiveGraph::ConstructiveGraph(){
-
-}
+ConstructiveGraph::ConstructiveGraph() = default;
 
 ConstructiveGraph::ConstructiveGraph( double _a) : alpha(_a){
 }
@@ -26,7 +24,7 @@ Solution ConstructiveGraph::apply(){
     graph = graph.construct_disjunctive_graph(initialSolution.getSolution()); 
 
     initialSolution.setGraph(graph);
-//    constructive->print();
+    constructive->print();
     
     return initialSolution;
 }
