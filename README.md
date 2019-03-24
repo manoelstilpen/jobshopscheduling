@@ -1,7 +1,6 @@
 ### Introduction
 
-This project was developed in Federal University of Ouro Preto, Brazil
-and tried to solve the Job Shop Scheduing Problem with total
+This project was developed by me under the orientation of Prof. Dr. Marcone Jamilson Freitaas Souza in Federal University of Ouro Preto, Brazil and tried to solve the Job Shop Scheduing Problem with total
 weighted tardiness.
 
 ### Problem Representation
